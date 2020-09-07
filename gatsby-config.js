@@ -6,13 +6,17 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
 module.exports = {
   siteMetadata: {
-    siteTitleAlt: `Minimal Blog - Gatsby Theme`,
+    siteTitle: 'CAST跡地',
+    siteTitleAlt: `Ruin of CAST - Powered by Gatsby `,
+    siteDescription: 'engineer blog.',
+    author: '@youknowcast',
   },
   plugins: [
     {
       resolve: `@lekoarts/gatsby-theme-minimal-blog`,
       // See the theme's README for all available options
       options: {
+        formatString: 'YYYY/MM/DD',
         navigation: [
           {
             title: `Blog`,
@@ -26,12 +30,16 @@ module.exports = {
         externalLinks: [
           {
             name: `Twitter`,
-            url: `https://twitter.com/lekoarts_de`,
+            url: `https://twitter.com/youknowcast`,
           },
           {
-            name: `Instagram`,
-            url: `https://www.instagram.com/lekoarts.de/`,
+            name: 'github',
+            url: 'https://github.com/youknowcast'
           },
+          {
+            name: 'note',
+            url: 'https://note.com/youknowcast'
+          }
         ],
       },
     },
