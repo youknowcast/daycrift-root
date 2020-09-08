@@ -28,7 +28,18 @@ https://tech-blog.s-yoshiki.com/entry/197
 
 Gatsby の始め方はすでにいろんなところで書かれてると思うので，差分ぽいことだけ書くと．  
 以下のテーマを使わせてもらっています．  
-https://github.com/LekoArts/gatsby-themes/tree/master/themes/gatsby-theme-minimal-blog
+https://github.com/LekoArts/gatsby-starter-minimal-blog
+
+
+### Plugins
+
+#### gatsby-plugin-twitter
+
+Twitter 貼るためのプラグイン  
+https://www.gatsbyjs.com/plugins/gatsby-plugin-twitter/#gatsby-plugin-twitter
+
+plugin いれて(`npm install` してるけど，`yarn add` でも入る)，gatsby-config.js の plugins に追記してやれば入る．  
+ただ，動かすときに Twitter の組込みスニペットだとエラーになって， `<br>` → `<br />` に手直しが必要っぽい．
 
 
 ### おまけ
