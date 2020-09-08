@@ -13,9 +13,31 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 1035,
+              sizeByPixelDensity: true,
+            },
+          },
+          {
+            resolve: `gatsby-remark-embed-video`,
+            options: {
+              width: 800,
+            }
+          }
+        ],
+      },
+    },
+    {
       resolve: `@lekoarts/gatsby-theme-minimal-blog`,
       // See the theme's README for all available options
       options: {
+        // 自前でプラグインいれていきたいので，theme の mdx は無効化
+        mdx: false,
         formatString: 'YYYY/MM/DD',
         navigation: [
           {
@@ -76,6 +98,7 @@ module.exports = {
     },
     `gatsby-plugin-offline`,
     `gatsby-plugin-twitter`,
+    `gatsby-remark-embed-video`,
     `gatsby-plugin-netlify`,
     shouldAnalyseBundle && {
       resolve: `gatsby-plugin-webpack-bundle-analyser-v2`,
