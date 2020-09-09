@@ -1,0 +1,45 @@
+---
+title: "note 書いた: 藤森朱里の 5 番目"
+description: "note 書いた"
+date: 2020-09-10
+tags:
+    - note
+    - vscode
+---
+
+### note.
+
+これも随分前に書いて手元でぼんやりさせていたものを微修正してみた．  
+ラストの流れが性急すぎるなぁ，と思っているのだけれど，かといって働く小説が書きたいわけではないので悩ましい．
+
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ずいぶん前にアウトラインだけ書いたのをやっとこ手直しした<br /><br />藤森朱里の 5 番目｜yk <a href="https://twitter.com/youknowcast?ref_src=twsrc%5Etfw">@youknowcast</a> <a href="https://twitter.com/hashtag/note?src=hash&amp;ref_src=twsrc%5Etfw">#note</a> <a href="https://t.co/O1XVoCfqFK">https://t.co/O1XVoCfqFK</a></p>&mdash; yk (@youknowcast) <a href="https://twitter.com/youknowcast/status/1303393279770152960?ref_src=twsrc%5Etfw">September 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+### VCCode snipet
+
+ブログの雛形をいちいち書くのも面倒くさいので，VSCode のスニペット作った．
+参考：
+https://qiita.com/xx2xyyy/items/fd333368db548167f15a
+
+こんな感じのものを， xxx.code-snipets(xxx は適当な名前)で作成してやればよい．  
+便利．
+```json
+{
+	"blog template": {
+		"prefix": ["blog_template", "blog"],
+		"body": [
+			"---",
+			"title: \"\"",
+			"description: \"\"",
+			"date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+			"tags:",
+			"\t- Tutorial",
+			"\t- GatsbyJS",
+			"---",
+			"",
+			"### subtitle",
+			"",
+		],
+	}
+}
+```

@@ -41,6 +41,31 @@ https://www.gatsbyjs.com/plugins/gatsby-plugin-twitter/#gatsby-plugin-twitter
 plugin いれて(`npm install` してるけど，`yarn add` でも入る)，gatsby-config.js の plugins に追記してやれば入る．  
 ただ，動かすときに Twitter の組込みスニペットだとエラーになって， `<br>` → `<br />` に手直しが必要っぽい．
 
+#### gatsby-plugin-mdx， gatsby-remark-embed-video
+
+youtube 動画を埋め込むために `gatsby-remark-embed-video` の導入しようと思ったが，本プラグインは `gatsby-transformer-remark` プラグインのプラグインとして導入する必要がある．  
+で，この `gatsby-transformer-remark` は (Remark)[https://remark.js.org/] という Markdown エンジンに依存している．  
+しかし，今回のテーマでは (MDX)[https://mdxjs.com/] を使用している．MDX は `gatsby-plugin-mdx` プラグインをとおして扱う．
+
+公式ドキュメントによると，本プラグインは Remark 対応のプラグインも読み込めるので，これを使って `gatsby-remark-embed-video` を導入する
+https://www.gatsbyjs.com/plugins/gatsby-plugin-mdx/?=mdx#gatsby-remark-plugins
+
+つまり， `gatsby-config.js` は以下のようになる．
+```js
+  plugins: [
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+          {
+            resolve: `gatsby-remark-embed-video`,
+            options: {
+              width: 800,
+            }
+          }
+```
+
+
+※ 機能拡張するごとに本記事を Update していきます．
 
 ### おまけ
 
