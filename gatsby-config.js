@@ -60,6 +60,10 @@ module.exports = {
           {
             name: 'note',
             url: 'https://note.com/youknowcast'
+          },
+          {
+            name: 'zenn',
+            url: 'https://zenn.dev/youknowcast'
           }
         ],
       },
