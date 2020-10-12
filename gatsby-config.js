@@ -6,8 +6,8 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
 module.exports = {
   siteMetadata: {
-    siteTitle: 'CAST跡地',
-    siteTitleAlt: `Ruin of CAST - Powered by Gatsby `,
+    siteTitle: 'CALL ME STUPID',
+    siteTitleAlt: `CALL ME STUPID - Powered by Gatsby `,
     siteDescription: 'engineer blog.',
     author: '@youknowcast',
   },
@@ -46,6 +46,10 @@ module.exports = {
           {
             title: `About`,
             slug: `/about`,
+          },
+          {
+            title: 'useful',
+            slug: '/useful'
           },
         ],
         externalLinks: [

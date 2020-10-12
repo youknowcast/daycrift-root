@@ -1,0 +1,76 @@
+---
+title: "kendo-basic-skill-plactices"
+description: "木刀による剣道基本技稽古法"
+date: 2020-10-13
+tags:
+  - Kendo
+---
+
+#### toc
+
+export const skills = ["一本打ちの技", "二，三段の技", "払い技", "引き技", "抜き技", "すりあげ技", "出ばな技", "返し技", "打ち落とし技"]
+
+<ul>
+  {skills.map((skill, idx) => {
+    const url = `#skill_${idx + 1}`;
+    return <li><a href={url}>{skill}</a></li>
+  })}
+  <li><a href="#links">参考 Link</a></li>
+</ul>
+
+#### Abstract
+
+**「木刀による剣道基本技稽古法」** についてまとめる．
+
+元立ち・・ 指導役  
+掛かり手・・ 打ち込む側
+
+9 本の技で構成される．  
+`１，２と払い引き抜きすりあげて出ばな返して打ち落とすなり` と覚えるとよい．
+
+<!-- 指定秒から開始する Youtube Link を作成する -->
+export const BuildYoutubeLink = ({ url, start }) => {
+  const yturl = `${url}?start=${start}`;
+  return <iframe width="800" height="400" src={yturl} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+}
+
+<!-- 本ページ専用の h4 タグを作成する -->
+export const CustomH4 = ({ idx, time }) => {
+  const address = `skill_${parseInt(idx) + 1}`;
+  const showableTime = `${Math.floor(time/60)}:${time%60}`
+  return <> <h4> {skills[idx]} <small> ※ {showableTime} から </small> </h4><a id={address}></a></>
+}
+
+<CustomH4 idx="0" time="51" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="51" />
+
+
+<CustomH4 idx="1" time="89" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="89" />
+
+<CustomH4 idx="2" time="116" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="116" />
+
+<CustomH4 idx="3" time="140" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="140" />
+
+<CustomH4 idx="4" time="168" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="168" />
+
+<CustomH4 idx="5" time="196" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="196" />
+
+<CustomH4 idx="6" time="221" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="221" />
+
+<CustomH4 idx="7" time="245" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="245" />
+
+<CustomH4 idx="8" time="272" />
+<BuildYoutubeLink url="https://www.youtube.com/embed/KVzHMNJ6NKg" start="272" />
+
+
+<h4>参考 Link</h4>
+<a id="links"></a>
+
+[完全版！！【昇級審査と「木刀による剣道基本技稽古法」を学ぶ】](https://kendopark.jp/kenjoy/kyu-exam)
