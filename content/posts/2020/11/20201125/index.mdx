@@ -1,0 +1,104 @@
+---
+title: "2020_ffmpeg"
+description: "ffmpeg 個人まとめ"
+date: 2020-11-25
+tags:
+  - ffmpeg
+---
+
+### ffmpeg 個人的まとめ
+
+音声(wav, mp3)と動画(mp4)の合成やら切り貼りやらを仕事でちょっと触ったので，せっかくなので使い方をあれこれ書き残しておく．
+
+#### 音源の情報を見る
+
+```
+ffprobe {target}.wav
+```
+
+Stream ごとのデータが見たい場合は `Stream #0:0` などの項目を探す．  
+動画の時間が知りたい場合は `Duration: xx:xx:xx` を探す()．
+
+ちなみに，ファイルに吐きたい場合は適当に標準出力に出してやる．
+```
+$ ffprobe {target}.wav 2>&1 | cat > log_file
+```
+
+#### 複数音源を直列に cat する
+
+```
+$ ffmpeg -f concat -safe 0 -i list.txt -c copy concat.wav
+
+$ cat list.txt
+file '{source1}.wav'
+file '{source2}.wav'
+file '{source3}.wav'
+```
+
+おまけ(カレントの .wav をまとめて list 化する)
+```
+$ ll | awk '{ print $9}' | grep -E ".wav$" | sort | xargs -I {} echo file $(pwd)/{} > list.txt
+```
+
+#### ログを出さない等
+
+`-loglevel quiet` をつける．  
+また，VR 向けの球状投影用メタデータを保持するために次のオプションをつける．`-strict unofficial`  
+(これはあまりいらないかも・・)
+
+https://xxxmammom2410.hatenablog.com/entry/2019/06/12/093658
+https://stackoverflow.com/questions/44760588/preserving-side-data-information-for-360-video-transcoding-using-ffmpeg/48147865#48147865
+
+`-y` をつけると dest 先ファイルを強制上書きする．
+
+#### mp4 から音声部分を除去する
+
+除去する，というより，動画部分だけを別ファイルに書き出す，というのがただしそう．
+```
+$ ffmpeg -i {source}.mp4 -vcodec copy -an {dest}.mp4
+```
+
+#### mp4 の先頭に xx sec 分白い画像を補填する
+
+`color=` 部分を変えれば何色でも．  
+`stop_duration` にすると末尾に xx sec 補填することができます．  
+```
+$ ffmpeg -i {src}.mp4 -vf tpad=start_duration={xx}:color=white -c:v h264 -c:a copy {dest}.mp4
+```
+
+#### wav ファイルの末尾に xx sec 分無音を補填する
+
+動画とオプションが微妙に綴りが違うのなんでなん・・
+```
+$ ffmpeg -i {src}.wav -af apad=pad_dur={xx} {dest}.wav
+```
+
+#### wav ファイルの先頭に xx sec 無音を補填する
+
+stereo の場合，チャンネルごとに xx sec 遅らせるかを個別指定する．
+```
+$ ffmpeg -i {src}.mp3 -af "adelay=10s|10s" {dest}.mp3
+```
+
+#### wav と mp4 を重畳する
+
+```
+$ ffmpeg -i {src}.wav -i {src}.mp4 -c:v copy {dest}.mp4
+```
+
+#### 参考 Link
+
+noco-lab さんのサイトはわかりやすい．
+
+映像の前後にフレームを挿入する TPAD  
+https://nico-lab.net/tpad_with_ffmpeg/  
+音声の先頭に無音を挿入する ADELAY  
+https://nico-lab.net/adelay_with_ffmpeg/  
+音声の末尾に無音を挿入する APAD  
+https://nico-lab.net/apad_with_ffmpeg/  
+
+公式読めばいい説もあるが，非常に長大なのでピンポイントで探すのはしんどい．  
+ツール自体  
+https://ffmpeg.org/ffmpeg.html  
+フィルタ系  
+https://ffmpeg.org/ffmpeg-filters.html  
