@@ -10,6 +10,10 @@ module.exports = {
     siteTitleAlt: `CALL ME STUPID - Powered by Gatsby `,
     siteDescription: 'engineer blog.',
     author: '@youknowcast',
+    siteUrl: 'https://www.daycrift.net',
+    siteLanguage: 'ja',
+    siteHeadline: `CALL ME STUPID - Powered by Gatsby `,
+    siteImage: '/banner.jpg',
   },
   plugins: [
     {
