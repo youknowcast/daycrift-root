@@ -1,0 +1,18 @@
+---
+title: "ssl化した"
+description: "ssl化した"
+date: 2021-01-08
+tags:
+  - AWS
+---
+
+### AWS CloudFront
+
+面倒がってやっていなかったのを当ブログをようやく SSL 化したのでメモ．
+当ブログは GitHub + AWS S3 で CD していて，ドメインは Route53 管理なので(昔は xrea 使ってたんだけど，何年か前に移管した)，ふつうに CloudFront を咬ませる構成になります．
+
+検索するといろいろと記事が出ますが，結局公式が一番わかりやすいです．
+https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/website-hosting-cloudfront-walkthrough.html
+
+SSL 強制も CloudFront で設定できるので楽ですねー
+
