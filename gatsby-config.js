@@ -72,6 +72,10 @@ module.exports = {
           {
             name: 'zenn',
             url: 'https://zenn.dev/youknowcast'
+          },
+          {
+            name: 'Qiita',
+            url: 'https://qiita.com/youknowcast'
           }
         ],
       },
