@@ -13,7 +13,7 @@ module.exports = {
     siteUrl: 'https://www.daycrift.net',
     siteLanguage: 'ja',
     siteHeadline: `CALL ME STUPID - Powered by Gatsby `,
-    siteImage: '/banner.jpg',
+    siteImage: '/banner.png',
   },
   plugins: [
     {
