@@ -1,0 +1,204 @@
+---
+title: "PlantUMLを書こう"
+description: "lets write PlantUML"
+date: 2021-02-16
+tags:
+  - PlantUML
+  - UML
+---
+
+### First(UML 書いてますか？)
+
+職業柄，UML はけっこう書く．  
+図をあれこれ書こうと思うと，結局，一番有用なんですよね．  
+読める人には誰でも伝わるし．
+カチッと書けているかとけっこう怪しい気はするんだけど．  
+
+んで，ちょっと前までは Astah* 派だったんですけど，最近は .md とセットで書くことが増えてきて
+なら，テキストベースでさくっと書ける PlantUML のほうがいいんじゃない？ ということで専ら PlantUML 派です．
+
+本記事では普段の運用スタイル，各図の書き方とかを俺のために書いていきます．
+
+### 書き方 
+
+会社で使っている DocBase またはふだんづかいの Inkdrop を使います．  
+Qiita が対応してないのはほんとになんとかしてほしいです・・  
+以下のような感じで書いていきます．
+
+```
+｀｀｀plantuml
+@startuml
+
+@enduml
+｀｀｀
+```
+
+※ 半角 Quote がうまくエスケープできませんでした・・どうやるんだろ・・
+
+`` ` `` これはできたけども・・  
+`` ``` `` これもできる  
+https://yu8mada.com/2018/06/15/how-to-escape-a-backtick-or-a-backslash-inside-inline-code-in-markdown/
+
+本記事では，公式ドキュメントみながらいくつか「これはどう書くんだろ？」みたいなのを書いてみようかと思います(たまに追加する感じ)．
+
+### 参考になりそうなサイト
+
+Real WORLD PlantUML  
+https://real-world-plantuml.com  
+PlantUML のサンプルがたくさんある．見た感じ，玉石混交っぽいので過信はできないが，「こんな用例ないかな〜？」と調べるにはよさそう．
+
+### アクティビティ図
+
+アクティビティ図はものごとを一連の手続きに分解し，表現するものです．  
+ステートマシンとは使いどころが違うので注意が必要です．  
+僕が新人の頃によく書かされたフローチャートに似ています．
+
+おおよその書き方は公式のドキュメントが充実しています．  
+https://plantuml.com/ja/activity-diagram-beta
+
+よく使うのはこんな感じかしら
+- 開始/終了 ノード
+- アクション
+- デシジョン/マージ
+- パーティション
+
+```plantuml
+@startuml
+
+start
+:Hello world;
+:This is on defined on several **lines**;
+if (question?) then (yes)
+  :choice A;
+else (no)
+  :choice B;
+  stop
+endif
+stop
+
+@enduml
+```
+
+![](image1.png)
+
+パーティションは切り替わるごとに指定のし直しが必要．
+
+```plantuml
+@startuml
+
+|Area1|
+start
+:hello;
+|Area2|
+:bar;
+|Area1|
+:baz;
+|Area3|
+:hoge;
+|Area1|
+:piyo;
+stop
+
+@enduml
+```
+
+![](image1.png)
+
+### シーケンス図
+
+https://plantuml.com/ja/sequence-diagram
+
+TBD
+
+### ユースケース/ロバストネス図
+
+https://plantuml.com/ja/use-case-diagram
+
+ロバストネス図はユースケースを発展させて，ユースケースの背後に潜む バウンダリ/コントロール/エンティティ を分析したものです．  
+以下の要領でユースケース図を拡張するかたちで記述できる．
+
+```plantuml
+@startuml
+
+left to right direction
+actor "Food Critic" as fc
+boundary "Boundary 1" as bd
+boundary "Boundary 2" as bd2
+control "Control 1" as ctl
+entity "Entity 1" as et
+
+rectangle Restaurant {
+  usecase "Eat Food" as UC1
+  usecase "Pay for Food" as UC2
+  usecase "Drink" as UC3
+}
+fc --> UC1
+fc --> UC2
+fc --> UC3
+UC1 -- bd
+UC2 -- bd
+UC3 -- bd2
+bd -- ctl
+bd2 -- ctl
+ctl -- et
+
+
+@enduml
+```
+
+![](image3.png)
+
+### ステートマシン図
+
+https://plantuml.com/ja/state-diagram
+
+TBD
+
+### コンポーネント図
+
+https://plantuml.com/ja/component-diagram
+
+TBD
+
+### ER 図(おまけ)
+
+UML ではないけれども PlantUML で有用に書けるので．  
+https://plantuml.com/ja/ie-diagram
+
+
+### その他
+
+地味にタイミング図は組み込みの世界ではすごく有用なんじゃないかなぁと密かにおもっている．  
+自分がその世界から離れてちょっと経ってしまっているので，なかなか書く機会がないんだけれども．
+
+https://plantuml.com/ja/timing-diagram
+
+
+マインドマップもアイデアとしては面白い．
+
+https://plantuml.com/ja/mindmap-diagram
+
+```plantuml
+@startmindmap
+* 今日やること
+** 昼は松屋
+** 本屋行く
+** 散髪の予約をいれる
+*** お金を下ろす
+*** 事前に髪を洗う
+-- 明日やることを決める
+--- 写経
+--- 飲み会
+--- Amazon で注文
+@endmindmap
+```
+
+![](image_mindmap.png)
+
+
+あと，この記事ここで終わりでまさかと思うかもしれませんが，実のところ，僕はクラス図には興味がないのです・・  
+継承関係ってあまり実りのある関係性じゃないなとおもっているのと，ソフトウェアデザインで必要なものはだいたい
+すでに取り上げた図でおよそカバーできるかなと思っている．
+
+あとはまぁ，NW 図とかブロック図，DFD とかあるけども．  
+この手のは PlantUML でがんばって書くより， Diagrams.net とか使ったほうがいいのではないかしら．
