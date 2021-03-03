@@ -7,6 +7,88 @@ tags:
   - Qiita
 ---
 
+### ブラウザのパスワードマネージャの挙動
+
+ちょっと調べたので，以下にメモ．
+
+要件としては `alpha.example.com` と `beta.example.com` のようなサブドメイン違いのアプリケーションが
+あり，現在は `alpha.example.com` 上で完結しているシステムの認証機能を `beta.example.com` に移管したい．  
+`beta.example.com` で認証した後，クッキーを付与して `alpha.example.com` にリダイレクトする，という感じ．
+
+で，この際にいままで `alpha.example.com` 向けにパスワードマネージャが保存していた認証情報が `beta.example.com` で
+利用できるかどうか が UX 的に非常に重要になる．  
+というわけでこれをさっくり検証していく．
+
+当初，S3 の静的サイトホスティングで・・と思ったが，
+S3 の静的サイトホスティングだと POST できなくてパスワード保存できない．
+
+そこでなんかサービス使うことにする．  
+手っ取り早く行くために(・・とあと使ったことがなかったので)，lightsail で Redmine 2 個立ち上げて検証した．
+
+https://lightsail.aws.amazon.com/ls/webapp/home/instances
+
+Redmine イメージを起動し，鍵を取得し，以下の要領でログインユーザ，パスワードを取得する．
+
+```bash
+$chmod 400 Downloads/LightsailDefaultKey-ap-northeast-1.pem
+$ ssh -i Downloads/LightsailDefaultKey-ap-northeast-1.pem bitnami@xxx.xxx.xxx.xxx
+
+# login 後，アカウント情報を取得
+$ cat bitnami_credentials
+```
+
+次に Route53 でサブドメイン 2 つ作って A で紐付けを行う．
+今回は以下のような感じ．TTL は適当に 1min とかにする．
+
+```
+user.xxxxxx.net  -> xxx.xxx.xxx.xxx(以下， α とする)
+account.xxxxxx.net  -> xxx.xxx.xxx.xxx(以下， β とする)
+```
+
+起動しました．
+
+![](image1.png)
+
+#### Chrome で試してみる
+
+α サイトで user でログインし，Google Chrome にパスワードを覚えさせる．  
+ログアウトし，α サイトログイン画面を見る．
+
+![](image2.png)
+
+β サイトで開いたところ
+
+![](image3.png)
+
+つまり，Chrome はサブドメインについては，関連があるものとしてサジェストするらしい．
+
+#### Safari で試してみる
+
+次に Safari で見てみる．
+
+α，β ともに `この Web サイトから` と表示された．
+サブドメイン同士は同一アカウントと判断するっぽい
+
+![](image4.png)
+
+#### Conclusion
+
+だから何？ という話なんだけど，サブドメイン同士で認証機能だけ移行とかでも，あまりユーザには迷惑
+かけずに済むよ，というのが今回の結論です．
+
+これとはべつに `autocomplete` というやつがあるんだけども．  
+よく見かける実装として，この属性に `off` をわたしてるものがあるが，[それはほぼ意味ないらしい](https://developer.mozilla.org/ja/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion#the_autocomplete_attribute_and_login_fields)．
+```
+現代的なブラウザーの多くはログイン欄における autocomplete="off" に対応していません。
+```
+
+だので，基本的には適切な属性値を設定してあげるのが正しそう．また，記録させたくないパスワードのようなやつについては `new-password`
+を使うのがよさげだが，これもパスワード変更時とユースケースが限られてくる・・  
+そもそもクライアント側の挙動をギチギチに制御しようとする，というのがいまひとつ筋が悪いということなんでしょうかね．
+
+包括的な情報は MDN のこのへんから  
+https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/autocomplete
+
 
 ### Qiita 書いた
 
