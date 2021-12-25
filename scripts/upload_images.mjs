@@ -58,8 +58,7 @@ localImages.forEach(async (image) => {
     const index = indexPath(image)
     const name = imageName(image)
     // command is opened with $'', so it needs double-escaped
-    // then, BSD sed creates backup file with -i option. set '' to avoid creation.
-    const command = `sed -i \\'\\' -e s/\\(.\\/\\)\\{0,1\\}${name}/${remoteUrl(image).replace(/\//g, '\\/')}/g ${index}`
+    const command = `sed -i -e s/\\(.\\/\\)\\{0,1\\}${name}/${remoteUrl(image).replace(/\//g, '\\/')}/g ${index}`
     await $`${command.split(' ')}`
   } else {
     console.log(`skipped file: ${image}`)
