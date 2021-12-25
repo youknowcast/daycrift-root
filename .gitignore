@@ -60,6 +60,14 @@ typings/
 .env.*
 !.env.example
 
+# upload config
+upload-config.json
+
+# images must be uploaded to images.daycrift.net s3
+content/**/*.jpg
+content/**/*.png
+content/**/*.jpeg
+
 .cache
 **/.cache
 public
