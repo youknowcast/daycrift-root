@@ -1,5 +1,24 @@
 #!/usr/bin/env zx
 
+//
+// Upload local files to AWS S3
+// usage:
+//   % ./scripts/upload_images.mjs
+// This tool compares AWS S3 image files and local image files.
+// Files that does not exist in S3 are found at local, then upload all.
+// AWS S3 file format is {year}-{month}-{yyyymmdd}-{file name} and all files are flatly at S3 root directory.
+//
+
+//
+// upload_config.json
+// {
+//   "aws": {
+//     "profile": "{your aws profile name}",
+//     "imagesBucket": "{your aws s3 bucket uri, begin with `s3://`}",
+//     "cloudfrontUrl": "{your aws cloudfront url}"
+//   }
+// }
+//
 const CONFIG = require('../upload-config.json')
 
 function awsProfile() {
