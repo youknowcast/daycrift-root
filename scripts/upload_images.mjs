@@ -12,6 +12,7 @@
 //
 // upload_config.json
 // {
+//   "removeAfterUpload": {if you want to remove file after upload, set true. or not, set false},
 //   "aws": {
 //     "profile": "{your aws profile name}",
 //     "imagesBucket": "{your aws s3 bucket uri, begin with `s3://`}",
@@ -61,6 +62,13 @@ async function uploadS3(path, name) {
   await $`${command.split(' ')}`
 }
 
+async function removeImage(path) {
+  if (CONFIG.removeAfterUpload && fs.pathExists(path)) {
+    const command = `rm -f ${path}`
+    await $`${command.split(' ')}`
+  }
+}
+
 const remoteImages = await remoteAllImages()
 const localImages = await localAllImages()
 
@@ -79,6 +87,9 @@ localImages.forEach(async (image) => {
     // command is opened with $'', so it needs double-escaped
     const command = `sed -i -e s/\\(.\\/\\)\\{0,1\\}${name}/${remoteUrl(image).replace(/\//g, '\\/')}/g ${index}`
     await $`${command.split(' ')}`
+
+    // remove image file
+    await removeImage(image)
   } else {
     console.log(`skipped file: ${image}`)
   }
