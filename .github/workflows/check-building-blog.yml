@@ -1,0 +1,24 @@
+name: check building blog
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  building_blog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: install
+        run: yarn
+      - name: format
+        run: yarn clean
+      - name: build
+        run: yarn build
