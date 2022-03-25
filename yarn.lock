@@ -1055,10 +1055,10 @@
     core-js-pure "^3.20.2"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.0", "@babel/runtime@^7.15.4", "@babel/runtime@^7.16.3", "@babel/runtime@^7.3.4", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
-  version "7.16.7"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.7.tgz#03ff99f64106588c9c403c6ecb8c3bafbbdff1fa"
-  integrity sha512-9E9FJowqAsytyOY6LG+1KuueckRL+aQW+mKvXRXnuFGyRAyepJPmEo9vgMfXUA6O9u3IeEdv9MAkppFcaQwogQ==
+"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.0", "@babel/runtime@^7.15.4", "@babel/runtime@^7.16.3", "@babel/runtime@^7.17.8", "@babel/runtime@^7.3.4", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+  version "7.17.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.8.tgz#3e56e4aff81befa55ac3ac6a0967349fd1c5bca2"
+  integrity sha512-dQpEpK0O9o6lj6oPu0gRDbbnk+4LeHlNcBpspf6Olzt3GIX4P1lWF1gS+pHLDFlaJvbR6q7jCfQ08zA4QJBnmA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -6538,9 +6538,9 @@ gatsby-plugin-theme-ui@^0.11.1:
   integrity sha512-HWnM7bJOISBMF82V/TJboQiHgADLxI8nkCcx0buFxfIO9Y+T8lFtqSBaWKMMrHXXH3dWoUyCdjbupOOpj6cKmg==
 
 gatsby-plugin-twitter@^4.4.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-twitter/-/gatsby-plugin-twitter-4.9.0.tgz#ae35d1be6f7422f1769f3ac7c02aa313b5974823"
-  integrity sha512-yMc0xqMPmGzcQF6SEbVrO2IHuYaQA5/RSXgIMOYcfTaBWfXBdTLsgPFmnXPoQiNLECFJwbsEnjplb2R/M1B7Mg==
+  version "4.10.2"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-twitter/-/gatsby-plugin-twitter-4.10.2.tgz#cafeb4a9f800a53303da23489be6ab33142ed3e5"
+  integrity sha512-Zt/olbFFxn8CsRDuWXkDG2/jd2KOB5XQbqExP+pNQATr8uduBJtRduk8IokdPFnk56FHS5mhJxpaAT3lq6y5Ww==
   dependencies:
     "@babel/runtime" "^7.15.4"
 
@@ -6566,11 +6566,11 @@ gatsby-plugin-utils@^3.1.0, gatsby-plugin-utils@^3.3.0:
     joi "^17.4.2"
 
 gatsby-plugin-webpack-bundle-analyser-v2@^1.1.26:
-  version "1.1.26"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-webpack-bundle-analyser-v2/-/gatsby-plugin-webpack-bundle-analyser-v2-1.1.26.tgz#aeec3593821615f21e30239b9d4598cda301ccd0"
-  integrity sha512-Yrn2kl4Sd527ZLe5IfysZZ2rLpG2HEoabj5/wV/Xp2l0t2xRbDr2+5j8J/Xetil+CPuXE1yuhj1LJlP3t5weoQ==
+  version "1.1.27"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-webpack-bundle-analyser-v2/-/gatsby-plugin-webpack-bundle-analyser-v2-1.1.27.tgz#449b3b0e66376a0c3580eb5607101f0f79a6125d"
+  integrity sha512-GjX4zU70TOvu3OhpKG8JD/GGfr8tCxjwJKKfRu3WZQTkjIEIGkodxcsdOIbuSHov83hQhlLQBZj037mkCrjrfQ==
   dependencies:
-    "@babel/runtime" "^7.16.3"
+    "@babel/runtime" "^7.17.8"
     webpack-bundle-analyzer "^4.5.0"
 
 gatsby-react-router-scroll@^5.9.0:
