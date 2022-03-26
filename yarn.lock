@@ -6305,7 +6305,7 @@ gatsby-cli@^4.9.1:
     yoga-layout-prebuilt "^1.10.0"
     yurnalist "^2.1.0"
 
-gatsby-core-utils@^3.10.0, gatsby-core-utils@^3.10.1, gatsby-core-utils@^3.7.0, gatsby-core-utils@^3.8.2, gatsby-core-utils@^3.9.1:
+gatsby-core-utils@^3.10.1, gatsby-core-utils@^3.7.0, gatsby-core-utils@^3.8.2, gatsby-core-utils@^3.9.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-3.10.1.tgz#0f5e6aeda5ef4b86218b27480a9766fe30af4393"
   integrity sha512-WqNMm0u1CAZm6Q+UQ4dDHwIAt3l32NeIaPuSXmDX7QcMGR3FUUk8cl2Ym6gx1hfILm1aCexqfaSCLUXtaWKkbQ==
@@ -6523,9 +6523,9 @@ gatsby-plugin-sharp@^4.6.0:
     uuid "3.4.0"
 
 gatsby-plugin-sitemap@^5.4.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-sitemap/-/gatsby-plugin-sitemap-5.9.0.tgz#b99e58fb6c93da5991e007605b61ab553129d540"
-  integrity sha512-7ihuL0dy2ZenUcJvDcwyajAIf3roEwX/dyx43bOakxxo7tdcVWVuS3trQRQHfrDmLJ7i78hSYlXBLpxxZ4a+gg==
+  version "5.10.2"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-sitemap/-/gatsby-plugin-sitemap-5.10.2.tgz#208149b900b166c42aa88a5f5436f5c6bf6561e9"
+  integrity sha512-X6pVbytl/QfdfGrnXAEKPf5vc38WIbclmHYIfbgjXUYA9yckTxnfuYZqkS2YwCmbcUTHG1ugcmXMeBGVo77IBQ==
   dependencies:
     "@babel/runtime" "^7.15.4"
     common-tags "^1.8.2"
