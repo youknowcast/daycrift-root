@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 
 const target_paths = [
+  ".cache/",
   "public/",
   "yarn-error.log",
 ]
