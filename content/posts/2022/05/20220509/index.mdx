@@ -1,0 +1,52 @@
+---
+title: "Mix.Config から Config への移行"
+description: "Migration from Mix.Config to Config"
+date: 2022-05-09
+tags:
+  - Diary
+  - Elixir
+---
+
+### Config を使うには
+
+軽くハマったので記載しておく．が，最初に書いておくと，ちゃんと公式の [migration](https://hexdocs.pm/elixir/main/Config.html#module-migrating-from-use-mix-config) に記載があるので，こちらを精読することをおすすめする．
+
+[Mix.Config が deprecated で代わりに Config を使え](https://hexdocs.pm/mix/main/Mix.Config.html) ということらしい．Config は Elixir の標準ライブラリなのでそっちのほうが推奨ということっぽい．  
+古い Phoenix のアプリだと，Mix.Config を使ったコードになっているはずで，公式では移行手順が示されている．  
+https://hexdocs.pm/elixir/main/Config.html#module-migrating-from-use-mix-config  
+
+1. config ファイル(config/config.exs など)で `use Mix.Config` を `import Config` に変更する
+2. `import_config` で指定している path でワイルドカードで解決している箇所を個別に変換する．
+3. config ファイル内の `Mix.env()` を `config_env()` に変更する．project ファイル内での `Mix.env()` の使用も避ける．
+4. project 内で environment を取得する場合は，config ファイル内で :env を定義する．
+
+:env を定義する．
+
+```
+# config.exs
+config :my_app, env: config_env()
+```
+
+App 内ではこんな感じで取得/判定に使用できる．
+
+```
+if Application.fetch_env!(:my_app, :env) == :prod do
+  ...
+end
+```
+
+といいつつ，現時点の Phoenix の最新で phx.new してみると，いくつか `Mix.env()` をそのまま使っている箇所もある．
+
+```bash
+% mix phx.new hogehoge && cd hogehoge
+% mix phx.new -v
+Phoenix installer v1.6.8
+% grep "Mix.env()" . -R | grep -vE "^./deps"    
+./mix.exs:      elixirc_paths: elixirc_paths(Mix.env()),
+./mix.exs:      start_permanent: Mix.env() == :prod,
+./mix.exs:      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+./lib/hogehoge_web/router.ex:  if Mix.env() in [:dev, :test] do
+./lib/hogehoge_web/router.ex:  if Mix.env() == :dev do
+```
+
+とはいえ，いちいち fetch_env! するのもなんかいまいちなので(あちこちで env を取得するコードがあるのがそもそもいまいちかもしれないが・・)，Context が env を返すような関数を生やしてみた．これがいいやり方かはよくわからない・・
