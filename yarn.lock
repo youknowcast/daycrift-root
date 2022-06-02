@@ -6914,9 +6914,9 @@ gatsby-plugin-sharp@^4.13.0:
     uuid "3.4.0"
 
 gatsby-plugin-sitemap@^5.4.0:
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-sitemap/-/gatsby-plugin-sitemap-5.14.0.tgz#62719d72e445b194ec6fe676688aac4ce4ca1de2"
-  integrity sha512-vY0mPlh+86+us4AE+oJbFyxY8j/DXaBvHryL1XPMdi0sFpabePCvHVw/+MdO2jzSFVwSixy5AEq2wtbeoXHR2Q==
+  version "5.15.1"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-sitemap/-/gatsby-plugin-sitemap-5.15.1.tgz#5a84d68b547e219aede5b704c0184fe191ec7a16"
+  integrity sha512-foDO6mK0mRCvqKoRi97o9/q4kc7A5ysFXoFctY3aR/gVCleSl0Zt4S+ihIr7nHuAX2lHCxqHoES7BsBC3qqsNg==
   dependencies:
     "@babel/runtime" "^7.15.4"
     common-tags "^1.8.2"
