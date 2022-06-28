@@ -6798,9 +6798,9 @@ gatsby-plugin-catch-links@^4.15.0:
     escape-string-regexp "^1.0.5"
 
 gatsby-plugin-google-analytics@^4.4.0:
-  version "4.16.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-4.16.0.tgz#ceb57927e3950f472b1714f76bec72df74301554"
-  integrity sha512-K1F9XOjfmcpJgny20CX+2XW3beINK06eM36ya8Pec7RlRM96zIU0FFkPxD7/KaunhQd4N64ECsHyp1L7LAu/Og==
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-4.17.0.tgz#afd699111f47c5f7a8d0d01f8d72d02fad82f79f"
+  integrity sha512-Jv9h2wpVNCvALZWwakwbpD/GZ+pYzzxVATwarUm5DICj+iXx2P2Q86PzblEmxGXpRpSHdnrrN8ntzYxpm13TjQ==
   dependencies:
     "@babel/runtime" "^7.15.4"
     minimatch "3.0.4"
@@ -6862,13 +6862,13 @@ gatsby-plugin-mdx@^3.15.2, gatsby-plugin-mdx@^3.4.0:
     unist-util-visit "^1.4.1"
 
 gatsby-plugin-offline@^5.4.0:
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-5.16.0.tgz#7eb5a2e05a0d8a269a38729d0fca5dd1dcadf7e9"
-  integrity sha512-9LvfHnIcL9Yl9yJ0HRxyZJ6hDtKILdL381oPRd6HxUOfk6/2zJuuX8StZ5B+bL8cVtm0Vqwpexhwo1qFLwsK7Q==
+  version "5.17.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-5.17.0.tgz#e615c31b2522de5e9cade2a2f975e4c0310e113d"
+  integrity sha512-4sGpLkjOrv/b6E9FI6TqAX92D47PGbgCubqQTTV7c4zcEIjq9MA86VzNRV/sU8Jys+9Az0kBOIA8e7NEckyvXQ==
   dependencies:
     "@babel/runtime" "^7.15.4"
     cheerio "^1.0.0-rc.10"
-    gatsby-core-utils "^3.16.0"
+    gatsby-core-utils "^3.17.0"
     glob "^7.2.3"
     idb-keyval "^3.2.0"
     lodash "^4.17.21"
