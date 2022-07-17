@@ -6815,13 +6815,13 @@ gatsby-plugin-mdx@^3.15.2, gatsby-plugin-mdx@^3.4.0:
     unist-util-visit "^1.4.1"
 
 gatsby-plugin-offline@^5.4.0:
-  version "5.17.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-5.17.0.tgz#e615c31b2522de5e9cade2a2f975e4c0310e113d"
-  integrity sha512-4sGpLkjOrv/b6E9FI6TqAX92D47PGbgCubqQTTV7c4zcEIjq9MA86VzNRV/sU8Jys+9Az0kBOIA8e7NEckyvXQ==
+  version "5.18.1"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-5.18.1.tgz#33eee1c667ad0b2c2ca6e83642be2977e2080d49"
+  integrity sha512-Gbk3bNPPCGWgZluXtmW2FUOBmLoxShuXeInCZlYz+p+Vz9jnNUIWk2SFZO1oeo7SFzuQpdkcy0oClOCYVZ9ClA==
   dependencies:
     "@babel/runtime" "^7.15.4"
     cheerio "^1.0.0-rc.10"
-    gatsby-core-utils "^3.17.0"
+    gatsby-core-utils "^3.18.1"
     glob "^7.2.3"
     idb-keyval "^3.2.0"
     lodash "^4.17.21"
