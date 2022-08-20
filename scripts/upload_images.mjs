@@ -33,8 +33,14 @@ async function remoteAllImages() {
 }
 
 async function localAllImages() {
-  const data = await $`find content`.pipe($`grep -E '(png|jpeg|jpg)'`)
-  return data.stdout.split('\n')
+  let ret = []
+  try {
+    const data = await $`find content`.pipe($`grep -E '(png|jpeg|jpg)'`)
+    ret = data.stdout.split('\n')
+  } catch (e) {
+    console.log('there are no local images')
+  }
+  return ret
 }
 
 function remoteUrl(path) {
@@ -92,5 +98,7 @@ localImages.forEach(async (image) => {
     await removeImage(image)
   } else {
     console.log(`skipped file: ${image}`)
+
+    await remoteImage(image)
   }
 })
