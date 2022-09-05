@@ -6810,9 +6810,9 @@ gatsby-plugin-catch-links@^4.15.0:
     escape-string-regexp "^1.0.5"
 
 gatsby-plugin-google-analytics@^4.4.0:
-  version "4.21.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-4.21.0.tgz#1e5a5cf649cb61e7ae22ee69eba4f6a3f111f43b"
-  integrity sha512-T32lbQ/fKIUo0LzIxxBp4pGQphm6aSycc09X5NOnTARqGw9eOR+H/PeljeTORWbtScvYopQQAa16xHWeTgQaEQ==
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-4.22.0.tgz#7ed3abf0ee659eeecafbdbc7628c8151cf87316e"
+  integrity sha512-wew6ghi4zdamHNoVYHyTAmCGzBJ/RKUa77GIoUjOlv7WvUnfT/FWAaI3fAoDUhUiHpn0EQTcZ1zwgj92jd43NA==
   dependencies:
     "@babel/runtime" "^7.15.4"
     minimatch "3.0.4"
@@ -6951,9 +6951,9 @@ gatsby-plugin-theme-ui@^0.11.1:
   integrity sha512-HWnM7bJOISBMF82V/TJboQiHgADLxI8nkCcx0buFxfIO9Y+T8lFtqSBaWKMMrHXXH3dWoUyCdjbupOOpj6cKmg==
 
 gatsby-plugin-twitter@^4.4.0:
-  version "4.21.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-twitter/-/gatsby-plugin-twitter-4.21.0.tgz#f34dc3eb8b33d8a171b93e3e5d83f04b765cb27d"
-  integrity sha512-eZ0UFYBrBqqqpzT6IIPR/ZeKz2C6MI/2zwlZZSG+Wlc2wsThndo3ivX0Xs7Tw+Zykn2USihYijlyT+B3QrKsTQ==
+  version "4.22.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-twitter/-/gatsby-plugin-twitter-4.22.0.tgz#637140b3f6f0948d25fa441647be7dc5092c1a79"
+  integrity sha512-EQqP3+8pu2qHHTWdZ+wInCYAVeVpnf0mJSGlttt8qlil1lw/VGM82cQVCLMw1oUZQG+B379fI9WQrgnqdb0uWg==
   dependencies:
     "@babel/runtime" "^7.15.4"
 
