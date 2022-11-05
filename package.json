@@ -35,5 +35,8 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3"
+  },
+  "volta": {
+    "node": "16.18.1"
   }
 }
