@@ -1,0 +1,30 @@
+---
+title: "Schemafile to ecto.migration file"
+description: "Schemafile to ecto.migration file"
+date: 2023-01-04
+tags:
+  - Diary
+---
+
+### 正月，リハビリがてらに Elixir さわったときに書いたもの
+
+しばらくなんだかんだでさわれていなかったのを復習がてらに書いたもののメモ．  
+[Absinthe](https://github.com/absinthe-graphql/absinthe) を使ってみようと思って，最近検証用に作ってた DB Schema を使おうと思って，せっかく ridgepole の Schemafile あるんだし，migration 書くのだるいなと思ったので，ツールにしてみた．  
+手元の Schemafile が移植できればいいので全然機能ありません．あと，たぶん初心者コードっぽい感じになってる．
+
+conv_schemafile_to_ecto_migration  
+https://github.com/youknowcast/conv_schemafile_to_ecto_migration
+
+テストは実ファイルベースでやりたかったので，以下の CSV リーダのやつを参考にさせてもらっている．
+https://github.com/beatrichartz/csv/tree/main/test
+
+肝心の Absinthe はちゃんと動いてないので，Query と Mutation が動くところまでくらいはやるか・・
+
+
+#### ハマったこと
+
+この挙動マジで謎なんですが・・．  
+[doc](https://hexdocs.pm/elixir/1.14.2/String.html#split/3) のとおりだとちゃんと動くので，pattern に String 指定したときに呼ばれるやつがなんか怪しいんだと思うんですが，ちゃんと追ってないです． 
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">ファ・・？？<br /><br />iex(1)&gt; &quot; a, b, c &quot; |&gt; String.split(&quot;,&quot;, trim: true)<br />[&quot; a&quot;, &quot; b&quot;, &quot; c &quot;]</p>&mdash; yk (@youknowcast) <a href="https://twitter.com/youknowcast/status/1610492926374850560?ref_src=twsrc%5Etfw">January 4, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
