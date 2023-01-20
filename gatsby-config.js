@@ -19,20 +19,24 @@ module.exports = {
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
-        gatsbyRemarkPlugins: [
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 1035,
+        mdxOptions: {
+          remarkPlugins: [
+            {
+              resolve: `gatsby-remark-images`,
+              options: {
+                maxWidth: 1035,
+              },
             },
-          },
-          {
-            resolve: `gatsby-remark-embed-video`,
-            options: {
-              width: 800,
-            }
-          }
-        ],
+            {
+              resolve: `gatsby-remark-embed-video`,
+              options: {
+                width: 800,
+              }
+            },
+          ],
+          rehypePlugins: [
+          ],
+        },
       },
     },
     {

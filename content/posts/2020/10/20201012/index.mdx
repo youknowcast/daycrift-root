@@ -28,13 +28,13 @@ export const skills = ["一本打ちの技", "二，三段の技", "払い技", 
 9 本の技で構成される．  
 `１，２と払い引き抜きすりあげて出ばな返して打ち落とすなり` と覚えるとよい．
 
-<!-- 指定秒から開始する Youtube Link を作成する -->
+{/* 指定秒から開始する Youtube Link を作成する */}
 export const BuildYoutubeLink = ({ url, start }) => {
   const yturl = `${url}?start=${start}`;
   return <iframe width="800" height="400" src={yturl} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 }
 
-<!-- 本ページ専用の h4 タグを作成する -->
+{/* 本ページ専用の h4 タグを作成する */}
 export const CustomH4 = ({ idx, time }) => {
   const address = `skill_${parseInt(idx) + 1}`;
   const showableTime = `${Math.floor(time/60)}:${time%60}`

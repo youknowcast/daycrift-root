@@ -16,27 +16,27 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@lekoarts/gatsby-theme-minimal-blog": "^4.1.2",
-    "@mdx-js/mdx": "^1.6.16",
-    "@mdx-js/react": "^1.6.16",
-    "gatsby": "^4.4.0",
-    "gatsby-plugin-google-analytics": "^4.4.0",
-    "gatsby-plugin-manifest": "^4.4.0",
-    "gatsby-plugin-mdx": "^3.4.0",
-    "gatsby-plugin-offline": "^5.4.0",
-    "gatsby-plugin-sitemap": "^5.4.0",
-    "gatsby-plugin-twitter": "^4.4.0",
+    "@lekoarts/gatsby-theme-minimal-blog": "^6.0.4",
+    "@mdx-js/mdx": "^2.2.1",
+    "@mdx-js/react": "^2.2.1",
+    "gatsby": "^5.4.2",
+    "gatsby-plugin-google-analytics": "^5.4.0",
+    "gatsby-plugin-manifest": "^5.4.0",
+    "gatsby-plugin-mdx": "^5.4.0",
+    "gatsby-plugin-offline": "^6.4.0",
+    "gatsby-plugin-sitemap": "^6.4.0",
+    "gatsby-plugin-twitter": "^5.4.0",
     "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.26",
     "gatsby-remark-embed-video": "^3.1.1",
     "gatsby-remark-image-attributes": "^1.1.0",
-    "gatsby-remark-images": "^6.4.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "gatsby-remark-images": "^7.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3"
   },
   "volta": {
-    "node": "16.18.1"
+    "node": "19.4.0"
   }
 }
