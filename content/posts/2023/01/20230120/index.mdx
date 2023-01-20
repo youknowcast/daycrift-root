@@ -1,0 +1,111 @@
+---
+title: "update node 16->19"
+description: "update node"
+date: 2023-01-20
+tags:
+  - Diary
+---
+
+### 当 blog の build 周りが古いなとおもったので
+
+当 blog の node がちょっと古かったのを最新に上げたメモ．
+
+### ローカル
+
+とりあえず，node を上げる(2023/01 現在で最新は 19.4.0)
+
+```
+% volta install node@latest
+% volta pin node@19.4
+```
+
+なんか大変そうだねぇ．
+
+```
+% yarn outdated
+Package                             Current Wanted Latest Package Type URL                                                                                          
+@lekoarts/gatsby-theme-minimal-blog 4.1.7   4.1.7  6.0.4  dependencies https://themes.lekoarts.de                                                                   
+@mdx-js/mdx                         1.6.22  1.6.22 2.2.1  dependencies https://mdxjs.com                                                                            
+@mdx-js/react                       1.6.22  1.6.22 2.2.1  dependencies https://mdxjs.com                                                                            
+gatsby                              4.25.3  4.25.4 5.4.2  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby#readme                        
+gatsby-plugin-google-analytics      4.25.0  4.25.0 5.4.0  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-google-analytics#readme
+gatsby-plugin-manifest              4.25.0  4.25.0 5.4.0  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-manifest#readme        
+gatsby-plugin-mdx                   3.20.0  3.20.0 5.4.0  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-mdx#readme             
+gatsby-plugin-offline               5.25.0  5.25.0 6.4.0  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-offline#readme         
+gatsby-plugin-sitemap               5.25.0  5.25.0 6.4.0  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-sitemap#readme         
+gatsby-plugin-twitter               4.25.0  4.25.0 5.4.0  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-twitter#readme         
+gatsby-remark-images                6.25.0  6.25.0 7.4.0  dependencies https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-remark-images#readme          
+react                               17.0.2  17.0.2 18.2.0 dependencies https://reactjs.org/                                                                         
+react-dom                           17.0.2  17.0.2 18.2.0 dependencies https://reactjs.org/   
+```
+
+仕事じゃないので雑にあげてみる．
+
+```
+% yarn upgrade --latest
+```
+
+すんなり上がったので dev server を起動してみるとエラーに．
+
+```
+Unexpected character `!` (U+0021) before name, expected a character that can start a name, such as a letter, `$`, or `_` (note: to create a comment in MDX, use `{/* text
+*/}`)
+```
+
+なんか `<!-- -->` でコメントしてたのがダメだった．直すとちゃんと動いた．  
+って思ったが， `yarn build` がめっちゃコケる．
+
+どうも gatsby-plugin-mdx が v4 以降でだいぶ変わったらしい．  
+https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-plugin-mdx/README.md#migrating-from-v3-to-v4
+
+当 blog で言うと，speakerdeck の embed script をペタっと貼り付けていたところの style が テンプレっぽく書かないと怒られるようになっていた．  
+
+```
+  3 | import { css, get } from '@theme-ui/css';
+  4 |
+> 5 | function _extends() {
+    | ^
+  6 |   _extends = Object.assign ? Object.assign.bind() : function (target) {
+  7 |     for (var i = 1; i < arguments.length; i++) {
+  8 |       var source = arguments[i];
+
+
+  WebpackError: The `style` prop expects a mapping from style properties to values, not a string. For example, style={{marginRight: spacing + 'em'}} when using JSX.
+  
+  - theme-ui-components.esm.js:5 
+    [minimal-blog]/[@theme-ui]/components/dist/theme-ui-components.esm.js:5:1
+```
+
+Gatsby というより，当 blog で使わせてもらっている theme-ui の話っぽいですが・・
+
+こんな感じで直したら動いた．
+
+```javascript
+<div style={{left: 0, width: '100%', height: 0, position: 'relative', paddingBottom: '56.1972%'}}>
+  <iframe src="https://speakerdeck.com/player/...
+```
+
+#### CD 周り
+
+当 blog は GitHub Actions で雑にビルドしてるのでそっちのサポートも確認する．v19.4.0 ちゃんとあるね．  
+https://github.com/actions/setup-node
+
+とりあえず超雑に node を上げる．
+
+```
+      - name: setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '19.x'
+```
+
+PR 時のビルドスクリプトでビルドが通るか試す．  
+https://github.com/youknowcast/daycrift-root/pull/227
+
+checkout version よし  
+![](https://d1q5p5okdzyz0p.cloudfront.net/2023-01-20230120-ss.png)
+
+ビルドも通ってるぽい  
+![](https://d1q5p5okdzyz0p.cloudfront.net/2023-01-20230120-ss2.png)
+
+大丈夫そうなのでデプロイする．
