@@ -85,7 +85,7 @@ Gatsby というより，当 blog で使わせてもらっている theme-ui の
   <iframe src="https://speakerdeck.com/player/...
 ```
 
-#### CD 周り
+### CD 周り
 
 当 blog は GitHub Actions で雑にビルドしてるのでそっちのサポートも確認する．v19.4.0 ちゃんとあるね．  
 https://github.com/actions/setup-node
@@ -111,7 +111,19 @@ checkout version よし
 大丈夫そうなのでデプロイする．  
 しばらくサイトのキャッシュが全然安定しなくて動いたり動かなかったりしたので，deploy 時に必ず AWS cloudfront の cache を invalidate するようにした．
 
-#### おまけ
+ただ，なんか invalidation あんま安定しないっぽい．GitHub Actions は no option だと retry: 2 で諦めるっぽい(ログ出力によると)が，それだとコケるケースが散見される．  
+https://stackoverflow.com/questions/72287326/aws-cloudfront-error-invalidation-max-times-while-deploying
+
+deploy の最後にやるので，S3 の更新自体は終わってるから，あとは適当なタイミングで CloudFront のキャッシュが更新されるのを待ってもいいんですが・・  
+あんま落ちるようなら，なんかちょっと考えるか．  
+[ちなみに GatsbyCloud だとおまかせでやってくれるらしい](https://support.gatsbyjs.com/hc/en-us/articles/360053098813-Deploying-to-Amazon-S3#:~:text=If%20you%20set%20the%20distribution%20ID,%20Gatsby%20Cloud,should%20be%20a%20comma%20separated%20string%20of%20paths.)
+
+```
+If you set the distribution ID, Gatsby Cloud will automatically create a cache invalidation in CloudFront for that ID. 
+```
+
+
+### おまけ
 
 GitHub Actions が AWS credentials 引っ張ってくるところで warning 出てるけどなんぞこれ
 
