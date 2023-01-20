@@ -41,4 +41,4 @@ jobs:
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
         run: |
-          aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DAYCRIFT_NET_DISTRIBUTION_ID --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DAYCRIFT_NET_DISTRIBUTION_ID }} --paths "/*"
