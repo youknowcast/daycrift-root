@@ -21,6 +21,7 @@ module.exports = {
       options: {
         mdxOptions: {
           remarkPlugins: [
+            require(`remark-gfm`),
             {
               resolve: `gatsby-remark-images`,
               options: {
