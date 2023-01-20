@@ -20,7 +20,7 @@ if (bookName === undefined) {
 }
 const date = argv.date || (new Date()).toISOString().substr(0, 10)
 
-const bookLog = `\n|${bookName}|${date}||`
+const bookLog = `\n|${bookName}|${date}| |`
 fs.outputFileSync(BOOK_LOG_MDX_PATH, bookLog, {flag: "a+"})
 
 const commitLog = "feat: update book log"
