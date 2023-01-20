@@ -109,3 +109,16 @@ checkout version よし
 ![](https://d1q5p5okdzyz0p.cloudfront.net/2023-01-20230120-ss2.png)
 
 大丈夫そうなのでデプロイする．
+
+
+#### おまけ
+
+GitHub Actions が AWS credentials 引っ張ってくるところで warning 出てるけどなんぞこれ
+
+```
+Warning: The `set-output` command is deprecated and will be disabled soon. Please upgrade to using Environment Files. For more information see: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+```
+
+https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
+
+使ってる actions(aws-actions/configure-aws-credentials) 覗いてみても参考になりそうなのないしな〜と思っています．
