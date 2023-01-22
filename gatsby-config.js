@@ -22,18 +22,6 @@ module.exports = {
         mdxOptions: {
           remarkPlugins: [
             require(`remark-gfm`),
-            {
-              resolve: `gatsby-remark-images`,
-              options: {
-                maxWidth: 1035,
-              },
-            },
-            {
-              resolve: `gatsby-remark-embed-video`,
-              options: {
-                width: 800,
-              }
-            },
           ],
           rehypePlugins: [
           ],
