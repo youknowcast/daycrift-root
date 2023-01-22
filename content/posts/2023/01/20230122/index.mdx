@@ -6,12 +6,11 @@ tags:
   - Diary
 ---
 
-### hello world
+### hello world(mermaid)
 
+import MermaidWrapper from '/src/utils/mermaid_wrapper'
 
-import Markdown from '/src/utils/markdown'
-
-<Markdown graph={`gantt
+<MermaidWrapper graph={`gantt
 dateFormat  YYYY-MM-DD
 title Adding GANTT diagram to mermaid
 excludes weekdays 2014-01-10
@@ -22,3 +21,29 @@ Active task               :active,  des2, 2014-01-09, 3d
 Future task               :         des3, after des2, 5d
 Future task2               :         des4, after des3, 5dZ`} />
 
+
+### 変更点
+
+いろいろ検討したんですが，シュッと動きそうなのがこれだったので，これを入れました．  
+https://github.com/sjwall/mdx-mermaid
+
+先日 5 系に上げた gatsby-plugin-mdx だと，gatsby-remark-* 系で動きそうなものがなかったので．  
+gatsby-remark-mermaid や，これが wrap している remark-mermaidjs を直接叩いてみるとかはやってみたけど動かなかったです．  
+ぼくが Gatsby 詳しくなさすぎるというのはありますが・・
+
+src/utils/mermaid_wrapper.tsx を追加して，この中で `mdx-mermaid` を単純に wrap しています．  
+
+```typescript jsx
+export default function MermaidWrapper(props: MarkdownProps) {
+  return <Mermaid chart={props.graph} config={{theme:  { light: 'default', dark: 'default' }}} />
+}
+```
+
+これを追加したので，Gatsby の TypeScript 導入記事に従って tsconfig.json を設定しました．gatsby-minimal-starter-ts の tsconfig.json をそのまま wget してきただけです．
+
+https://www.gatsbyjs.com/docs/how-to/custom-configuration/typescript/#tsconfigjson
+
+
+### ともあれ
+
+これで mermaid 書きたい放題だぜ(書かないフラグ)

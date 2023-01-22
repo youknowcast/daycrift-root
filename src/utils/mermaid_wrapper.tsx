@@ -1,6 +1,9 @@
-// @ts-ignore
 import React from "react"
 import { Mermaid } from 'mdx-mermaid/lib/Mermaid'
+
+type MermaidWrapperProps = {
+  graph: string
+}
 
 // usage:
 //   import md from '../src/markdown'
@@ -15,7 +18,7 @@ import { Mermaid } from 'mdx-mermaid/lib/Mermaid'
 //     John-->>Alice: Great!
 //     John->>Bob: How about you?
 //     Bob-->>John: Jolly good!`)
-export default function Markdown(props) {
+export default function MermaidWrapper(props: MermaidWrapperProps) {
   return <Mermaid chart={props.graph} config={{theme:  { light: 'default', dark: 'default' }}} />
 }
 
