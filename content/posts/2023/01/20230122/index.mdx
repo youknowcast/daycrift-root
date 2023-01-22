@@ -34,7 +34,7 @@ gatsby-remark-mermaid や，これが wrap している remark-mermaidjs を直�
 src/utils/mermaid_wrapper.tsx を追加して，この中で `mdx-mermaid` を単純に wrap しています．  
 
 ```typescript jsx
-export default function MermaidWrapper(props: MarkdownProps) {
+export default function MermaidWrapper(props: MermaidWrapperProps) {
   return <Mermaid chart={props.graph} config={{theme:  { light: 'default', dark: 'default' }}} />
 }
 ```
@@ -47,3 +47,23 @@ https://www.gatsbyjs.com/docs/how-to/custom-configuration/typescript/#tsconfigjs
 ### ともあれ
 
 これで mermaid 書きたい放題だぜ(書かないフラグ)
+
+<MermaidWrapper graph={`
+graph LR
+  q(QEMU) --> qemu-boot-shim --> physboot --> zircon
+`} />
+
+mermaid のテーマはとりあえず default にしています．  
+いろいろ変えられそうではあります．  
+
+参考:  
+https://zenn.dev/junkawa/articles/zenn-mermaidjs-theme-config
+
+
+たとえば・・  
+[themecss を使う例](https://zenn.dev/junkawa/articles/zenn-mermaidjs-theme-config#themecss-%E3%82%92%E4%BD%BF%E3%81%86)  
+<MermaidWrapper graph={`
+%%{init:{'theme':'base','themeCSS':" .node rect {fill: #6A7FAB;} .label text {fill: #FAFBF9 !important;} .output {font-size:30px;}"}}%%
+graph LR
+  q(QEMU) --> qemu-boot-shim --> physboot --> zircon
+`} />
