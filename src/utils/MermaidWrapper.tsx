@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import { Mermaid } from 'mdx-mermaid/lib/Mermaid'
 
 type MermaidWrapperProps = {
@@ -18,7 +18,6 @@ type MermaidWrapperProps = {
 //     John-->>Alice: Great!
 //     John->>Bob: How about you?
 //     Bob-->>John: Jolly good!`)
-export default function MermaidWrapper(props: MermaidWrapperProps) {
-  return <Mermaid chart={props.graph} config={{theme:  { light: 'default', dark: 'default' }}} />
+export default function MermaidWrapper (props: MermaidWrapperProps) {
+  return <Mermaid chart={props.graph} config={{ theme: { light: 'default', dark: 'default' } }} />
 }
-
