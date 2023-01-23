@@ -1,5 +1,5 @@
-require(`dotenv`).config({
-  path: `.env`,
+require('dotenv').config({
+  path: '.env'
 })
 
 const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
@@ -7,29 +7,29 @@ const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 module.exports = {
   siteMetadata: {
     siteTitle: 'CALL ME STUPID',
-    siteTitleAlt: `CALL ME STUPID - Powered by Gatsby `,
+    siteTitleAlt: 'CALL ME STUPID - Powered by Gatsby ',
     siteDescription: 'engineer blog.',
     author: '@youknowcast',
     siteUrl: 'https://www.daycrift.net',
     siteLanguage: 'ja',
-    siteHeadline: `CALL ME STUPID - Powered by Gatsby `,
-    siteImage: '/banner.png',
+    siteHeadline: 'CALL ME STUPID - Powered by Gatsby ',
+    siteImage: '/banner.png'
   },
   plugins: [
     {
-      resolve: `gatsby-plugin-mdx`,
+      resolve: 'gatsby-plugin-mdx',
       options: {
         mdxOptions: {
           remarkPlugins: [
-            require(`remark-gfm`),
+            require('remark-gfm')
           ],
           rehypePlugins: [
-          ],
-        },
-      },
+          ]
+        }
+      }
     },
     {
-      resolve: `@lekoarts/gatsby-theme-minimal-blog`,
+      resolve: '@lekoarts/gatsby-theme-minimal-blog',
       // See the theme's README for all available options
       options: {
         // 自前でプラグインいれていきたいので，theme の mdx は無効化
@@ -37,22 +37,22 @@ module.exports = {
         formatString: 'YYYY/MM/DD',
         navigation: [
           {
-            title: `Blog`,
-            slug: `/blog`,
+            title: 'Blog',
+            slug: '/blog'
           },
           {
-            title: `About`,
-            slug: `/about`,
+            title: 'About',
+            slug: '/about'
           },
           {
             title: 'useful',
             slug: '/useful'
-          },
+          }
         ],
         externalLinks: [
           {
-            name: `Twitter`,
-            url: `https://twitter.com/youknowcast`,
+            name: 'Twitter',
+            url: 'https://twitter.com/youknowcast'
           },
           {
             name: 'github',
@@ -70,43 +70,43 @@ module.exports = {
             name: 'Qiita',
             url: 'https://qiita.com/youknowcast'
           }
-        ],
-      },
+        ]
+      }
     },
-    `gatsby-plugin-sitemap`,
+    'gatsby-plugin-sitemap',
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
-        name: `CALL ME STUPID`,
-        description: `engineer blog`,
-        start_url: `/`,
-        background_color: `#fff`,
-        theme_color: `#6B46C1`,
-        display: `standalone`,
+        name: 'CALL ME STUPID',
+        description: 'engineer blog',
+        start_url: '/',
+        background_color: '#fff',
+        theme_color: '#6B46C1',
+        display: 'standalone',
         icons: [
           {
-            src: `/android-chrome-192x192.png`,
-            sizes: `192x192`,
-            type: `image/png`,
+            src: '/android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
           },
           {
-            src: `/android-chrome-512x512.png`,
-            sizes: `512x512`,
-            type: `image/png`,
-          },
-        ],
-      },
+            src: '/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
     },
-    `gatsby-plugin-offline`,
-    `gatsby-plugin-twitter`,
-    `gatsby-remark-embed-video`,
+    'gatsby-plugin-offline',
+    'gatsby-plugin-twitter',
+    'gatsby-remark-embed-video',
     shouldAnalyseBundle && {
-      resolve: `gatsby-plugin-webpack-bundle-analyser-v2`,
+      resolve: 'gatsby-plugin-webpack-bundle-analyser-v2',
       options: {
-        analyzerMode: `static`,
-        reportFilename: `_bundle.html`,
-        openAnalyzer: false,
-      },
-    },
-  ].filter(Boolean),
+        analyzerMode: 'static',
+        reportFilename: '_bundle.html',
+        openAnalyzer: false
+      }
+    }
+  ].filter(Boolean)
 }

@@ -8,7 +8,7 @@ tags:
 
 ### hello world(mermaid)
 
-import MermaidWrapper from '/src/utils/MermaidWrapper'
+import MermaidWrapper from '/src/utils/mermaid-wrapper'
 
 <MermaidWrapper graph={`gantt
 dateFormat  YYYY-MM-DD
@@ -31,7 +31,7 @@ https://github.com/sjwall/mdx-mermaid
 gatsby-remark-mermaid や，これが wrap している remark-mermaidjs を直接叩いてみるとかはやってみたけど動かなかったです．  
 ぼくが Gatsby 詳しくなさすぎるというのはありますが・・
 
-src/utils/MermaidWrapper.tsx を追加して，この中で `mdx-mermaid` を単純に wrap しています．  
+src/utils/mermaid-wrapper.tsx を追加して，この中で `mdx-mermaid` を単純に wrap しています．  
 
 ```typescript jsx
 export default function MermaidWrapper(props: MermaidWrapperProps) {
