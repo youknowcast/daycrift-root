@@ -1,0 +1,26 @@
+---
+title: "Add rss support"
+description: "Add rss support"
+date: 2023-01-25
+tags:
+  - Diary
+---
+
+### RSS を吐くようにしてみた
+
+これまで「とりあえずあるだけ・・」な低レベルの blog 運用をしていて，さすがにちょっと・・という気持ちになってきたので，あれこれ整えようと思っている．その活動の一環です．  
+Gatsby では RSS フィードを追加するガイドがあるので，これに沿って実施する．  
+https://www.gatsbyjs.com/docs/how-to/adding-common-features/adding-an-rss-feed/
+
+plugin 自体の howto はこっち  
+https://www.gatsbyjs.com/plugins/gatsby-plugin-feed/
+
+```bash
+% yarn add gatsby-plugin-feed
+```
+
+追加されたら gatsby-config.js に足していく．  
+基本的に site, 記事情報(サンプルでは allMarkdownRemark だが，弊 blog では mdx を入れているので代わりに allMdx を使う)を graphql でとってきて，serialize メソッドで RSS として返したい情報に加工すればよ．
+
+書けたら，build && serve して表示できるか確認する．serve だけだと作られなかった．
+
