@@ -28,6 +28,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.32.1",
     "gatsby": "^5.4.2",
+    "gatsby-plugin-feed": "^5.5.0",
     "gatsby-plugin-google-analytics": "^5.4.0",
     "gatsby-plugin-manifest": "^5.4.0",
     "gatsby-plugin-mdx": "^5.4.0",

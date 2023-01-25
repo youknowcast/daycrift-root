@@ -17,6 +17,57 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.edges.map(edge => {
+                return Object.assign({}, edge.node.frontmatter, {
+                  description: edge.node.excerpt,
+                  date: edge.node.frontmatter.date,
+                  url: encodeURI(site.siteMetadata.siteUrl + edge.node.frontmatter.slug),
+                  guid: site.siteMetadata.siteUrl + edge.node.frontmatter.slug,
+                  custom_elements: [{ 'content:encoded': edge.node.body}]
+                })
+              })
+            },
+            query: `
+              {
+                allMdx(sort: { frontmatter: { date: DESC }}) {
+                  edges {
+                    node {
+                      excerpt
+                      body
+                      frontmatter {
+                        title
+                        date
+                        slug
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: 'Daycrift.net RSS Feed'
+          }
+        ]
+      }
+    },
+    {
       resolve: 'gatsby-plugin-mdx',
       options: {
         mdxOptions: {
