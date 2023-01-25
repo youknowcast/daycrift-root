@@ -30,29 +30,25 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMdx } }) => {
-              return allMdx.edges.map(edge => {
-                return Object.assign({}, edge.node.frontmatter, {
+            serialize: ({ query: { site, allPost } }) => {
+              return allPost.edges.map(edge => {
+                return Object.assign({}, edge.node, {
                   description: edge.node.excerpt,
-                  date: edge.node.frontmatter.date,
-                  url: encodeURI(site.siteMetadata.siteUrl + edge.node.frontmatter.slug),
-                  guid: site.siteMetadata.siteUrl + edge.node.frontmatter.slug,
-                  custom_elements: [{ 'content:encoded': edge.node.body}]
+                  date: edge.node.date,
+                  url: encodeURI(site.siteMetadata.siteUrl + edge.node.slug),
+                  guid: site.siteMetadata.siteUrl + edge.node.slug,
                 })
               })
             },
             query: `
               {
-                allMdx(sort: { frontmatter: { date: DESC }}) {
+                allPost(sort: { date: DESC }) {
                   edges {
                     node {
+                      title
+                      date
+                      slug
                       excerpt
-                      body
-                      frontmatter {
-                        title
-                        date
-                        slug
-                      }
                     }
                   }
                 }
