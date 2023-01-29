@@ -20,7 +20,62 @@ https://www.gatsbyjs.com/plugins/gatsby-plugin-feed/
 ```
 
 追加されたら gatsby-config.js に足していく．  
-基本的に site, 記事情報(サンプルでは allMarkdownRemark だが，弊 blog では mdx を入れているので代わりに allMdx を使う)を graphql でとってきて，serialize メソッドで RSS として返したい情報に加工すればよ．
+基本的に site, 記事情報(サンプルでは allMarkdownRemark だが，弊 blog ではたぶん入れてる plugin の都合で allPost を使う)を graphql でとってきて，serialize メソッドで RSS として返したい情報に加工すればよい．
 
 書けたら，build && serve して表示できるか確認する．serve だけだと作られなかった．
 
+本 blog での gatsby-config.js はこんな感じになった(記事のために適宜コメントを付記)．
+
+```
+  plugins: [
+    {
+      // gatsby-plugin-feed 向けコンフィグ
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        // blog 全体の情報を取得(とりあえず url がほしかったのでそこだけ持ってきている)
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            // options.query, feeds[].query を元に全 RSS を返す
+            serialize: ({ query: { site, allPost } }) => {
+              return allPost.edges.map(edge => {
+                return Object.assign({}, edge.node, {
+                  description: edge.node.excerpt,
+                  date: edge.node.date,
+                  url: encodeURI(site.siteMetadata.siteUrl + edge.node.slug),
+                  guid: site.siteMetadata.siteUrl + edge.node.slug,
+                })
+              })
+            },
+            query: `
+              {
+                allPost(sort: { date: DESC }) {
+                  edges {
+                    node {
+                      title
+                      date
+                      slug
+                      excerpt
+                    }
+                  }
+                }
+              }
+            `,
+            // rss 配信エンドポイント
+            output: '/rss.xml',
+            // rss タイトル
+            title: 'Daycrift.net RSS Feed'
+          }
+        ]
+      }
+    },
+    ...
+```
