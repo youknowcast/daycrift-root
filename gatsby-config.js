@@ -65,7 +65,7 @@ module.exports = {
       options: {
         mdxOptions: {
           remarkPlugins: [
-            require('remark-gfm')
+            import('remark-gfm')
           ],
           rehypePlugins: [
           ]
