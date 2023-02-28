@@ -36,7 +36,7 @@ module.exports = {
                   description: edge.node.excerpt,
                   date: edge.node.date,
                   url: encodeURI(site.siteMetadata.siteUrl + edge.node.slug),
-                  guid: site.siteMetadata.siteUrl + edge.node.slug,
+                  guid: site.siteMetadata.siteUrl + edge.node.slug
                 })
               })
             },
@@ -65,7 +65,7 @@ module.exports = {
       options: {
         mdxOptions: {
           remarkPlugins: [
-            import('remark-gfm')
+            require('remark-gfm')
           ],
           rehypePlugins: [
           ]
