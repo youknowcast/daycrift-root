@@ -6346,11 +6346,11 @@ gatsby-plugin-feed@^5.5.0:
     rss "^1.2.2"
 
 gatsby-plugin-google-analytics@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-5.4.0.tgz#18fbf578620d03f8d47a178bb729a6396a10a83a"
-  integrity sha512-COoAWmOvpVfRLXPr77Ovleo5YHyeO2xduNB+kpkqVeNfJIFgFsADMmVF9sAXvQXd8BwWQQ5R9Kxvvr2mAkIP8w==
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-google-analytics/-/gatsby-plugin-google-analytics-5.7.0.tgz#d6f6f7f72f3a8df60e00aa4d9652c76afb881164"
+  integrity sha512-PcRMyFR4UArAzIPT5KcZ2PG0ylFChf8j0m6e11njchET1+VV7Z05NKt+o8DOwrcX3kbdl5T7SZT+k6IZ7znECg==
   dependencies:
-    "@babel/runtime" "^7.20.7"
+    "@babel/runtime" "^7.20.13"
     minimatch "^3.1.2"
     web-vitals "^1.1.2"
 
