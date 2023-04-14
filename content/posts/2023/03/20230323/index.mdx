@@ -1,9 +1,47 @@
 ---
-title: ""
-description: ""
+title: "booklog: read A Philosophy of Software Design"
+description: "booklog: read A Philosophy of Software Design"
 date: 2023-03-23
 tags:
   - Diary
 ---
 
-### hello world
+### 遅ればせながら
+
+「A Philosophy of Software Design」を読んだのでいくつか所感を書いておく．
+
+Complexity と戦え という本で，Complexity とはなにかというと，定義はこんな感じである．
+
+```
+Complexity is anything related to the structure of a software system that makes it hard to understand and modify the system.
+```
+
+そして，重要なことは，Complexity だと感じる主体はコードを書いた人ではなく読む人であるということだ．書いた本人がいかにわかりやすいと思っていても読む人がそう思わなかったらそれはわかりやすくはない．  
+さて，あちこちで要約されているので，個人的に気になった章についていくつか取り上げて締めとする．
+
+### Modules Should Be Deep
+
+ソフトウェア・システムを互いに独立した module の集まり(collection)に分割することが理想と書いてあるが，面白いのは，理想的にはすべての module が完璧に独立していることとしながら，その達成は不可能であると明言してあるところ．  
+そして module は interface(その module をいかに使うか)と implementation(その module がいかに問題を解決するか)の両面で考える必要がある．  
+
+module を検討するのに抽象化を考えるのはよいアプローチである．難しいことを易しく考えることができるため有用である．  
+しかし，抽象化は (1) 重要でない detail を含んでしまう (2) 必要な情報を落としてしまう 誤りに陥ることがある．この点に留意して深く検討すること．
+
+### Define Errors Out Of Existence
+
+エラーを奥まった module で隠蔽するのと，大本の呼び出し元でハンドルするのはどちらも考え方としては同じで，module において適切なエラーハンドリングを行い，そうでないがハンドルせざるをえないものについて complexity を吸収するのに役に立つ．  
+※ この視点は経験上しっくりきたことから持っていたが，言語化できていなかった．
+
+### Comments について
+
+good code is self-documenting には懐疑的という主張は面白かった．  
+自然言語のほうがより表現力高く仕様を説明できるのでよい，とのことである．ちょうど社でテストケースで仕様をどこまで説明すべきかという議論があり，ある程度は明示的にコメント書いたほうがわかりやすいよね，という結論に達したところだったので，納得感があった．  
+
+しかし，著者の勧めるような write the comment first には少し懐疑的だ．  
+というか，コメントする前にもうちょい絵を描いたり UML 起こしたりを繰り返すフェーズなどもあると思っていて，そのあとでとりあえず流れをさっと仮実装するときにコメントだけ書くとかはあるかもしれないが，必ずしも comment first にはならない気がする．  
+ともあれ，主張としてはいきなり本実装始めるな，設計せよ だと思うので，その点については異論はない．
+
+### おまけ
+
+19.4 Test-Driven Development ではやはり TDD にはあまり前向きではなさそうである．
+
