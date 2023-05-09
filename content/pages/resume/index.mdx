@@ -1,8 +1,26 @@
 ---
 title: Resume
-slug: "/resume"
+slug: /resume
 date: 2023/05/09
 ---
+
+export const Experience = ({ title, term, content }) => {
+  const id = `professional-experience-${encodeURI(title)}`
+  const _content = content.trim().split('\n').map((line, i) =>
+    <React.Fragment key={i}>
+      {line}
+      <br />
+    </React.Fragment>
+  )
+  return <>
+    <h4><a id={id}>{title}</a></h4>
+    <div>
+      <span style={{ fontStyle: "italic" }}>term: </span>{term}<br />
+      {_content}
+    </div>
+    <p></p>
+  </>
+}
 
 # Hideki Ambe
 
@@ -10,10 +28,38 @@ date: 2023/05/09
 
 Software Engineer since 2008.
 
-## Skills
 
-| |||
+## Skills/Certificates/Histories
+
+| | | |
 |--|--|--|
-|Languages|Ruby, Java, C, Elixir|組み込み/Web で開発経験があります．aaa|
+|Languages|Ruby, Java, C, TypeScript|組み込み/Web で開発経験があります．大体の言語は対応可能だと思います．|
+|Frameworks|Ruby on Rails, Spring framework3(古いです), Echo(golang)|付き合いはなんだかんだ Rails が一番長いです．|
+|Certificates|Certified Scrum Master|2020/12~|
+||IPA エンベデッドシステムスペシャリスト|2021/12|
+||IPA 応用情報技術者|2014/06|
+|Academic history|東京都立産業技術大学院大学|修士(専門職)|
+||早稲田大学 第一文学部|学士|
+
+## Quite interested in...
+
+Elixir, Phoenix framework を使った案件に死ぬまでに一度関わってみたいなとずっと思っています．
+
+## SNS
+
+@see: [/about](/about)
+
+## Professional Experiences
+
+<Experience title={`SIPサーバ開発`} term={`2008-2009`} content={`
+  RFC4568 というマイナー RFC に則った SDP パーサ書いたり，実機試験やったり．
+  C++，CentOS，LAMP
+`} />
+
+<Experience title={`医療系業務システム開発`} term={`2008-2009`} content={`
+  受託案件．
+  Struts1.x + WebLogic, Oracle．
+`} />
 
 
+このページは [resume.id](https://www.resume.id/youknowcast) のアカウントに入れなくなってしまったために自分でちゃんと管理しよ・・と思って作りました．
