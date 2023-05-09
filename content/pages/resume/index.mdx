@@ -4,13 +4,14 @@ slug: /resume
 date: 2023/05/09
 ---
 
+import {Fragment} from "react";
 export const Experience = ({ title, term, content }) => {
   const id = `professional-experience-${encodeURI(title)}`
   const _content = content.trim().split('\n').map((line, i) =>
-    <React.Fragment key={i}>
+    <Fragment key={i}>
       {line}
       <br />
-    </React.Fragment>
+    </Fragment>
   )
   return <>
     <h4><a id={id}>{title}</a></h4>
@@ -18,7 +19,7 @@ export const Experience = ({ title, term, content }) => {
       <span style={{ fontStyle: "italic" }}>term: </span>{term}<br />
       {_content}
     </div>
-    <p></p>
+    <br />
   </>
 }
 
