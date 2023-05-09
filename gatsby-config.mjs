@@ -1,10 +1,8 @@
-require('dotenv').config({
-  path: '.env'
-})
+import remarkGfm from "remark-gfm"
 
 const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
-module.exports = {
+const config = {
   siteMetadata: {
     siteTitle: 'CALL ME STUPID',
     siteTitleAlt: 'CALL ME STUPID - Powered by Gatsby ',
@@ -63,9 +61,10 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
+        extensions: [`.mdx`, `.md`],
         mdxOptions: {
           remarkPlugins: [
-            require('remark-gfm')
+            remarkGfm
           ],
           rehypePlugins: [
           ]
@@ -154,3 +153,5 @@ module.exports = {
     }
   ].filter(Boolean)
 }
+
+export default config

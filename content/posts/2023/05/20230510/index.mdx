@@ -1,0 +1,28 @@
+---
+title: "blog の remark-gfm を 3.x 系に上げました"
+description: "update remark-gfm"
+date: 2023-05-10
+tags:
+  - Diary
+---
+
+### あれ注釈(footnote)が死んでる
+
+迂闊なことに気づいてなかったんですが，いつの間にか当 blog でちょくちょく使っていた注釈機能が死んでいました．  
+
+これのことです[^1]
+
+当 blog でも使わせてもらっている gatsby theme の作者がコメントしていて， remark-gfm を 3.x 系に上げたら治るよということなのでえいやで上げました．  
+https://github.com/gatsbyjs/gatsby/discussions/37955#discussioncomment-5644753
+
+ついでに，gatsby-config.js が CommonJS 方式だったのをたとえば gatsby-plugin-mdx なんかは明確にやめろと言っているので，バサッと切り替えました．  
+(いい加減やらなきゃな〜と思っていたので，踏んぎりがついてよかったとも言える)
+
+```
+We highly recommend using ES Modules (ESM) syntax for your gatsby-config file as it'll enable you to use the latest packages from the unified ecosystem.
+```
+https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-plugin-mdx
+
+
+
+[^1]: これのことです．
