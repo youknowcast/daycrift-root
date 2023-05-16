@@ -6133,7 +6133,7 @@ gatsby-cli@^5.9.0:
     yoga-layout-prebuilt "^1.10.0"
     yurnalist "^2.1.0"
 
-gatsby-core-utils@^4.8.0, gatsby-core-utils@^4.9.0:
+gatsby-core-utils@^4.9.0:
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-4.9.0.tgz#1134d9a119f49b90d3b5107210dfdd17a4231463"
   integrity sha512-diCAmlr42YQpSKapD374JVF+ojDXTHxnrNoS907jNGgT4J35t2az9GsEQFgrEou3Td5TLuUl/8yJM2Hpwn4gyg==
@@ -6191,7 +6191,7 @@ gatsby-page-utils@^3.9.0:
     lodash "^4.17.21"
     micromatch "^4.0.5"
 
-gatsby-parcel-config@^1.9.0:
+gatsby-parcel-config@1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/gatsby-parcel-config/-/gatsby-parcel-config-1.9.0.tgz#66a939d37b1e4731df90849c07d1c64b83641a08"
   integrity sha512-5wclOXzeI6HmH5iEYvqzLnt/kc0cnqlIObRmQE2zpV0xs9YTPXAH7GdnaheYKN8kibF1EWuBKJF79dv99/nGHg==
@@ -6493,9 +6493,9 @@ gatsby-worker@^2.9.0:
     signal-exit "^3.0.7"
 
 gatsby@^5.4.2:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-5.9.0.tgz#79fca9e8ac71fa49a2186ddc1fb9063ceb2858ad"
-  integrity sha512-XjKwjlscSgOZqqXCY1+Y3VX9+AyMBZMGer2xt6BxpXAz+uEHomdiVpToncka5BlrxgDYkDmx83yIBZKN9uAwiw==
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-5.9.1.tgz#e79471272b2e68e517a9a35b38dfa2b1aaee8f73"
+  integrity sha512-TNMmFqRnEZBZsoecp11ZhSeYmgKV6QfPsl1f46I+DK7n3yNWMkMN4ZpKuCdH2gw98d2LgtU7nHWHCohr54eb6A==
   dependencies:
     "@babel/code-frame" "^7.18.6"
     "@babel/core" "^7.20.12"
@@ -6583,7 +6583,7 @@ gatsby@^5.4.2:
     gatsby-legacy-polyfills "^3.9.0"
     gatsby-link "^5.9.0"
     gatsby-page-utils "^3.9.0"
-    gatsby-parcel-config "^1.9.0"
+    gatsby-parcel-config "1.9.0"
     gatsby-plugin-page-creator "^5.9.0"
     gatsby-plugin-typescript "^5.9.0"
     gatsby-plugin-utils "^4.9.0"
@@ -12292,12 +12292,7 @@ xmlhttprequest-ssl@~2.0.0:
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.0.0.tgz#91360c86b914e67f44dce769180027c0da618c67"
   integrity sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==
 
-xstate@^4.35.3:
-  version "4.36.0"
-  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.36.0.tgz#8bc633e4670be37c4e1adb28b4649b0a951ef7f1"
-  integrity sha512-AUI+KPgyy3g4PDpZWzUy/5ubd8VymbqikNmrJx5AQfqh+AQnemkBiabGROno+am1wUl2yeuT3UDrzUTSidfa6g==
-
-xstate@^4.37.1:
+xstate@^4.35.3, xstate@^4.37.1:
   version "4.37.2"
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.37.2.tgz#c5f4c1d8062784238b91e2dfddca05f821cb4eac"
   integrity sha512-Qm337O49CRTZ3PRyRuK6b+kvI+D3JGxXIZCTul+xEsyFCVkTFDt5jixaL1nBWcUBcaTQ9um/5CRGVItPi7fveg==
