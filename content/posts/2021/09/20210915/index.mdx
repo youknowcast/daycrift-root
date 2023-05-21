@@ -41,3 +41,94 @@ OS は windows10 Pro を選択した．
 
 * 購入したものまとめているときに CPU クーラー買い忘れていたことに気づいた．危ない．
 * 箱に付属の FAN システムが動作せず．ひとまず，FAN を直接 MB に接続して動かす．当初気づかなくて「なんかエアフロー弱いな・・」とか寝ぼけたことを思っていた．アホか．
+
+### 追記: Docker 環境構築の記
+
+メインは Mac で仕事していて，あまり不便を感じてなかったのでなんとなくずるずるときてしまっていたのですが，あるとき Docker Desktop をアップデートしたらめちゃくちゃ遅くなってしまいました．  
+さすがにこれはたまらない・・と思って，docker 母艦機を構築することを心に決めました．
+
+追加パーツはこちら．
+
+|パーツ|製品|link|備考|
+| :-- | :-- | :-- | :-- |
+|SSD|SAMSUNG SSD 980|| |
+
+使っている MotherBoard は M.2 二枚刺しできるので，空いているほうに挿していざセットアップ．  
+すでに Windows が入っているのですが，開発機なので Linux がいいなぁと思って，ubuntu22.04 を入れた．
+
+Disk に OS を書き込もうとして，以下の選択肢のうち，「1)」を選択したところ，困ったことにインストール先に先程刺した SSD が認識されない(UEFI では認識されてたので，一枚の Disk にまとめられたっぽい？？)．
+```
+1) Ubuntu を windows boot manager とは別にインストール
+2) ディスクを削除して ubuntu をインストール
+3) それ以外
+```
+
+仕方ないので 3) から手動でパーティションを切っていく．
+パーティション切るのは 100 年ぶりくらいで何も覚えていなかったが，以下のような設定にした．
+
+```
+/dev/nvme1n1
+  swap領域 32GB(32768MB) 論理パーティション
+  / 20GB(20480MB) 基本パーティション
+  /root 残り 基本パーティション
+```
+
+swap が多めだが，開発機として使うので，ストレージより swap に余裕があったほうがいいかなと思い．
+
+日本語入力はこのへんを見ながら適当に設定した．  
+正直，入力できさえすれば困らないので結構適当にやりました．  
+https://hirooka.pro/ubuntu-20-04-japanese-input-ibus-fcitx-mozc/
+
+docker インストールは ChatGPT に聞いたとおりにやった．正直，どこまで正確かはわからないので，人様の参考にというより，あとあと自分で見返す用途のログだが，こんな感じで設定した．
+
+```
+# installation
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt update
+sudo apt install docker-ce
+```
+
+```
+# service 化
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+
+#### docker にリモートアクセスする設定
+
+また，今回はメインの Mac からリモートでアクセスするのが主要な用途なので，リモートから触れるようにする．なお自宅で個人で使う用途なので，全然セキュアじゃないことをお断りします．
+
+`/etc/docker/daemon.json` を以下のとおりに編集する．
+
+```
+{
+  "hosts": ["unix:///var/run/docker.sock", "tcp://0.0.0.0:2375"]
+}
+```
+
+既存のサービス設定とかちあうので， `/lib/systemd/system/docker.service` の以下の箇所を変更する．
+
+```
+#ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=/usr/bin/dockerd --containerd=/run/containerd/containerd.sock
+```
+
+サービスのリロードを行う．
+
+```
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+この確認はメイン側から以下の要領で行う．[^1]
+
+```
+export DOCKER_HOST=tcp://[リモートホストのIPアドレス]:2375
+docker ps
+```
+
+
+[^1]: ChatGPT 氏曰く「なお、セキュリティ上の理由から、公開ネットワーク上で Docker デーモンを公開することは推奨されていません。リモートから Docker デーモンに接続する際には、適切なセキュリティ対策（VPNやSSHトンネルなど）を行ってください。」
