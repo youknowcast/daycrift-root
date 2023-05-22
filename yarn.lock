@@ -6340,9 +6340,9 @@ gatsby-plugin-theme-ui@~0.15.3:
   integrity sha512-SlkZ+qWPX2QI+udR9mbZPBKIzyhKmPXDVHWbBLT6mWdK0nj9G16vxQbWvo4ElKaweNojtbZ7/MdchBRPQA8lLQ==
 
 gatsby-plugin-twitter@^5.4.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-twitter/-/gatsby-plugin-twitter-5.9.0.tgz#9090fe571b2e5b1bf30f558bc51179469e9859fd"
-  integrity sha512-p+V/Fpl9JZBQt3pYXAjY/RPRhgE0kGsymD1XAwcRaMaio2AdzGd7lFwxk0YuR3Szkawpo8yFJwcKkqYBi11Evg==
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-twitter/-/gatsby-plugin-twitter-5.10.0.tgz#b1836a2b4d2d56f44281206fef31454e9c88de7f"
+  integrity sha512-DWBwT9CSq6QnRMbcKslD7bDdaibWp3ft2AHkry/YYLJ6z1HDXbVQXSCePkhI7KzTRVq/0VTgVFiEkPkQ0s/13g==
   dependencies:
     "@babel/runtime" "^7.20.13"
 
