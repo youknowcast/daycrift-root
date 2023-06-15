@@ -6240,15 +6240,15 @@ gatsby-plugin-catch-links@^5.9.0:
     escape-string-regexp "^1.0.5"
 
 gatsby-plugin-feed@^5.5.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-feed/-/gatsby-plugin-feed-5.9.0.tgz#004a6c6bf360f31032fb207f83eaeb515820c38b"
-  integrity sha512-7m3aJAgCNkCpPlPOjvTIU++gM8LaQ3vzQqfGGu+5BZUULt2R3+n0DOJlge8RuAkEKBSAe97JEb6Q3xaBTJPxQg==
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-feed/-/gatsby-plugin-feed-5.10.0.tgz#d4ea4655091ee9f85a396683052bc8da29ea41bc"
+  integrity sha512-eZbcaVxAwn/bXv7Npjz8q/QEa3/yDCrpeYxc7u6cnkp8CPxUzs4qKFbipPsih1GfABM4E1kJ3o+S/lr6//2n8w==
   dependencies:
     "@babel/runtime" "^7.20.13"
     "@hapi/joi" "^15.1.1"
     common-tags "^1.8.2"
     fs-extra "^11.1.1"
-    gatsby-plugin-utils "^4.9.0"
+    gatsby-plugin-utils "^4.10.0"
     lodash.merge "^4.6.2"
     rss "^1.2.2"
 
