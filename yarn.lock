@@ -3151,7 +3151,7 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
-astring@^1.8.0, astring@^1.8.4:
+astring@^1.8.0, astring@^1.8.5:
   version "1.8.6"
   resolved "https://registry.yarnpkg.com/astring/-/astring-1.8.6.tgz#2c9c157cf1739d67561c56ba896e6948f6b93731"
   integrity sha512-ISvCdHdlTDlH5IpxQJIex7BWBywFWgjJSVdwst+/iQCoEYnyOaQ95+X1JGshuBjGp6nxKUy1jMgE3zPqN7fQdg==
@@ -6243,19 +6243,19 @@ gatsby-plugin-manifest@^5.4.0:
     sharp "^0.32.1"
 
 gatsby-plugin-mdx@^5.10.0, gatsby-plugin-mdx@^5.4.0:
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-mdx/-/gatsby-plugin-mdx-5.10.0.tgz#d212c19ed88ee88dc1bffc11c5f1e612844cf664"
-  integrity sha512-tPwp01ysShwxLJe1Y1e5DOhOKkGVXrwMWiRTzy6lD/83sb+mHROoHMyqNtO5HGYfjAkKzloyNLELdEuAWhffDw==
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-mdx/-/gatsby-plugin-mdx-5.11.0.tgz#4cff5c28ab8facd1f6a89f2a79e754f6c81670b3"
+  integrity sha512-7kRTVRId7VvxdSRRx1oZ9FAnd6ZcSs1yvtlpitgOsh1Tv1t9jtNTRtI6onDXCLZd1lT/6q03YfBEF0x0Z75b+g==
   dependencies:
     "@mdx-js/mdx" "^2.3.0"
     acorn "^8.8.2"
     acorn-jsx "^5.3.2"
-    astring "^1.8.4"
+    astring "^1.8.5"
     deepmerge "^4.3.1"
     estree-util-build-jsx "^2.2.2"
     fs-extra "^11.1.1"
-    gatsby-core-utils "^4.10.0"
-    gatsby-plugin-utils "^4.10.0"
+    gatsby-core-utils "^4.11.0"
+    gatsby-plugin-utils "^4.11.0"
     gray-matter "^4.0.3"
     mdast-util-mdx "^2.0.1"
     mdast-util-to-hast "^10.2.0"
