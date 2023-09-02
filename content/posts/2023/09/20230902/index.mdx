@@ -18,6 +18,8 @@ ActiveRecord と test は欲しかろうというわけでほかはだいたい 
 ```ruby
 % ruby -v          
 ruby 3.2.2 (2023-03-30 revision e51014f9c0) [x86_64-darwin22]
+% rails -v
+Rails 7.0.7.2
 
 # -p(pretend) option は generate したあと，いろいろ消し飛ばしてもとに戻すようなので，remove のログだけ消しておきます
 % rails new . -p --skip-action-text --skip-active-storage --skip-action-mailer --skip-action-mailbox --skip-javascript --skip-sprockets --database=sqlite3 --skip-spring –-skip-action-cable | grep -v remove > custom
