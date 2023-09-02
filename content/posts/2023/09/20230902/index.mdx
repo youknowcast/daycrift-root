@@ -1,0 +1,38 @@
+---
+title: "rails new minimal vs custom"
+description: "rails new minimal vs custom"
+date: 2023-09-02
+tags:
+  - Diary
+---
+
+### めちゃくちゃ久しぶりの更新のくせに異様な小ネタ
+
+rails コマンドで new するときに使わないものはだいたい OFF にしときたいじゃないですか  
+明示的にいろいろ OFF してまわるのと，minimal オプションを使うのとどっちがいいのかしら，というメモです．
+
+https://railsdoc.com/page/rails_new
+
+ActiveRecord と test は欲しかろうというわけでほかはだいたい OFF にすることを考えます．  
+
+```ruby
+% ruby -v          
+ruby 3.2.2 (2023-03-30 revision e51014f9c0) [x86_64-darwin22]
+
+# -p(pretend) option は generate したあと，いろいろ消し飛ばしてもとに戻すようなので，remove のログだけ消しておきます
+% rails new . -p --skip-action-text --skip-active-storage --skip-action-mailer --skip-action-mailbox --skip-javascript --skip-sprockets --database=sqlite3 --skip-spring –-skip-action-cable | grep -v remove > custom
+% rails new . -p --minimal | grep -v remove > minimal
+
+% diff custom minimal
+34d33
+<       create  config/cable.yml
+91,93d89
+<       create  test/system
+<       create  test/system/.keep
+<       create  test/application_system_test_case.rb
+```
+
+あれ， `--skip-action-cable` 効いてない？  
+どちらにせよ， Gemfile で `gem "rails", "~> 7.0.7", ">= 7.0.7.2"` しているため， gem 自体はいろいろ入ってしまいます．production レベルで使うならこのへんはカスタマイズ必須ですがまぁいいでしょう．
+
+ともあれ普段遣いには --minimal でよさそうですね．
