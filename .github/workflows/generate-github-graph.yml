@@ -25,6 +25,6 @@ jobs:
       run: githubchart -u youknowcast ./grass-graph.svg
     - name: Upload file to S3
       env:
-        S3_CONTENTS_BUCKET: ${{ secrets.S3_GRASS_GRAPH_BUCKET }}
+        S3_GRASS_GRAPH_BUCKET: ${{ secrets.S3_GRASS_GRAPH_BUCKET }}
       run: |
         aws s3 cp ./grass-graph.svg s3://$S3_GRASS_GRAPH_BUCKET/grass-graph/grass-graph.svg
