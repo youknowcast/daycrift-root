@@ -67,6 +67,7 @@ upload-config.json
 content/**/*.jpg
 content/**/*.png
 content/**/*.jpeg
+grass-graph.svg
 
 .cache
 **/.cache
