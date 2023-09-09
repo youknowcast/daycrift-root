@@ -1,0 +1,30 @@
+name: genarate-github-graph
+
+on:
+  schedule:
+    - cron: '0 15 * * *'
+
+jobs:
+  generate-github-graph:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      # use .ruby-version to specify ruby version
+    - name: setup lib
+      run: |
+        gem install githubchart
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+    - name: Generate PNG
+      run: githubchart -u youknowcast ./grass-graph.svg
+    - name: Upload file to S3
+      env:
+        S3_CONTENTS_BUCKET: ${{ secrets.S3_GRASS_GRAPH_BUCKET }}
+      run: |
+        aws s3 cp ./grass-graph.svg s3://$S3_GRASS_GRAPH_BUCKET/grass-graph/grass-graph.svg
