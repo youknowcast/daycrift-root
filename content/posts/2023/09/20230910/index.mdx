@@ -1,0 +1,24 @@
+---
+title: "草自前で生やす"
+description: "grass graph"
+date: 2023-09-10
+tags:
+  - Diary
+---
+
+### blog のトップにおいていた github の草可視化サービスが終わっていたので・・
+
+5 月くらいにサ終してたっぽいんですが，とんと気づきませんで・・．  
+ググったら代替サービスとかもあったんですが，もうちょっとだけ持続性のあるものにしようと思い，自前でどうにかすることに．
+
+svg 作ってくれるものはあるので，こいつを GitHub Actions で動かします．  
+1 日 1 回 cron で回ればいいや，という運用です．即時性は落ちるけどそこまで神経質になることじゃないし・・  
+https://github.com/akerl/githubchart
+
+svg 作って S3 にコピーするようにしています．  
+S3 は既存のコンテンツ置き場とは別 bucket にして，CloudFront に繋いでいます．  
+
+実装  
+https://github.com/youknowcast/daycrift-root/blob/b81d0b91eae7ee358a4a4a27222910c80c78fad1/.github/workflows/generate-github-graph.yml
+
+しばらくこれで運用してみます．
