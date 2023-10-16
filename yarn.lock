@@ -6516,9 +6516,9 @@ gatsby-remark-image-attributes@^1.1.0:
     unist-util-visit "^2.0.3"
 
 gatsby-remark-images@^7.10.0, gatsby-remark-images@^7.4.0:
-  version "7.12.0"
-  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-7.12.0.tgz#a7856278b9bc311bb8eef33ff31e86ea445905ea"
-  integrity sha512-+jTbqcAcR2dj676w9W38oQKeTZDFy0kYT/gJncbS0fEdlk9MlZFErpoXZ4gmqOxxbTxRDbrSCaNBMF/k89F0fg==
+  version "7.12.1"
+  resolved "https://registry.yarnpkg.com/gatsby-remark-images/-/gatsby-remark-images-7.12.1.tgz#b73ece0af0f17e0faf327e545d3e4fab1eb4dfd0"
+  integrity sha512-RaY5aRb3di1WsoDm3IHyekQGfnFKiYGSyb4NQu4sA+Tgoc1etGcAoG2Gx3xCxOCS+2A4dPnjKyDlLahdeLOfNQ==
   dependencies:
     "@babel/runtime" "^7.20.13"
     chalk "^4.1.2"
