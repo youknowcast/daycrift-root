@@ -6386,9 +6386,9 @@ gatsby-plugin-manifest@^5.4.0:
     sharp "^0.32.6"
 
 gatsby-plugin-mdx@^5.10.0, gatsby-plugin-mdx@^5.4.0:
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-mdx/-/gatsby-plugin-mdx-5.12.0.tgz#f95c3b15bba5aa5f0a4ec54e251e16862be44e90"
-  integrity sha512-ILjKk7NR+WdXGaFYdVRxjY04BChhZzY960HslTySjipgm0AzVPEjW1UQDXEeHKHdo7aLhrOlhifVYCXoq/FaOw==
+  version "5.12.3"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-mdx/-/gatsby-plugin-mdx-5.12.3.tgz#d7006fd3d9199d0b66c003a9077d9dbb6725e8b9"
+  integrity sha512-MnpI9GFA2EOzAHgmrcr2pWlBJFR9UD3njS9eFfK0M+3e40UHCcyVB1Sl63XTisGxMxPvBcFmrVbfZhMvPMfERw==
   dependencies:
     "@mdx-js/mdx" "^2.3.0"
     acorn "^8.8.2"
@@ -6397,8 +6397,8 @@ gatsby-plugin-mdx@^5.10.0, gatsby-plugin-mdx@^5.4.0:
     deepmerge "^4.3.1"
     estree-util-build-jsx "^2.2.2"
     fs-extra "^11.1.1"
-    gatsby-core-utils "^4.12.0"
-    gatsby-plugin-utils "^4.12.0"
+    gatsby-core-utils "^4.12.1"
+    gatsby-plugin-utils "^4.12.3"
     gray-matter "^4.0.3"
     mdast-util-mdx "^2.0.1"
     mdast-util-to-hast "^10.2.0"
@@ -6494,7 +6494,7 @@ gatsby-plugin-typescript@^5.12.1:
     "@babel/runtime" "^7.20.13"
     babel-plugin-remove-graphql-queries "^5.12.1"
 
-gatsby-plugin-utils@^4.10.0, gatsby-plugin-utils@^4.12.0, gatsby-plugin-utils@^4.12.3:
+gatsby-plugin-utils@^4.10.0, gatsby-plugin-utils@^4.12.3:
   version "4.12.3"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-utils/-/gatsby-plugin-utils-4.12.3.tgz#685bb26c073ac0ecf50efe6cba5fa879905c0f75"
   integrity sha512-AMagRfVAIwc3w66RZzq9cGPma3pkrGe/iyhktmHWDOtu45tOt0zlbSY91juuCw2Oov17WzJp2TWKQ/i0nkuLbA==
