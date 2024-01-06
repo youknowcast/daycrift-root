@@ -11,7 +11,7 @@
 // --date is optional. default date is current day
 //
 
-const BOOK_LOG_MDX_PATH = "content/posts/2023/01/20230105/index.mdx"
+const BOOK_LOG_MDX_PATH = "content/posts/2024/01/20240106/index.mdx"
 
 const bookName = argv._[1]
 if (bookName === undefined) {
@@ -21,7 +21,7 @@ if (bookName === undefined) {
 const date = argv.date || (new Date()).toISOString().substr(0, 10)
 
 const bookLog = `\n|${bookName}|${date}| |`
-fs.outputFileSync(BOOK_LOG_MDX_PATH, bookLog, {flag: "a+"})
+fs.outputFileSync(BOOK_LOG_MDX_PATH, bookLog, { flag: "a+" })
 
 const commitLog = "feat: update book log"
 
