@@ -6447,14 +6447,14 @@ gatsby-plugin-catch-links@^5.10.0:
     escape-string-regexp "^1.0.5"
 
 gatsby-plugin-feed@^5.5.0:
-  version "5.12.3"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-feed/-/gatsby-plugin-feed-5.12.3.tgz#18f58826d404c41d33f42ae738dcabdbc6df8c40"
-  integrity sha512-o10qmwUq4PpEZm9UJZxb6CZXgvQi89S8gxLP6OHXCxefb0PNVxAItLniuK3nTCE/DwuqZNVZxfDH5GmEkeUzQQ==
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-feed/-/gatsby-plugin-feed-5.13.0.tgz#b67eb37a1b262e51f4e6bcce172f7a4d478116d4"
+  integrity sha512-waialhDHWkah4Pohi0ulmcLE5HJInTiJm2VBDBwddrssjR/6mnuvGCn/fcsCa7DEDs+hdVuk5+3PRenYa+Ptbw==
   dependencies:
     "@babel/runtime" "^7.20.13"
     common-tags "^1.8.2"
     fs-extra "^11.1.1"
-    gatsby-plugin-utils "^4.12.3"
+    gatsby-plugin-utils "^4.13.0"
     lodash.merge "^4.6.2"
     rss "^1.2.2"
 
