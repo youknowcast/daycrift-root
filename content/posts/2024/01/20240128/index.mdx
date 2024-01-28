@@ -12,7 +12,19 @@ tags:
 
 ### AI Assistant とは
 
-TBD
+Jetbrains 社製 IDE で使える AI 補助機能である．
+
+https://www.jetbrains.com/ja-jp/ai/
+
+ChatGPT のような AI とのチャットの他，コードの自動生成やレビュー，コミットコメントの自動生成などをやってくれる．  
+同種サービスである GitHub Copilot とはいくつか比較記事がみつかった．
+
+JetBrains AI vs GitHub Copilot: Which AI Assistant is Better for Developers?  
+https://techlasi.com/newtechnology/jetbrains-ai-vs-github-copilot/  
+※ AI Assistant は対応言語が限られていると書かれていますが，現時点(2024-01)では RubyMine 等でも問題なく使えている．
+
+Github Copilot Vs Jetbrains Ai: Head To Head Comparison  
+https://aistacked.com/github-copilot-vs-jetbrains-ai-comparison/
 
 ### 現時点でいいなと思っていること(2024-01)
 
@@ -20,8 +32,116 @@ TBD
 コミットログは満足に扱えもしない英語を頑張って書く派だが，ほぼほぼ AI Assistant に代筆してもらうようになった．  
 これはかなり精度がいいと感じる．
 
-以下実例
-TBD
+直近のコミットなので取り上げるが，自作の cli ツールで主に知らない単語を調べてとっておくために `tangome` というのを作った．  
+で，これの検索機能を完全一致探索のみだったのを部分一致でも探すようにした
+
+https://github.com/youknowcast/tangome/commit/4a4434f6c62a3011cecf964c5b54b202c8ad92cc
+
+コミット文は AI Assistant にそのまま書かせた(以下)．
+
+```
+feat: Improve word search and handling in dictionary
+
+Enhanced the dictionary's search functionality in the Tangome project to deliver better results. If the exact word is not found, the program now returns words that include the searched term. Additionally, improved handling for cases where the searched term is already registered.
+```
+
+`tangome` では，なるべく日本語をそのままソースコード上で使おうと思い，クラス名変数名以下，ほぼ日本語を通している(これについての是非はここでは書かないけど)が，プロジェクト中で一度も英単語を使っていないにもかかわらず，正しく `dictionary` という文脈を言っている．  
+また，検索の improve であることやその内容としても概ね改修内容を正しく解釈している．
+
+たまに手直しは必要だが，最近はほぼ AI Assistant の生成するコミットログを使うことが多くなった．
+
+**レビュー**  
+AI 相手のレビューを気軽に受けられ，わりと納得感のあるものが返ってくる(体感 50% くらい)．  
+50% だと微妙だと思われるかもしれないが，微妙だと思ったらさっと捨てればよいし，それなりにキビキビ動くのでいまのところプラスにとらえている．  
+
+![](https://d1q5p5okdzyz0p.cloudfront.net/2024-01-20240128-image.png)
+
+また，リファクタリングの提案もそこそこ精度は高いかなという気がする．
+例えば，以下はぼくが適当に書き散らしたとあるツールで今月の休日を返すための基底クラスである．
+
+```ruby
+# HolidayBase
+class HolidayBase
+  # @param [Date, nil] date
+  def initialize(date: nil)
+    @date = if date
+              date
+            else
+              today = Date.today
+              Date.new(today.year, today.month, 1)
+            end
+  end
+
+  def fetch
+    ret = []
+
+    holidays.each do |k|
+      t = Date.parse(k)
+      ret << t.day if t.year == date.year && t.month == date.month
+    end
+
+    ret
+  end
+
+  private
+
+  attr_reader :date
+
+  def holidays = raise NotImplementedError
+end
+```
+
+https://github.com/youknowcast/iamworkingperson/blob/3c36a328f9bd6524c490d535353ab7ae78e8a239/lib/iamworkingperson/holiday_base.rb#L1
+
+これの改善提案として出てきたものが以下．
+
+```js
+# HolidayBase
+class HolidayBase
+  # @param [Date, nil] date
+  def initialize(date: nil)
+    @date = initialize_date(date)
+  end
+
+  def fetch
+    filtered_holidays
+  end
+
+  private
+
+  attr_reader :date
+
+  def holidays
+    raise NotImplementedError
+  end
+  
+  # Initialize @date based on provided date or current month's first day
+  def initialize_date(date)
+    return date if date
+
+    today = Date.today
+    Date.new(today.year, today.month, 1)
+  end
+  
+  # Return list of holiday days from holidays of current month and year
+  def filtered_holidays
+    holidays.each_with_object([]) do |holiday_date, days|
+      t = Date.parse(holiday_date)
+      days << t.day if same_year_and_month?(t)
+    end
+  end
+  
+  # Checks if passed date is of the same year and month as instance's @date
+  def same_year_and_month?(other_date)
+    other_date.year == date.year && other_date.month == date.month
+  end
+end
+```
+
+一見してこっちのがよくリファクタされていることがわかる．  
+公開 API からはロジックを追い出して，private のほうで適切にロジックの分割と意味づけを行っている．コメントの記法をもうちょっと全体的に YARD に寄せてくれればいいのになくらい．
+
+実務のコードでドメインロジックバチバチになってくるとまま精度も下がるが，意外と使えないこともないという評価をしている．
 
 ### 現時点で微妙だと思っていること(2024-01)
 
@@ -29,8 +149,28 @@ TBD
 ドメイン知識と織り合わせながらのコード修正は正直，かなり言葉を尽くして説明しても実用に耐えるコードが吐き出されない傾向がある．  
 汎用的な処理や簡単な文字列処理などに限定してやれば使えなくもないが，AI の提案するコードからの差分反映がいまいち使いこなせなくて，AI Assistant お仕着せの「こう使ってくれ」にうまく乗れていない感じがある．これは慣れのせいなのかどうかはまだよくわからない．
 
+**README の生成**  
+ぼくの prompt 力がないせいかもしれないが，README をまるまる書いてもらうのに実はうまくいっていない．  
+これできるとめちゃくちゃ便利なんだけど・・
+
+**Chat だとプロジェクトを前提とした質問に答えてくれない(2024-01 時点)**  
+実はプロジェクトを読み込んだ上でプロジェクト全体の文脈では回答してくれない．  
+あくまで入力はコード片(コミットログとか選択したファイルとか)が限度ということなのかなと思っている．
+
+せっかくなので訊いてみた．
+
+```
+Q. AI Assistant では現在，プロジェクト全体の文脈を理解した前提でのチャットには対応していないという理解であっていますか？また，それはなぜですか？
+
+A. はい、その理解は正しいです。AIアシスタントは、ユーザーからの質問や要求に基づいて情報を提供することが主な役割です。AIアシスタントはプロジェクト全体のコンテキストを理解する能力には限度があり、特定のデータやユーザーの入力に基づいて結果を生成します。
+なぜなら、AIアシスタントは人間のように全体的な意味を理解したり、状況に応じた複雑な思考をする能力はまだ限定的だからです。これは、現在の人工知能の技術レベルとその制約によるもので、今のところAIは主に特化したタスクにおいて高いパフォーマンスを発揮します。
+したがって、より高度な問題解決やプロジェクトの全体的なコンテキストの理解には、AIアシスタントと人間の協働が必要であり、そのバランスを見つけることが重要です。
+```
 
 ### 月額 1500 円弱を高いとみるかどうか．
 
 commit log の自動生成と，新規コード作成時のアシストは現時点でも便利に使っているので，恒常的にコードを書く身としてはそれなりにペイしそうかなと思っている．  
 ただもうちょっとヘビィに使いたい気持ちもあるので引き続き探索してみようと思っている．
+
+別途 ChatGPT にも課金しているが，いまのところ，どちらも有用なのでどちらかのみに絞るというのは難しい．  
+どうしても絞るならより汎用的な ChatGPT を残すことになるが，ロックインされつつあるしなぁ．
