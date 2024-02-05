@@ -6362,29 +6362,7 @@ gatsby-cli@^5.13.1:
     yoga-layout-prebuilt "^1.10.0"
     yurnalist "^2.1.0"
 
-gatsby-core-utils@^4.10.0, gatsby-core-utils@^4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-4.13.0.tgz#b286d9a5f31363d5264114b724a8d122850df2cd"
-  integrity sha512-+oJJsADfcEnzpQpof+L5qtP4iSeMaEPn1QSjXENlg/go9Pi/4eqb+Nn3y3q8bC/zy4hMWFWrPdMJmdW581uNvA==
-  dependencies:
-    "@babel/runtime" "^7.20.13"
-    ci-info "2.0.0"
-    configstore "^5.0.1"
-    fastq "^1.15.0"
-    file-type "^16.5.4"
-    fs-extra "^11.1.1"
-    got "^11.8.6"
-    hash-wasm "^4.9.0"
-    import-from "^4.0.0"
-    lmdb "2.5.3"
-    lock "^1.1.0"
-    node-object-hash "^2.3.10"
-    proper-lockfile "^4.1.2"
-    resolve-from "^5.0.0"
-    tmp "^0.2.1"
-    xdg-basedir "^4.0.0"
-
-gatsby-core-utils@^4.13.1:
+gatsby-core-utils@^4.10.0, gatsby-core-utils@^4.13.0, gatsby-core-utils@^4.13.1:
   version "4.13.1"
   resolved "https://registry.yarnpkg.com/gatsby-core-utils/-/gatsby-core-utils-4.13.1.tgz#57955316486cc85ab150922f481484bc9287205e"
   integrity sha512-w7G6SsQr8T2q+AJ1MxvRNGocCt+wjc22MiRLj2Zi3Ijpjszbr818JxwI4+aPt8WOSHlKT5SYCHICnEvcYPm9gg==
@@ -6526,13 +6504,13 @@ gatsby-plugin-mdx@^5.10.0, gatsby-plugin-mdx@^5.4.0:
     vfile "^5.3.7"
 
 gatsby-plugin-offline@^6.4.0:
-  version "6.13.0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-6.13.0.tgz#ba6d575f6b73a3ab3148fe57b2fe244b088c8221"
-  integrity sha512-S6hNBxoATY9cw9CE/pid3jv5mDYCiQBgM6aXGTs9lx53JI8DeK9PDHG9JivrNu4HT78B08MetrfrZ+lvVJaZMg==
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-6.13.1.tgz#bf09d422e0c23071e121b9173f81d2c1decac21e"
+  integrity sha512-dqwdRWK9k5CssOlQQYQEnySxJk0bn8B7Qq3F2vIPshoXEKKjbpt1y+wokmCj2Ru5+sZ6NnyGBqFJ5Su/8zT0yw==
   dependencies:
     "@babel/runtime" "^7.20.13"
     cheerio "^1.0.0-rc.10"
-    gatsby-core-utils "^4.13.0"
+    gatsby-core-utils "^4.13.1"
     glob "^7.2.3"
     idb-keyval "^3.2.0"
     lodash "^4.17.21"
