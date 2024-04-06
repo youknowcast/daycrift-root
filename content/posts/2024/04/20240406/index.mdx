@@ -1,0 +1,45 @@
+---
+title: "git add -A の細かい話"
+description: "git add -A"
+date: 2024-04-06
+tags:
+  - Diary
+---
+
+### IDE を使っていると
+
+ときどき，こんな感じでリポジトリ内の全ファイルが deleted になってから Untracked で追加されなおすことがある．  
+アプリを --watch で起動してるときになることが多い気がするので，git がファイルの変更を一瞬誤検知したりするのかも．
+
+```
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        deleted: foo.ts
+        deleted: bar.ts
+        deleted: baz.ts
+            :
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        foo.ts
+        bar.ts
+        baz.ts
+            :
+```
+
+しょうがないので，branch を git checkout しなおしたりしていたんですが，もっといい方法を ChatGPT に教えてもらったのでメモしておく．
+
+```
+% git add -A
+% git reset
+```
+
+以下， GPT 氏による解説．
+
+```
+git add -Aは、すべての変更（新規、修正、削除されたファイル）をステージングエリアに追加します。
+その後、git resetを実行することで、これらの変更をステージングエリアから削除しますが、
+ファイル自体の内容はそのままにします。これにより、Gitはファイルの状態を再評価し、正確な差分を確認できるようになります。
+```
+
+タイプが面倒なのでぼくは git add . してますが．
