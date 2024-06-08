@@ -1,0 +1,19 @@
+---
+title: "npm 化しました"
+description: "changes to npm"
+date: 2024-06-08
+tags:
+  - Diary
+---
+
+### yarn を使ってきたんですが npm にしました．
+
+長らく blog の管理に npm を使ってきたんですが，本業の変化があって npm メインになったので，あわせて blog も npm にしました．あと，nodejs の管理を volta から nvm にしました．こちらも本業の変化に合わせています．  
+(volta 嫌いじゃなかったんですが，おれしか使ってなかったので・・)
+
+yarn -> npm はうっすら調べた感じ 2024 年現在で yarn.lock 削除 package-lock.json 再作成みたいな雰囲気だったので，これに準じました．  
+`npm ci` でエラーでまくっていたのを雑に version 上げたりたぶん使ってないやつは削除したり．正直個人 blog なので雑にやっつけられている節はある・・．確認してる感じ，たぶん動いてると思います． 
+https://github.com/youknowcast/daycrift-root/pull/423/commits/2c2bf1e6de0feb773a5d38161e2df8c06997d51e
+
+ついでに， CI で `yarn eslint` して動いてるとおもってたら中身の eslint コマンドで対象指定してなくて実は空振りし続けていたとかを見つけたので併せて直しました．当 blog はほぼ md なのであんま影響ないといえばないんですが
+
