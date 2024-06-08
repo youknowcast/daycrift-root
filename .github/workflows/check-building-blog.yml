@@ -20,6 +20,6 @@ jobs:
       - name: ci
         run: npm ci
       - name: lint
-        run: npm run eslint
+        run: npm run lint
       - name: build
         run: npm build
