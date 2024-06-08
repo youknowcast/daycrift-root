@@ -16,10 +16,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '19.4'
-          cache: yarn
+          cache: npm
       - name: ci
-        run: yarn
+        run: npm ci
       - name: lint
-        run: yarn eslint
+        run: npm run lint
       - name: build
-        run: yarn build
+        run: npm run build

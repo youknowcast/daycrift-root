@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '19.4'
-          cache: yarn
+          cache: npm
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -23,11 +23,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
       - name: ci
-        run: yarn
+        run: npm ci
       - name: lint
-        run: yarn eslint
+        run: npm run lint
       - name: build
-        run:  yarn build
+        run:  npm run build
       - name: Remove current S3
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
