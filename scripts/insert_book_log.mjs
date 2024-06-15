@@ -20,10 +20,15 @@ if (bookName === undefined) {
 }
 const date = argv.date || (new Date()).toISOString().substr(0, 10)
 
+const fileContent = await fs.readFile(BOOK_LOG_MDX_PATH, 'utf-8')
+
+// 最後の文字が改行でない場合、改行を追加
+if (!fileContent.endsWith('\n')) {
+  fs.outputFileSync(BOOK_LOG_MDX_PATH, '\n', { flag: "a+" })
+}
+
 const bookLog = `|${bookName}|${date}| |`
 fs.outputFileSync(BOOK_LOG_MDX_PATH, bookLog, { flag: "a+" })
-
-await $`exit`
 
 const commitLog = "feat: update book log"
 
