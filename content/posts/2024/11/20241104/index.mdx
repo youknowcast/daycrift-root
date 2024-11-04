@@ -1,0 +1,86 @@
+---
+title: "Devise の ID/pass 認証で email じゃない field を採用するときに undefined method `email' for an instance of User が出る"
+description: "When using Devise with ID/password authentication and adopting a field other than email, I encounter the error: undefined method 'email' for an instance of User"
+date: 2024-11-04
+tags:
+  - Diary
+---
+
+### 結論: :validatable は設定できない
+
+久しぶりの更新がニッチで使い古された小ネタですいません・・．  
+Rails アプリで「そういえば email に限らない ID を使ったログインてどう作るんだろ」と思って試してちょっとハマったのでメモです．
+
+authentication_keys による ID field の差し替えをしているのに，設定後にユーザ追加しようとして以下のエラーになっていました．
+
+```
+irb(main):001* User.create!(
+irb(main):002*   login_id: "youknow",
+irb(main):003*   password: "password",
+irb(main):004> )
+(irb):1:in `<main>': undefined method `email' for an instance of User (NoMethodError)
+```
+
+`:database_authenticatable` といっしょに `:validatable` を指定していたのが原因というポカミスでした．
+
+
+### (前提) devise で email じゃない ID を有効にする
+
+おさらいですが，devise で ID として扱われる email を差し替える方法です．  
+email でなく :login_id にしてみます．
+
+```ruby
+create_table "users", force: :cascade do |t|
+  t.string "login_id", null: false
+  t.string "encrypted_password", null: false
+  t.timestamps
+
+  t.index ["login_id"], name: :index_login_id_on_users
+end
+```
+
+```ruby
+class User < ApplicationRecord
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+```
+
+基本的には，devise.rb で authentication_keys を切り替えてやればいいはず．  
+試してませんが，User 以外にも devise を有効にしたい model がある場合は，ID を差し替えたい model(例えば User)側で `devise :database_authenticatable, authentication_keys: [:hogehoge]` とかにすればいいと思います．
+
+```shell
+cat config/initializers/devise.rb | grep login_id
+  config.authentication_keys = [:login_id]
+  config.case_insensitive_keys = [:login_id]
+  config.strip_whitespace_keys = [:login_id]
+```
+
+### :validatable は email が前提
+
+validatable の実装見れば一目瞭然なんですが，email/password 前提の実装なのでした．
+
+```ruby
+    module Validatable
+      (snip)
+      def self.included(base)
+        ...
+        base.class_eval do
+          # email_required? == true なので必ず presence の検証がなされエラーになる
+          validates_presence_of   :email, if: :email_required?
+          validates_uniqueness_of :email, allow_blank: true, case_sensitive: true, if: :devise_will_save_change_to_email?
+          validates_format_of     :email, with: email_regexp, allow_blank: true, if: :devise_will_save_change_to_email?
+          
+          ...
+        end
+        ...
+        def email_required?
+          true
+        end
+        ...
+      end
+    end
+```
+
+https://github.com/heartcombo/devise/blob/main/lib/devise/models/validatable.rb
+
+参考:  
+https://kossy-web-engineer.hatenablog.com/entry/2020/11/14/102434
