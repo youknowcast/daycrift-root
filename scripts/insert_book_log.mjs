@@ -11,7 +11,7 @@
 // --date is optional. default date is current day
 //
 
-const BOOK_LOG_MDX_PATH = "content/posts/2024/01/20240106/index.mdx"
+const BOOK_LOG_MDX_PATH = "content/posts/2025/01/20250103/index.mdx"
 
 const bookName = argv._[1]
 if (bookName === undefined) {
