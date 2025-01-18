@@ -64,11 +64,11 @@ end
 ```
 
 が，これは思ったように動作しません．  
-.with_dataloading を使って graphql type 上の dataloader の呼び出しを直列に書いてみるとこんな感じになります．.load の呼び出しをせずにいったん保留する .request を使って，dataloader 内部での Source のキャッシュを観察します．  
-SingleSource#fetch は一度だけの呼び出しが期待挙動なので dataloader 内部の Source は 1 つになるのが期待値ですが，実際には 4 つになります．
+.with_dataloading を使って graphql type 上の dataloader の呼び出しを直列に書いてみるとこんな感じになります．
 
 ```ruby
   GraphQL::Dataloader.with_dataloading do |dataloader|
+    # .load の呼び出しをせずにいったん保留する .request を使って，dataloader 内部での Source のキャッシュを観察する
     dataloader.with(Sources::SingleSource, Bar.all).request(foo1.id)
     dataloader.with(Sources::SingleSource, Bar.all).request(foo2.id)
     dataloader.with(Sources::SingleSource, Bar.all).request(foo3.id)
@@ -78,6 +78,8 @@ SingleSource#fetch は一度だけの呼び出しが期待挙動なので datalo
     # => 4
   end
 ```
+
+SingleSource#fetch は一度だけの呼び出しが期待挙動なので dataloader 内部の Source は 1 つになるのが期待値ですが，実際には 4 つになります．
 
 理由は， dataloader 内で Source x その引数ごとの fetch 実行処理のキャッシュをするのですが，そのキーに relation が指定されるとキャッシュのキーが同じものと判定されないこと [^1] が原因になっています．  
 このため，各 .with() 時に異なる Source と判断され，N+1 を引き起こします．
@@ -115,10 +117,11 @@ Source に self.batch_key_for を実装したあとで再度，上記のコー�
 以上，小ネタでした．
 
 
-[^1]: りくつ
-```
-hoo = Hash.new { |h, k| h[k] = {} }
-(0..3).each { hoo[Object.new] = {} }
-hoo.keys.size
-=> 4
-```
+[^1]: 
+    りくつ
+    ```
+    hoo = Hash.new { |h, k| h[k] = {} }
+    (0..3).each { hoo[Object.new] = {} }
+    hoo.keys.size
+    => 4
+    ```
