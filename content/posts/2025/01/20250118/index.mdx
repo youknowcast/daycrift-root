@@ -1,0 +1,124 @@
+---
+title: "graphql-ruby dataloaderの細かい話"
+description: "batch_key of graphql dataloader sources"
+date: 2025-01-18
+tags:
+  - Diary
+  - Graphql-ruby
+---
+
+### Graphql-ruby で予期せぬ N+1 が多発して大変になってたのを直した
+
+(ruby 3.3.6, graphql-ruby 2.3.18 ※現行の最新じゃないけど記事の内容と差分はないはず)
+
+Ruby on Rails で GraphQL を運用しているところは結構あると思いますが，Graphql Type が増えてきて階層構造が複雑になると，dataloader を使って N+1 を回避するのが一般的かなと思います．  
+ぼくの所属先ももともと ActiveRecord でがんばって includes/preload してたのを管理しきれなくなって dataloader に置き換えた経緯があります．  
+ところが，dataloader を入れたはずなのに，本番のログを確認すると派手に N+1 を引き起こしていたというのを最近直したので，その話を書き留めておきます．
+
+公式のとおりに dataloader を入れて，汎用的に実装すると，およそこんな感じのコードになるはずです．  
+https://graphql-ruby.org/dataloader/sources.html
+
+```ruby
+class Sources::SingleSource < GraphQL::Dataloader::Source
+  def initialize(model_class, key: :id)
+    @model_class = model_class
+    @key = key
+  end
+
+  def fetch(keys)
+    records = @model_class.where(@key: keys)
+    # return a list with `nil` for any ID that wasn't found
+    keys.map { |key| records.find { |r| r[@key] == key.to_i } }
+  end
+end
+```
+
+※ 所属先では，公式サンプルからは f_key でもクエリできるように拡張しています．  
+
+
+呼び出し元ではこんな感じで使います．
+
+```ruby
+  def foo
+    dataloader.with(Sources::SingleSource, ::Bar).load(object.id)
+  end
+
+  def hoge
+    # f_key から探す場合
+    dataloader.with(Sources::SingleSource, ::Fuga, key: :fuga_id).load(object.fuga_id)
+  end
+```
+
+さて，運用しているとだんだん欲が出てきて model_class に relation を渡したくなります．
+
+```ruby
+  def foo_with_active
+    # scope とあわせて有効なやつだけ取り出したい
+    dataloader.with(Sources::SingleSource, Bar.status_active).load(object.id)
+  end
+
+  def foo_with_relation
+    # 事前に絞っておきたい
+    dataloader.with(Sources::SingleSource, Bar.where(...)).load(object.id)
+  end
+```
+
+が，これは思ったように動作しません．  
+.with_dataloading を使って graphql type 上の dataloader の呼び出しを直列に書いてみるとこんな感じになります．.load の呼び出しをせずにいったん保留する .request を使って，dataloader 内部での Source のキャッシュを観察します．  
+SingleSource#fetch は一度だけの呼び出しが期待挙動なので dataloader 内部の Source は 1 つになるのが期待値ですが，実際には 4 つになります．
+
+```ruby
+  GraphQL::Dataloader.with_dataloading do |dataloader|
+    dataloader.with(Sources::SingleSource, Bar.all).request(foo1.id)
+    dataloader.with(Sources::SingleSource, Bar.all).request(foo2.id)
+    dataloader.with(Sources::SingleSource, Bar.all).request(foo3.id)
+    dataloader.with(Sources::SingleSource, ::Bar).request(foo4.id)
+
+    p dataloader.send(:instance_variable_get, :@source_cache)[Sources::SingleSource].keys.count
+    # => 4
+  end
+```
+
+理由は， dataloader 内で Source x その引数ごとの fetch 実行処理のキャッシュをするのですが，そのキーに relation が指定されるとキャッシュのキーが同じものと判定されないこと [^1] が原因になっています．  
+このため，各 .with() 時に異なる Source と判断され，N+1 を引き起こします．
+
+コードでいうとこのへんの話．  
+https://github.com/rmosolgo/graphql-ruby/blob/v2.3.18/lib/graphql/dataloader.rb#L113-L114
+
+で，これを回避するために Source.batch_key_for という API があります．  
+https://www.rubydoc.info/github/rmosolgo/graphql-ruby/GraphQL%2FDataloader%2FSource.batch_key_for  
+コメントによると，ActiveRecord::Relation が指定された場合は to_sql などで変換してキーがマッチするようにしてやればよいとあります．  
+これを実装したのが以下です．
+
+```ruby
+  class Sources::SingleSource < GraphQL::Dataloader::Source
+    (略)
+    class << self
+      def batch_key_for(*batch_args, **batch_kwargs)
+        source = batch_args.first
+        if source.is_a?(ActiveRecord::Relation)
+          [source.to_sql, **batch_kwargs]
+        elsif source < ActiveRecord::Base
+          # key: など args/kwargs を渡している場合には引数をキーに含めないと意図しない Source の共有が起きるので注意
+          [source.all.to_sql, **batch_kwargs]
+        else
+          raise "Unsupported source: #{source}"
+        end
+      end
+    end
+    ...
+  end
+```
+
+Source に self.batch_key_for を実装したあとで再度，上記のコードで検証すると，Source がひとつになってキャッシュが使われていることがわかります．  
+
+以上，小ネタでした．
+
+
+[^1]: りくつ
+```
+hoo = Hash.new { |h, k| h[k] = {} }
+(0..3).each { hoo[Object.new] = {} }
+hoo.keys.size
+=> 4
+```
