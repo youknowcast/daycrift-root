@@ -1,4 +1,5 @@
 import remarkGfm from "remark-gfm"
+import rehypeExternalLinks from "rehype-external-links"
 
 const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
@@ -67,6 +68,7 @@ const config = {
             remarkGfm
           ],
           rehypePlugins: [
+            [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }]
           ]
         }
       }
