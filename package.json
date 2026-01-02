@@ -20,7 +20,7 @@
     "@lekoarts/gatsby-theme-minimal-blog": "^6.0.4",
     "@mdx-js/mdx": "^2.2.1",
     "@mdx-js/react": "^2.2.1",
-    "gatsby": "^5.13.6",
+    "gatsby": "^5.15.0",
     "gatsby-plugin-feed": "^5.5.0",
     "gatsby-plugin-manifest": "^5.4.0",
     "gatsby-plugin-mdx": "^5.4.0",
