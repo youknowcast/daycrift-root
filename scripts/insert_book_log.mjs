@@ -13,7 +13,8 @@
 
 const BOOK_LOG_MDX_PATH = "content/posts/2026/01/20260102/index.mdx"
 
-const bookName = argv._[1]
+// filename is deleted from zx 8.x >=
+const bookName = argv._[0]
 if (bookName === undefined) {
   console.error("book_name is not specified")
   await $`exit`
