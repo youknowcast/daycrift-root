@@ -90,14 +90,18 @@ const config = {
             slug: '/about'
           },
           {
-            title: 'useful',
+            title: 'Useful',
             slug: '/useful'
+          },
+          {
+            title: 'Newscast',
+            slug: '/newscast'
           }
         ],
         externalLinks: [
           {
-            name: 'Twitter',
-            url: 'https://twitter.com/youknowcast'
+            name: 'X',
+            url: 'https://x.com/youknowcast'
           },
           {
             name: 'github',
