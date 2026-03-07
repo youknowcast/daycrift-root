@@ -4,7 +4,7 @@
 // add newscast entry interactively
 // requirements:
 //   [zx](https://github.com/google/zx)
-//   installation: `yarn global add zx`
+//   installation: `npm install -g zx`
 // usage:
 //   % cd /path/to/daycrift-root
 //   % ./scripts/add_newscast.mjs

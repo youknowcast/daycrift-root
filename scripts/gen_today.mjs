@@ -4,7 +4,7 @@
 // generate today blog template
 // requirements:
 //   [zx](https://github.com/google/zx)
-//   installation: `yarn global add zx`
+//   installation: `npm install -g zx`
 // usage:
 //   % cd /path/to/daycrift-root
 //   % ./scripts/gen_today.mjs

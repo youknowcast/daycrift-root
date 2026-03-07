@@ -3,7 +3,7 @@
 const target_paths = [
   ".cache/",
   "public/",
-  "yarn-error.log",
+  "npm-debug.log",
 ]
 
 async function _clean(path) {
