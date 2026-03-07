@@ -4,7 +4,7 @@
 // register read book log to current book log
 // requirements:
 //   [zx](https://github.com/google/zx)
-//   installation: `yarn global add zx`
+//   installation: `npm install -g zx`
 // usage:
 //   % cd /path/to/daycrift-root
 //   % ./scripts/insert_book_log {book_name} --date 2022-10-14

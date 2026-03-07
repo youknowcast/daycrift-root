@@ -8,8 +8,8 @@ titled 'call me stupid', since 2003(Maybe)
 ### development
 
 ```bash
-% yarn 
-% yarn start
+% npm ci
+% npm start
 ```
 
 ### deployment
