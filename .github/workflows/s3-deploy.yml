@@ -33,7 +33,8 @@ jobs:
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
         run: |
-          aws s3 sync ./public s3://$S3_CONTENTS_BUCKET/ --delete --quiet --acl public-read
+          set -euo pipefail
+          aws s3 sync ./public s3://$S3_CONTENTS_BUCKET/ --delete --only-show-errors
       - name: invalidate cloudfront
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
