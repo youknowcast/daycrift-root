@@ -66,8 +66,12 @@ grass-graph.svg
 
 .cache
 **/.cache
-public
 
 .idea
 .vscode
 .DS_Store
+
+# Astro / AstroPaper
+dist/
+.astro/
+public/pagefind
