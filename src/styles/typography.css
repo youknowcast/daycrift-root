@@ -47,6 +47,10 @@
       @apply border-border mx-auto border;
     }
 
+    iframe {
+      @apply max-w-full;
+    }
+
     img[role="button"] {
       @apply cursor-zoom-in;
 

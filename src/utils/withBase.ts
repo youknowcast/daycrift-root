@@ -3,7 +3,7 @@ const baseRoot = base === "" ? "/" : `${base}/`;
 
 /**
  * Strip a locale prefix from a root-relative pathname.
- * e.g. with locale "en": "/en/posts/foo" → "/posts/foo", "/en" → "/"
+ * e.g. with locale "en": "/en/blog/foo" → "/blog/foo", "/en" → "/"
  * Paths that don't start with the locale prefix are returned unchanged.
  */
 export function stripLocale(pathname: string, locale: string): string {

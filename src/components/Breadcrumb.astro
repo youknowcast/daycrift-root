@@ -25,22 +25,11 @@ const decodeSegment = (value: string) => {
 };
 
 const navLabels: Record<string, string> = {
-  posts: t.nav.posts,
   tags: t.nav.tags,
   about: t.nav.about,
   archives: t.nav.archives,
   search: t.nav.search,
 };
-
-// if breadcrumb is Home > Posts > [page] <etc>
-// replace Posts with localized "Posts (page number)"
-if (breadcrumbList[0] === "posts") {
-  breadcrumbList.splice(
-    0,
-    2,
-    `${t.nav.posts} (${t.pagination.page.toLowerCase()} ${breadcrumbList[1] || 1})`
-  );
-}
 
 // if breadcrumb is Home > Tags > [tag] > [page] <etc>
 // replace [tag] > [page] with localized [tag] (page number)
