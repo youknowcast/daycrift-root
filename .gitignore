@@ -69,3 +69,7 @@ upload-config.json
 dist/
 .astro/
 public/pagefind
+
+# superpowers workflow artifacts
+/superpowers/
+docs/superpowers/
