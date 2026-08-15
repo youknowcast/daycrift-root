@@ -7,6 +7,7 @@ import Datetime from "@/components/Datetime.astro";
 import Video from "@/components/Video.astro";
 import Tag from "@/components/Tag.astro";
 import { getPostSlug, getPostUrl } from "@/utils/getPostPaths";
+import { getPostDescription } from "@/utils/getPostDescription";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { slugifyStr } from "@/utils/slugify";
 import { toTransitionName } from "@/utils/toTransitionName";
@@ -17,28 +18,29 @@ import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
 import config from "@/config";
 import { useTranslations } from "@/i18n";
 
-// 投稿 slug と衝突してはならない固定ルート・ファイル
-const RESERVED_SLUGS = new Set([
-  "about",
-  "favorite",
-  "newscast",
-  "resume",
-  "blog",
-  "tags",
-  "search",
-  "archives",
-  "404",
-  "og.png",
-  "rss.xml",
-  "robots.txt",
-  "sitemap-index.xml",
-  "site.webmanifest",
-  "sw.js",
-]);
-
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
   const sortedPosts = getSortedPosts(posts);
+
+  // 投稿 slug と衝突してはならない固定ルート・ファイル
+  // (モジュールレベルに置くと bundler が tree-shake して消えるため関数内に置く)
+  const reservedSlugs = new Set([
+    "about",
+    "favorite",
+    "newscast",
+    "resume",
+    "blog",
+    "tags",
+    "search",
+    "archives",
+    "404",
+    "og.png",
+    "rss.xml",
+    "robots.txt",
+    "sitemap-index.xml",
+    "site.webmanifest",
+    "sw.js",
+  ]);
 
   // slug の重複・予約ルートとの衝突をビルド時に検証する
   // (衝突は静かに記事を消すため、エラーで失敗させる)
@@ -52,7 +54,7 @@ export async function getStaticPaths() {
       throw new Error(`Duplicate post slug: "${slug}" (posts "${post.id}")`);
     }
     seen.add(slug);
-    if (RESERVED_SLUGS.has(slug)) {
+    if (reservedSlugs.has(slug)) {
       throw new Error(
         `Post slug "${slug}" (from "${post.id}") conflicts with a reserved route`
       );
@@ -115,7 +117,7 @@ const ogImage = ogImageUrl
 
 <PostLayout
   title={`${title} | ${config.site.title}`}
-  description={description}
+  description={description || getPostDescription(post)}
   ogImage={ogImage}
   canonicalURL={canonicalURL}
   pubDatetime={pubDatetime}

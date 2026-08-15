@@ -33,7 +33,14 @@ const structuredData = {
 };
 ---
 
-<Layout {title} {description} {ogImage} {canonicalURL} ogType="article">
+<Layout
+  {title}
+  {description}
+  {ogImage}
+  ogImageAlt={title ?? site.title}
+  {canonicalURL}
+  ogType="article"
+>
   <Fragment slot="head">
     {
       pubDatetime && (

@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  schedule:
+    # 予約投稿 (pubDatetime が未来の記事) を公開時刻に反映するための定期ビルド
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 jobs:
   build:

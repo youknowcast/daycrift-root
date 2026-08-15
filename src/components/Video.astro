@@ -1,7 +1,7 @@
 ---
 interface Props {
   videoId: string;
-  title?: string;
+  title: string;
 }
 const { videoId, title } = Astro.props;
 ---
@@ -12,7 +12,7 @@ const { videoId, title } = Astro.props;
   <iframe
     class="absolute inset-0 h-full w-full"
     src={`https://www.youtube.com/embed/${videoId}`}
-    title={title ?? "YouTube video"}
+    title={title}
     loading="lazy"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     referrerpolicy="strict-origin-when-cross-origin"

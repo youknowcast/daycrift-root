@@ -10,6 +10,7 @@ type Props = {
   title?: string;
   description?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   canonicalURL?: string;
   ogType?: "website" | "article";
 };
@@ -20,6 +21,7 @@ const {
   title = site.title,
   description = site.description,
   ogImage = resolveDefaultOgImagePath(config),
+  ogImageAlt = site.title,
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
   ogType = "website",
 } = Astro.props;
@@ -67,6 +69,7 @@ const rssHref = getAssetPath("rss.xml");
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content={ogImageAlt} />
 
     <!-- Twitter / X -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -74,6 +77,7 @@ const rssHref = getAssetPath("rss.xml");
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={socialImageURL} />
+    <meta property="twitter:image:alt" content={ogImageAlt} />
 
     <!-- RSS autodiscovery -->
     <link

@@ -14,9 +14,9 @@ YouTube で各種料理の作り方が手短に動画で見られるので，非
 
 #### カルボナーラ
 
-export const BuildYoutubeLink = ({ url, start }) => {
+export const BuildYoutubeLink = ({ url, start, title = "YouTube video" }) => {
     const yturl = `${url}?start=${start}`;
-    return <iframe width="800" height="400" src={yturl} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    return <iframe width="800" height="400" src={yturl} title={title} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 }
 
 {BuildYoutubeLink({url: "https://www.youtube.com/embed/GffgVEa7s-o", start: "0"})}
