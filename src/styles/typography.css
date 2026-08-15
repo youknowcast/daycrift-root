@@ -63,14 +63,15 @@
       @apply opacity-75;
     }
 
+    /* Markdown の空ヘッダー行 (| | | |) を非表示にして見た目を整える */
+    table tr:first-child:has(th:empty) {
+      display: none;
+    }
+
     table {
       th,
       td {
         @apply border-border border p-2;
-      }
-
-      th {
-        @apply py-1.5;
       }
 
       th[align="center"],
