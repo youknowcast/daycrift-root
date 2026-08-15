@@ -28,7 +28,7 @@ export function resolveDefaultOgImagePath(
     filename.includes("\\")
   ) {
     throw new Error(
-      `site.ogImage must be a single filename in public/ (e.g. "og-default.png"), got "${filename}"`
+      `site.ogImage must be a single filename in public/ (e.g. "banner.png"), got "${filename}"`
     );
   }
 
