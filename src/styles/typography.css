@@ -74,6 +74,10 @@
         @apply border-border border p-2;
       }
 
+      /* 狭い画面でテーブルが本文幅を超えてページ全体が横スクロールするのを防ぐ */
+      display: block;
+      overflow-x: auto;
+
       th[align="center"],
       td[align="center"] {
         text-align: center;

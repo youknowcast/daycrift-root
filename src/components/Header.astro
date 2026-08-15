@@ -197,7 +197,12 @@ const isActive = (path: string) => {
           }
         );
         target.focus();
-        target.scrollIntoView({ behavior: "smooth" });
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        target.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+        });
       }
     });
   }

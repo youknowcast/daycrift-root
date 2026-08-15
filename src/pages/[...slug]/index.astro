@@ -195,6 +195,9 @@ const ogImage = ogImageUrl
       document.querySelectorAll("h2, h3, h4, h5, h6")
     );
     for (const heading of headings) {
+      // id のない見出し (MDX コンポーネント生成の見出しなど) には
+      // リンクを付けない (href="#" でページ先頭へ飛んでしまうため)
+      if (!heading.id) continue;
       heading.classList.add("group");
       const link = document.createElement("a");
       link.className =

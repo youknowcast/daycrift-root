@@ -25,7 +25,7 @@ console.log(`generate ${path}`)
 await $`mkdir -p ${path}`
 
 const template = `---
-pubDatetime: ${thisYear}-${thisMonth}-${thisDay}
+pubDatetime: ${thisYear}-${thisMonth}-${thisDay}T00:00:00+09:00
 title: ""
 description: ""
 tags:

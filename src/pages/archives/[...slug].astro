@@ -1,5 +1,4 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
@@ -12,13 +11,16 @@ import { getPostsByGroupCondition } from "./_utils/getPostsByGroupCondition";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
 
-const locale = Astro.currentLocale ?? config.site.lang;
-
-// Redirect to 404 page if `showArchives` config is false
-const notFoundUrl = getRelativeLocaleUrl(locale, "404");
-if (!config.features.showArchives && notFoundUrl) {
-  return Astro.rewrite(notFoundUrl);
+// 無効時はルート自体を生成しない (ソフト 404 の防止)。
+// 有効時は /archives/ の 1 ページだけを生成する。
+export async function getStaticPaths() {
+  if (!config.features.showArchives) {
+    return [];
+  }
+  return [{ params: { slug: [] } }];
 }
+
+const locale = Astro.currentLocale ?? config.site.lang;
 
 const t = useTranslations(locale);
 
