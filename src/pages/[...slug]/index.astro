@@ -268,14 +268,16 @@ const ogImage = ogImageUrl
     let overlay = null;
     let lastFocused = null;
 
+    // i18n ラベルは open() からも参照するため、rAF の外 (initLightbox 直下) で取得する
+    const labels = document.querySelector("main")?.dataset ?? {};
+    const zoomLabel = labels.i18nZoom ?? "Zoom image";
+    const previewLabel = labels.i18nPreview ?? "Image preview";
+    const closeLabel = labels.i18nClose ?? "Close image preview";
+
     // Defer attribute mutations so they don't push the LCP timestamp.
     // Event listeners below use delegation and don't need the attributes to exist yet.
     requestAnimationFrame(() => {
       const images = Array.from(article.querySelectorAll("img"));
-      const labels = document.querySelector("main")?.dataset ?? {};
-      const zoomLabel = labels.i18nZoom ?? "Zoom image";
-      const previewLabel = labels.i18nPreview ?? "Image preview";
-      const closeLabel = labels.i18nClose ?? "Close image preview";
       for (const image of images) {
         if (image.closest("a")) continue;
         image.setAttribute("role", "button");
