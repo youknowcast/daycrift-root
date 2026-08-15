@@ -36,6 +36,12 @@ const t = useTranslations(Astro.currentLocale);
 </div>
 
 <script is:inline data-astro-rerun>
+  // data-astro-rerun はビュー遷移のたびに再実行されるため、リスナ登録は一度だけにする。
+  if (!window.__bttBound) {
+    window.__bttBound = true;
+    backToTop();
+  }
+
   function backToTop() {
     const rootElement = document.documentElement;
     const btnContainer = document.querySelector("#btt-btn-container");
@@ -73,15 +79,18 @@ const t = useTranslations(Astro.currentLocale);
     }
 
     let ticking = false;
-    document.addEventListener("scroll", () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
+    document.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            handleScroll();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
   }
-  backToTop();
 </script>

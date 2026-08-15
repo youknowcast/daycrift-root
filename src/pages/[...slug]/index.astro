@@ -152,25 +152,33 @@ const ogImage = ogImageUrl
     progressContainer.appendChild(progressBar);
     document.body.appendChild(progressContainer);
   }
-  createProgressBar();
 
   function updateScrollProgress() {
-    document.addEventListener("scroll", () => {
-      const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      if (document) {
+    document.addEventListener(
+      "scroll",
+      () => {
+        const winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop;
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
         const myBar = document.getElementById("myBar");
         if (myBar) {
           myBar.style.width = scrolled + "%";
         }
-      }
-    });
+      },
+      { passive: true }
+    );
   }
-  updateScrollProgress();
+
+  // data-astro-rerun はビュー遷移のたびに再実行されるため、
+  // 永続する DOM 要素・リスナの登録は window フラグで一度だけにする。
+  if (!window.__postPageBound) {
+    window.__postPageBound = true;
+    createProgressBar();
+    updateScrollProgress();
+  }
 
   function addHeadingLinks() {
     const headings = Array.from(
@@ -502,8 +510,4 @@ const ogImage = ogImageUrl
       window.__closeLightbox?.()
     );
   }
-
-  document.addEventListener("astro:after-swap", () =>
-    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
-  );
 </script>

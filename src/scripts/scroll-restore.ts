@@ -1,7 +1,9 @@
 // 一覧ページのスクロール位置を保存/復元する。
-// Astro の View Transitions は popstate (ブラウザバック) 時に
-// astro:page-load を発火せず、スクロール復元も不確実なため、
-// 遷移前の位置を sessionStorage に記録し、astro:after-swap で戻す。
+// Astro の View Transitions は初期エントリ (直リンク/リロード) への
+// ブラウザバックでスクロールを復元しないため、遷移前の位置を
+// sessionStorage に記録して astro:after-swap で戻す。
+// 復元は履歴移動 (back/forward) に限定し、ナビクリック等の前方遷移では
+// トップから表示する (Astro 標準と同じ挙動)。
 // モジュールスクリプトは初回ロード時に一度だけ実行され、
 // document レベルのリスナーは View Transitions 後も生き続ける。
 
@@ -30,7 +32,18 @@ document.addEventListener(
   true
 );
 
+// 遷移種別 (navigate / traverse / reload) を記録する。
+// astro:after-swap には遷移種別が載らないため、before-preparation で捕捉する。
+let lastNavigationType = "navigate";
+
+document.addEventListener("astro:before-preparation", (event) => {
+  lastNavigationType =
+    (event as Event & { navigationType?: string }).navigationType ??
+    "navigate";
+});
+
 document.addEventListener("astro:after-swap", () => {
+  if (lastNavigationType !== "traverse") return;
   const key = "scroll:" + location.pathname;
   const value = sessionStorage.getItem(key);
   if (value === null) return;

@@ -74,6 +74,16 @@ export default defineConfig({
       styles: ["normal", "italic"],
       formats: ["woff", "ttf"],
     },
+    {
+      // 動的 OG 画像 (index.png.ts) で日本語タイトルを描画するための CJK フォント
+      name: "Noto Sans JP",
+      cssVariable: "--font-noto-sans-jp",
+      provider: fontProviders.google(),
+      fallbacks: ["sans-serif"],
+      weights: [400, 700],
+      styles: ["normal"],
+      formats: ["woff", "ttf"],
+    },
   ],
   env: {
     schema: {

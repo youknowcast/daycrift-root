@@ -30,6 +30,7 @@ title: ""
 description: ""
 tags:
   - Diary
+slug: "${today}"
 ---
 
 ### hello world
