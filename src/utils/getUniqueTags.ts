@@ -21,6 +21,10 @@ export function getUniqueTags(posts: CollectionEntry<"posts">[]) {
   for (const post of posts.filter(postFilter)) {
     for (const tag of post.data.tags) {
       const slug = slugifyStr(tag);
+      if (!slug) {
+        // 例: "---" や "%" は kebabcase で "" になり、/tags/ と衝突する
+        throw new Error(`Tag "${tag}" produces an empty URL slug`);
+      }
       const existing = slugToName.get(slug);
       if (existing !== undefined && existing !== tag) {
         throw new Error(

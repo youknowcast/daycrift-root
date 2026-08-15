@@ -1,10 +1,12 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { ResolvedAstroPaperConfig } from "@/types/config";
 import { getAssetPath } from "./withBase";
 
-const publicFiles = import.meta.glob("/public/*", { eager: false });
-
+// import.meta.glob で public を参照すると Vite が画像をアセットとしても
+// 出力して dist/_astro/ に重複コピーされるため、ビルド時はファイルシステムで確認する
 function existsInPublic(filename: string): boolean {
-  return `/public/${filename}` in publicFiles;
+  return fs.existsSync(path.join(process.cwd(), "public", filename));
 }
 
 /**

@@ -9,10 +9,11 @@ on:
     - cron: "0 */6 * * *"
   workflow_dispatch:
 concurrency:
-  # push / schedule / 手動実行が並行して S3 へ sync すると古い成果物が
-  # 後から上書きされるため、デプロイは直列化して最新の実行を優先する
+  # push / schedule / 手動実行が並行して S3 へ sync しないよう直列化する。
+  # cancel-in-progress: false なので実行中のデプロイは中断されない
+  # (中断すると S3 上で新旧ファイルが混在する)。後続 run はキューされる。
   group: deploy-s3
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,6 +38,15 @@ jobs:
         run: npm run lint
       - name: build
         run: npm run build
+      - name: Check master HEAD
+        run: |
+          # キューされた古い run (手動実行の別 ref や、待機中に master が進んだ run) が
+          # 新しいデプロイを巻き戻さないよう、master の最新 SHA と一致する場合のみ続行する
+          git fetch origin master
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]; then
+            echo "Skipping stale deploy: HEAD $(git rev-parse --short HEAD) != master $(git rev-parse --short origin/master)"
+            exit 0
+          fi
       - name: Sync to S3
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}

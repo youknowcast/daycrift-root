@@ -3,10 +3,16 @@
 // 旧キャッシュを削除して self を unregister する。
 // すべてのユーザーが解除された後は、このファイルと
 // src/scripts/unregister-sw.ts を削除してよい。
-self.addEventListener("install", () => {
-  self.skipWaiting();
-  caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))));
-  self.registration.unregister();
+self.addEventListener("install", event => {
+  event.waitUntil(
+    (async () => {
+      self.skipWaiting();
+      // 旧キャッシュの削除と unregister が完了するまでイベント寿命を延長する
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+      await self.registration.unregister();
+    })()
+  );
 });
 
 self.addEventListener("activate", event => {
