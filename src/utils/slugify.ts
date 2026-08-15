@@ -1,18 +1,9 @@
 import kebabcase from "lodash.kebabcase";
-import slugify from "slugify";
-
-const hasNonLatin = (str: string): boolean => /[^\x00-\x7F]/.test(str);
 
 /**
- * Slugify a string using a hybrid approach:
- * - Latin strings: slugify (e.g. "E2E Testing" → "e2e-testing")
- * - Strings with non-Latin chars: lodash.kebabcase (preserves non-Latin chars)
+ * Slugify a string using lodash.kebabcase (e.g. "BaseGuitar" → "base-guitar").
+ * This matches the legacy Gatsby tag URL slugs exactly.
  */
-export const slugifyStr = (str: string): string => {
-  if (hasNonLatin(str)) {
-    return kebabcase(str);
-  }
-  return slugify(str, { lower: true });
-};
+export const slugifyStr = (str: string): string => kebabcase(str);
 
 export const slugifyAll = (arr: string[]) => arr.map(str => slugifyStr(str));
