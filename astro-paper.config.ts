@@ -7,7 +7,7 @@ export default defineAstroPaperConfig({
     description: "engineer blog.",
     author: "youknowcast",
     profile: "https://github.com/youknowcast",
-    ogImage: "banner.png",
+    ogImage: "og-default.png",
     lang: "ja",
     timezone: "Asia/Tokyo",
     dir: "ltr",
