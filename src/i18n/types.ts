@@ -21,6 +21,7 @@ export interface UIStrings {
     zoomImage: string;
     imagePreview: string;
     closeImagePreview: string;
+    headingLink: string;
   };
   pagination: {
     prev: string;

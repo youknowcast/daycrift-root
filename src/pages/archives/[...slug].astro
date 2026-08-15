@@ -24,6 +24,15 @@ const locale = Astro.currentLocale ?? config.site.lang;
 
 const t = useTranslations(locale);
 
+// 年月のグループ化はビルドホストのタイムゾーンに依存しないよう、
+// サイト設定のタイムゾーンで正規化して行う
+const timeZone = config.site.timezone;
+const ymFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone,
+  year: "numeric",
+  month: "2-digit",
+});
+
 const posts = await getCollection("posts");
 const filteredPosts = posts.filter(postFilter);
 const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
@@ -38,7 +47,7 @@ const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
     {
       Object.entries(
         getPostsByGroupCondition(filteredPosts, post =>
-          post.data.pubDatetime.getFullYear()
+          Number(ymFormatter.format(post.data.pubDatetime).slice(0, 4))
         )
       )
         .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
@@ -49,7 +58,7 @@ const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
             {Object.entries(
               getPostsByGroupCondition(
                 yearGroup,
-                post => post.data.pubDatetime.getMonth() + 1
+                post => Number(ymFormatter.format(post.data.pubDatetime).slice(5, 7))
               )
             )
               .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))

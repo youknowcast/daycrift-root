@@ -23,6 +23,7 @@ export default {
     zoomImage: "画像を拡大",
     imagePreview: "画像プレビュー",
     closeImagePreview: "プレビューを閉じる",
+    headingLink: "「{{title}}」へのリンク",
   },
   pagination: {
     prev: "前へ",

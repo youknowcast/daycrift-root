@@ -17,9 +17,47 @@ import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
 import config from "@/config";
 import { useTranslations } from "@/i18n";
 
+// 投稿 slug と衝突してはならない固定ルート・ファイル
+const RESERVED_SLUGS = new Set([
+  "about",
+  "favorite",
+  "newscast",
+  "resume",
+  "blog",
+  "tags",
+  "search",
+  "archives",
+  "404",
+  "og.png",
+  "rss.xml",
+  "robots.txt",
+  "sitemap-index.xml",
+  "site.webmanifest",
+  "sw.js",
+]);
+
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
   const sortedPosts = getSortedPosts(posts);
+
+  // slug の重複・予約ルートとの衝突をビルド時に検証する
+  // (衝突は静かに記事を消すため、エラーで失敗させる)
+  const seen = new Set<string>();
+  for (const post of posts) {
+    const slug = getPostSlug(post);
+    if (!slug || slug === "/") {
+      throw new Error(`Post "${post.id}" has an invalid empty slug`);
+    }
+    if (seen.has(slug)) {
+      throw new Error(`Duplicate post slug: "${slug}" (posts "${post.id}")`);
+    }
+    seen.add(slug);
+    if (RESERVED_SLUGS.has(slug)) {
+      throw new Error(
+        `Post slug "${slug}" (from "${post.id}") conflicts with a reserved route`
+      );
+    }
+  }
 
   return sortedPosts.map((post, index) => ({
     params: { slug: getPostSlug(post) },
@@ -96,6 +134,7 @@ const ogImage = ogImageUrl
     data-i18n-zoom={t.post.zoomImage}
     data-i18n-preview={t.post.imagePreview}
     data-i18n-close={t.post.closeImagePreview}
+    data-i18n-heading-link={t.post.headingLink}
   >
     <h1
       style={{ viewTransitionName: toTransitionName(post.id) }}
@@ -191,6 +230,8 @@ const ogImage = ogImageUrl
   }
 
   function addHeadingLinks() {
+    const labels = document.querySelector("main")?.dataset ?? {};
+    const headingLinkLabel = labels.i18nHeadingLink ?? "Link to \"{{title}}\"";
     const headings = Array.from(
       document.querySelectorAll("h2, h3, h4, h5, h6")
     );
@@ -203,6 +244,14 @@ const ogImage = ogImageUrl
       link.className =
         "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
       link.href = "#" + heading.id;
+      // 見出し本文からアクセシブルネームを付ける ("#" は aria-hidden)
+      const headingText = heading.textContent?.trim() ?? "";
+      if (headingText) {
+        link.setAttribute(
+          "aria-label",
+          headingLinkLabel.replace("{{title}}", headingText)
+        );
+      }
 
       const span = document.createElement("span");
       span.ariaHidden = "true";
