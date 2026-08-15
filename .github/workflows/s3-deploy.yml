@@ -34,7 +34,7 @@ jobs:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
         run: |
           set -euo pipefail
-          aws s3 sync ./public s3://$S3_CONTENTS_BUCKET/ --delete --only-show-errors
+          aws s3 sync ./dist s3://$S3_CONTENTS_BUCKET/ --delete --only-show-errors
       - name: invalidate cloudfront
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
