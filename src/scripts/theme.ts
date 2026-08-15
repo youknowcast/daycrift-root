@@ -24,7 +24,9 @@ function reflect(): void {
   const root = document.firstElementChild;
   root?.setAttribute("data-theme", themeValue);
   root?.classList.toggle("dark", themeValue === DARK);
-  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
+  document
+    .querySelector("#theme-btn")
+    ?.setAttribute("aria-pressed", String(themeValue === DARK));
 
   // Fill <meta name="theme-color"> with the computed background colour so
   // Android's browser chrome matches the page background.
@@ -57,9 +59,12 @@ document.addEventListener("astro:before-swap", event => {
 });
 
 // Sync with OS-level dark/light preference changes.
+// ユーザーが明示的にテーマを選択している場合 (localStorage に保存済み) は
+// OS の変更へ追従しない。追従時も保存せず、その場の表示だけ切り替える。
 window
   .matchMedia("(prefers-color-scheme: dark)")
   .addEventListener("change", ({ matches }) => {
+    if (localStorage.getItem(THEME_KEY) !== null) return;
     themeValue = matches ? DARK : LIGHT;
-    persist();
+    reflect();
   });

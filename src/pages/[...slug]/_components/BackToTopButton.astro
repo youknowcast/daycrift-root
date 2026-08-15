@@ -36,59 +36,51 @@ const t = useTranslations(Astro.currentLocale);
 </div>
 
 <script is:inline data-astro-rerun>
-  // data-astro-rerun はビュー遷移のたびに再実行されるため、リスナ登録は一度だけにする。
+  // リスナ登録は一度だけ。View Transitions で DOM が置換されるため、
+  // 要素は毎回 document から取得する (イベント委譲)。
   if (!window.__bttBound) {
     window.__bttBound = true;
-    backToTop();
-  }
 
-  function backToTop() {
-    const rootElement = document.documentElement;
-    const btnContainer = document.querySelector("#btt-btn-container");
-    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
-    const progressIndicator = document.querySelector("#progress-indicator");
-
-    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
-      return;
-
-    backToTopBtn.addEventListener("click", () => {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    });
-
-    let lastVisible = null;
-    function handleScroll() {
-      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
-      const scrollTop = rootElement.scrollTop;
-      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
-
-      progressIndicator.style.setProperty(
-        "background-image",
-        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
-      );
-
-      const isVisible = scrollTop / scrollTotal > 0.3;
-
-      if (isVisible !== lastVisible) {
-        btnContainer.classList.toggle("opacity-100", isVisible);
-        btnContainer.classList.toggle("translate-y-0", isVisible);
-        btnContainer.classList.toggle("opacity-0", !isVisible);
-        btnContainer.classList.toggle("translate-y-14", !isVisible);
-        lastVisible = isVisible;
+    document.addEventListener(
+      "click",
+      (e) => {
+        if (!e.target?.closest?.("[data-button='back-to-top']")) return;
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
       }
-    }
+    );
 
     let ticking = false;
     document.addEventListener(
       "scroll",
       () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            handleScroll();
-            ticking = false;
-          });
-          ticking = true;
-        }
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          ticking = false;
+          const btnContainer = document.querySelector("#btt-btn-container");
+          const progressIndicator = document.querySelector(
+            "#progress-indicator"
+          );
+          if (!btnContainer || !progressIndicator) return;
+
+          const rootElement = document.documentElement;
+          const scrollTotal =
+            rootElement.scrollHeight - rootElement.clientHeight;
+          const scrollTop = rootElement.scrollTop;
+          const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+          progressIndicator.style.setProperty(
+            "background-image",
+            `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+          );
+
+          const isVisible = scrollTop / scrollTotal > 0.3;
+          btnContainer.classList.toggle("opacity-100", isVisible);
+          btnContainer.classList.toggle("translate-y-0", isVisible);
+          btnContainer.classList.toggle("opacity-0", !isVisible);
+          btnContainer.classList.toggle("translate-y-14", !isVisible);
+        });
       },
       { passive: true }
     );

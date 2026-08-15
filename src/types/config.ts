@@ -76,30 +76,12 @@ interface SocialLink {
   linkTitle?: string;
 }
 
-interface ShareLink {
-  /**
-   * Must match an SVG filename in src/assets/icons/socials/.
-   * e.g. "facebook" → src/assets/icons/socials/facebook.svg
-   */
-  name: string;
-  /** Base share URL. The post URL will be appended as a query param. */
-  url: string;
-  /**
-   * Accessible label for the icon link (aria-label, title attribute).
-   * Auto-generated if omitted: "Share this post on Facebook", "Share this post via WhatsApp", etc.
-   * Override when the default wording doesn't fit.
-   */
-  linkTitle?: string;
-}
-
 interface AstroPaperConfig {
   site: SiteConfig;
   posts?: PostsConfig;
   features?: FeaturesConfig;
   /** Social profile links shown in header/footer */
   socials?: SocialLink[];
-  /** Share links shown on post detail pages */
-  shareLinks?: ShareLink[];
 }
 
 type ResolvedSiteConfig = Required<
@@ -122,7 +104,6 @@ export interface ResolvedAstroPaperConfig {
   posts: Required<PostsConfig>;
   features: Required<FeaturesConfig>;
   socials: SocialLink[];
-  shareLinks: ShareLink[];
 }
 
 /**

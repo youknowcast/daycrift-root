@@ -18,6 +18,7 @@ const graphJson = JSON.stringify(graph);
     mermaid.initialize({
       startOnLoad: false,
       theme: isDark ? "dark" : "default",
+      securityLevel: "strict",
     });
     for (const el of document.querySelectorAll("[data-mermaid]")) {
       const graph = el.getAttribute("data-graph");
@@ -29,7 +30,12 @@ const graphJson = JSON.stringify(graph);
         );
         el.innerHTML = svg;
       } catch (e) {
-        el.innerHTML = `<pre class="text-sm">${e instanceof Error ? e.message : String(e)}</pre>`;
+        // エラー文は入力グラフの断片を含み得るため、innerHTML ではなく
+        // textContent で注入する (HTML 解釈による XSS 防止)。
+        const pre = document.createElement("pre");
+        pre.className = "text-sm";
+        pre.textContent = e instanceof Error ? e.message : String(e);
+        el.replaceChildren(pre);
       }
     }
   };

@@ -44,6 +44,16 @@ document.addEventListener("astro:before-preparation", (event) => {
 
 document.addEventListener("astro:after-swap", () => {
   if (lastNavigationType !== "traverse") return;
+  // Astro の ClientRouter は履歴エントリ (history.state の scrollX/Y) 単位で
+  // 座標を復元する。それが効くケース (pushState 済みエントリへのバック) では
+  // 独自復元で上書きしない。初期エントリ (state が null) へのバックだけ
+  // sessionStorage の値を復元する (このケースは Astro の復元が効かない)。
+  if (
+    history.state &&
+    typeof (history.state as { scrollY?: unknown }).scrollY === "number"
+  ) {
+    return;
+  }
   const key = "scroll:" + location.pathname;
   const value = sessionStorage.getItem(key);
   if (value === null) return;

@@ -35,7 +35,6 @@ const config: ResolvedAstroPaperConfig = {
     search: userConfig.features?.search ?? "pagefind",
   },
   socials: userConfig.socials ?? [],
-  shareLinks: userConfig.shareLinks ?? [],
 };
 
 export default config;
