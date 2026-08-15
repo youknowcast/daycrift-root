@@ -134,6 +134,7 @@ const ogImage = ogImageUrl
   description={description || getPostDescription(post)}
   ogImage={ogImage}
   canonicalURL={canonicalURL}
+  author={post.data.author ?? config.site.author}
   pubDatetime={pubDatetime}
   modDatetime={modDatetime}
 >

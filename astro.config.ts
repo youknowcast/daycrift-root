@@ -67,6 +67,10 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    define: {
+      // 公開判定をビルド全体で一貫させるため、ビルド開始時刻を一度だけ確定する
+      __BUILD_TIME__: JSON.stringify(Date.now()),
+    },
   },
   fonts: [
     {

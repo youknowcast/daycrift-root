@@ -13,6 +13,7 @@ type Props = {
   ogImageAlt?: string;
   canonicalURL?: string;
   ogType?: "website" | "article";
+  author?: string;
   /** true のとき canonical / OG URL を出力せず、noindex を付ける (404 ページ用) */
   noindex?: boolean;
 };
@@ -26,6 +27,7 @@ const {
   ogImageAlt = site.title,
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
   ogType = "website",
+  author = site.author,
   noindex = false,
 } = Astro.props;
 
@@ -74,7 +76,7 @@ const rssHref = getAssetPath("rss.xml");
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="author" content={site.author} />
+    <meta name="author" content={author} />
     <link rel="sitemap" href={getAssetPath("sitemap-index.xml")} />
 
     <!-- Open Graph -->
