@@ -15,7 +15,6 @@ export default defineAstroPaperConfig({
   posts: {
     perPage: 200,
     perIndex: 5,           // ホームの最近の投稿は直近 5 件
-    scheduledPostMargin: 15 * 60 * 1000,
   },
   features: {
     lightAndDarkMode: true,

@@ -77,6 +77,7 @@ const isActive = (path: string) => {
           <a
             href={getRelativeLocaleUrl(locale, "blog")}
             class:list={{ "active-nav": isActive("/blog") }}
+            aria-current={isActive("/blog") ? "page" : undefined}
           >
             Blog
           </a>
@@ -85,6 +86,7 @@ const isActive = (path: string) => {
           <a
             href={getRelativeLocaleUrl(locale, "about")}
             class:list={{ "active-nav": isActive("/about") }}
+            aria-current={isActive("/about") ? "page" : undefined}
           >
             About
           </a>
@@ -93,6 +95,7 @@ const isActive = (path: string) => {
           <a
             href={getRelativeLocaleUrl(locale, "useful")}
             class:list={{ "active-nav": isActive("/useful") }}
+            aria-current={isActive("/useful") ? "page" : undefined}
           >
             Useful
           </a>
@@ -101,6 +104,7 @@ const isActive = (path: string) => {
           <a
             href={getRelativeLocaleUrl(locale, "newscast")}
             class:list={{ "active-nav": isActive("/newscast") }}
+            aria-current={isActive("/newscast") ? "page" : undefined}
           >
             Newscast
           </a>

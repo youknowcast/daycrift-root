@@ -61,6 +61,10 @@ export const GET: APIRoute = async ({ props, url }) => {
   fontPromise ??= loadOgFonts(url);
   const { regular, bold } = await fontPromise;
 
+  // 長いタイトルは 72px 固定だと行が切れるため、文字数に応じて小さくする
+  const titleLength = (props.data.title ?? "").length;
+  const titleFontSize = titleLength > 40 ? 44 : titleLength > 24 ? 56 : 72;
+
   const svg = await satori(
     {
       type: "div",
@@ -122,9 +126,10 @@ export const GET: APIRoute = async ({ props, url }) => {
                       type: "p",
                       props: {
                         style: {
-                          fontSize: 72,
+                          fontSize: titleFontSize,
                           fontWeight: "bold",
                           fontFamily: OG_FONT_FAMILY,
+                          lineHeight: 1.2,
                           maxHeight: "84%",
                           overflow: "hidden",
                         },
