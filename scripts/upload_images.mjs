@@ -35,7 +35,7 @@ async function remoteAllImages() {
 async function localAllImages() {
   let ret = []
   try {
-    const data = await $`find content`.pipe($`grep -E '(png|jpeg|jpg)'`)
+    const data = await $`find src/content`.pipe($`grep -E '(png|jpeg|jpg)'`)
     ret = data.stdout.split('\n')
   } catch (e) {
     console.log('there are no local images')
@@ -48,7 +48,7 @@ function remoteUrl(path) {
 }
 
 function remoteName(path) {
-  const filtered = /(content|posts|pages)/
+  const filtered = /(src|content|posts|pages)/
   return path.split('/').filter(s => !s.match(filtered)).join('-')
 }
 

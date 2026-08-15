@@ -1,8 +1,8 @@
 #!/usr/bin/env zx
 
 const target_paths = [
-  ".cache/",
-  "public/",
+  ".astro/",
+  "dist/",
   "npm-debug.log",
 ]
 
