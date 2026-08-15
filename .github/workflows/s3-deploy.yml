@@ -5,8 +5,9 @@ on:
     branches:
       - master
   schedule:
-    # 予約投稿 (pubDatetime が未来の記事) を公開時刻に反映するための定期ビルド
-    - cron: "0 */6 * * *"
+    # 予約投稿 (pubDatetime が未来の記事) を公開時刻に反映するための定期ビルド。
+    # scheduledPostMargin (15 分) に合わせ 15 分間隔で実行する
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 concurrency:
   # push / schedule / 手動実行が並行して S3 へ sync しないよう直列化する。
@@ -38,23 +39,27 @@ jobs:
         run: npm run lint
       - name: build
         run: npm run build
-      - name: Check master HEAD
+      - name: Sync to S3 (skip if stale)
+        env:
+          S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
         run: |
-          # キューされた古い run (手動実行の別 ref や、待機中に master が進んだ run) が
-          # 新しいデプロイを巻き戻さないよう、master の最新 SHA と一致する場合のみ続行する
+          set -euo pipefail
+          # キューされた古い run (待機中に master が進んだケースや、別 ref の手動実行) が
+          # 新しいデプロイを巻き戻さないよう、master の最新 SHA と一致する場合のみデプロイする。
+          # (exit 0 だけでは後続ステップが実行されるため、判定と同期を同一ステップにまとめる)
           git fetch origin master
           if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]; then
             echo "Skipping stale deploy: HEAD $(git rev-parse --short HEAD) != master $(git rev-parse --short origin/master)"
             exit 0
           fi
-      - name: Sync to S3
-        env:
-          S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
-        run: |
-          set -euo pipefail
           aws s3 sync ./dist s3://$S3_CONTENTS_BUCKET/ --delete --only-show-errors
-      - name: invalidate cloudfront
+      - name: invalidate cloudfront (skip if stale)
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
         run: |
+          git fetch origin master
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]; then
+            echo "Skipping stale invalidation"
+            exit 0
+          fi
           aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DAYCRIFT_NET_DISTRIBUTION_ID }} --paths "/*"
