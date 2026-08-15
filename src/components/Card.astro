@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getPostUrl } from "@/utils/getPostPaths";
+import { getPostDescription } from "@/utils/getPostDescription";
 import { toTransitionName } from "@/utils/toTransitionName";
 import Datetime from "./Datetime.astro";
 
@@ -11,6 +12,7 @@ type Props = {
 const { variant: Heading = "h2", id, data } = Astro.props;
 
 const { title, description, ...props } = data;
+const excerpt = getPostDescription(Astro.props);
 ---
 
 <li class="my-6">
@@ -27,5 +29,5 @@ const { title, description, ...props } = data;
     </Heading>
   </a>
   <Datetime {...props} />
-  <p>{description}</p>
+  <p>{excerpt}</p>
 </li>

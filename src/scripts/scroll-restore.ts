@@ -13,7 +13,7 @@ const saveScroll = () => {
 
 document.addEventListener(
   "click",
-  (e) => {
+  e => {
     const target = e.target as Element | null;
     const a = target?.closest?.("a[href]") as HTMLAnchorElement | null;
     if (!a) return;
@@ -36,10 +36,9 @@ document.addEventListener(
 // astro:after-swap には遷移種別が載らないため、before-preparation で捕捉する。
 let lastNavigationType = "navigate";
 
-document.addEventListener("astro:before-preparation", (event) => {
+document.addEventListener("astro:before-preparation", event => {
   lastNavigationType =
-    (event as Event & { navigationType?: string }).navigationType ??
-    "navigate";
+    (event as Event & { navigationType?: string }).navigationType ?? "navigate";
 });
 
 document.addEventListener("astro:after-swap", () => {

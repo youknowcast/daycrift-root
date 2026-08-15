@@ -47,7 +47,10 @@ export default defineConfig({
       ],
       rehypePlugins: [
         rehypeCallouts,
-        [rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
+        [
+          rehypeExternalLinks,
+          { target: "_blank", rel: ["noopener", "noreferrer"] },
+        ],
       ],
     }),
     shikiConfig: {

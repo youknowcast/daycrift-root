@@ -41,14 +41,11 @@ const t = useTranslations(Astro.currentLocale);
   if (!window.__bttBound) {
     window.__bttBound = true;
 
-    document.addEventListener(
-      "click",
-      (e) => {
-        if (!e.target?.closest?.("[data-button='back-to-top']")) return;
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      }
-    );
+    document.addEventListener("click", e => {
+      if (!e.target?.closest?.("[data-button='back-to-top']")) return;
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    });
 
     let ticking = false;
     document.addEventListener(

@@ -23,7 +23,7 @@ export default {
     zoomImage: "Zoom image",
     imagePreview: "Image preview",
     closeImagePreview: "Close image preview",
-    headingLink: "Link to \"{{title}}\"",
+    headingLink: 'Link to "{{title}}"',
   },
   pagination: {
     prev: "Prev",

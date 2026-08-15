@@ -7,18 +7,19 @@ function stripMarkdown(md: string): string {
   return md
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/`([^`]*)`/g, "$1")
+    .replace(/<[^>]*>/g, " ") // HTML / MDX JSX タグ (例: <Video ... />)
     .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
     .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
     .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^\s*>\s*/gm, "") // blockquote
     .replace(/^\s*[-*+]\s+/gm, "")
     .replace(/^\s*\|.*\|\s*$/gm, " ")
+    .replace(/[*_~]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-export function getPostDescription(
-  post: CollectionEntry<"posts">
-): string {
+export function getPostDescription(post: CollectionEntry<"posts">): string {
   if (post.data.description && post.data.description.trim() !== "") {
     return post.data.description;
   }

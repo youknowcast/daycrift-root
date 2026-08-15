@@ -59,11 +59,16 @@ export async function getStaticPaths() {
         `Post slug "${slug}" (from "${post.id}") conflicts with a reserved route`
       );
     }
-    if (/[#?/]/.test(slug)) {
+    if (/[#?/\\]/.test(slug)) {
       // Astro はルート生成時に # と ? を %23/%3F にエンコードするが、
       // getPostUrl は生の slug を URL に連結するため、リンクが 404 になる
       throw new Error(
-        `Post slug "${slug}" (from "${post.id}") contains "#", "?" or "/" which breaks URL generation`
+        `Post slug "${slug}" (from "${post.id}") contains "#", "?", "/" or "\\" which breaks URL generation`
+      );
+    }
+    if (slug === "." || slug === ".." || /[\u0000-\u001f\u007f]/.test(slug)) {
+      throw new Error(
+        `Post slug "${slug}" (from "${post.id}") is not a valid path segment`
       );
     }
   }
@@ -240,7 +245,7 @@ const ogImage = ogImageUrl
 
   function addHeadingLinks() {
     const labels = document.querySelector("main")?.dataset ?? {};
-    const headingLinkLabel = labels.i18nHeadingLink ?? "Link to \"{{title}}\"";
+    const headingLinkLabel = labels.i18nHeadingLink ?? 'Link to "{{title}}"';
     const headings = Array.from(
       document.querySelectorAll("h2, h3, h4, h5, h6")
     );

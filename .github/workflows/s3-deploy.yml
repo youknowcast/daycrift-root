@@ -6,8 +6,13 @@ on:
       - master
   schedule:
     # 予約投稿 (pubDatetime が未来の記事) を公開時刻に反映するための定期ビルド
-    - cron: '0 */6 * * *'
+    - cron: "0 */6 * * *"
   workflow_dispatch:
+concurrency:
+  # push / schedule / 手動実行が並行して S3 へ sync すると古い成果物が
+  # 後から上書きされるため、デプロイは直列化して最新の実行を優先する
+  group: deploy-s3
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +23,7 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
           cache: npm
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -31,7 +36,7 @@ jobs:
       - name: lint
         run: npm run lint
       - name: build
-        run:  npm run build
+        run: npm run build
       - name: Sync to S3
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}

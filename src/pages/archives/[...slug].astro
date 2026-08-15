@@ -56,9 +56,8 @@ const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
             <span class="text-2xl font-bold">{year}</span>
             <sup class="text-muted-foreground text-sm">{yearGroup.length}</sup>
             {Object.entries(
-              getPostsByGroupCondition(
-                yearGroup,
-                post => Number(ymFormatter.format(post.data.pubDatetime).slice(5, 7))
+              getPostsByGroupCondition(yearGroup, post =>
+                Number(ymFormatter.format(post.data.pubDatetime).slice(5, 7))
               )
             )
               .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))

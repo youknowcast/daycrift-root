@@ -5,10 +5,10 @@
 // src/scripts/unregister-sw.ts を削除してよい。
 self.addEventListener("install", () => {
   self.skipWaiting();
-  caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
+  caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))));
   self.registration.unregister();
 });
 
-self.addEventListener("activate", (event) => {
+self.addEventListener("activate", event => {
   event.waitUntil(self.clients.claim());
 });
