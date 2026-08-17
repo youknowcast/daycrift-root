@@ -10,6 +10,10 @@ export async function GET() {
   const sortedPosts = getSortedPosts(posts);
 
   return rss({
+    // 旧 Gatsby feed は guid をスラッシュ無しで発行していた。
+    // デフォルト (true) だと guid が変わり、購読者のリーダーで
+    // 全記事が新着扱いになるため、旧形式に合わせる。
+    trailingSlash: false,
     title: config.site.title,
     description: config.site.description,
     site: config.site.url,

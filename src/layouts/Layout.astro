@@ -122,7 +122,13 @@ const rssHref = getAssetPath("rss.xml");
     -->
     <script is:inline>
       (function () {
-        const stored = localStorage.getItem("theme");
+        let stored = null;
+        try {
+          const value = localStorage.getItem("theme");
+          stored = value === "light" || value === "dark" ? value : null;
+        } catch {
+          // ストレージが遮断されている場合は OS 設定にフォールバック
+        }
         const prefersDark = window.matchMedia(
           "(prefers-color-scheme: dark)"
         ).matches;
@@ -144,6 +150,7 @@ const rssHref = getAssetPath("rss.xml");
     <script>
       import "@/scripts/theme";
       import "@/scripts/scroll-restore";
+      import "@/scripts/twitter-embeds";
       import "@/scripts/unregister-sw";
     </script>
   </body>

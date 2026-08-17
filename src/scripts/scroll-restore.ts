@@ -58,6 +58,8 @@ document.addEventListener("astro:after-swap", () => {
   if (value === null) return;
   sessionStorage.removeItem(key);
   requestAnimationFrame(() => {
-    window.scrollTo(0, Number(value));
+    // <html> の scroll-smooth を回避するため behavior を明示する
+    // (既定の auto だと CSS の smooth が効き、長距離がアニメーションする)。
+    window.scrollTo({ top: Number(value), behavior: "instant" });
   });
 });

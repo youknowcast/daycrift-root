@@ -45,4 +45,7 @@ const graphJson = JSON.stringify(graph);
     attributeFilter: ["data-theme"],
   });
   renderAll();
+  // ClientRouter で他ページから遷移してきた場合はモジュールが再評価されず
+  // renderAll() が走らないため、swap 後にも再描画する (二重描画は冪等)。
+  document.addEventListener("astro:after-swap", renderAll);
 </script>

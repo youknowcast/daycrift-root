@@ -2,8 +2,27 @@ const THEME_KEY = "theme";
 const LIGHT = "light";
 const DARK = "dark";
 
+// localStorage はプライバシー設定等で例外を投げ得るため、
+// すべての読み書きを try/catch で囲み、保存値は whitelist 検証する。
+function readStored(): string | null {
+  try {
+    const value = localStorage.getItem(THEME_KEY);
+    return value === LIGHT || value === DARK ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStored(value: string): void {
+  try {
+    localStorage.setItem(THEME_KEY, value);
+  } catch {
+    // ストレージが使えない場合は表示の切り替えだけ行う
+  }
+}
+
 function getPreferredTheme(): string {
-  const stored = localStorage.getItem(THEME_KEY);
+  const stored = readStored();
   if (stored) return stored;
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? DARK
@@ -11,12 +30,15 @@ function getPreferredTheme(): string {
 }
 
 // Reuse the value already set by the inline FOUC-prevention script if available.
+const inlineValue = (window as unknown as { __theme?: { value: string } })
+  .__theme?.value;
 let themeValue: string =
-  (window as unknown as { __theme?: { value: string } }).__theme?.value ??
-  getPreferredTheme();
+  inlineValue === LIGHT || inlineValue === DARK
+    ? inlineValue
+    : getPreferredTheme();
 
 function persist(): void {
-  localStorage.setItem(THEME_KEY, themeValue);
+  writeStored(themeValue);
   reflect();
 }
 
@@ -64,7 +86,7 @@ document.addEventListener("astro:before-swap", event => {
 window
   .matchMedia("(prefers-color-scheme: dark)")
   .addEventListener("change", ({ matches }) => {
-    if (localStorage.getItem(THEME_KEY) !== null) return;
+    if (readStored() !== null) return;
     themeValue = matches ? DARK : LIGHT;
     reflect();
   });
