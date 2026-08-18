@@ -10,7 +10,7 @@
 //   % ./scripts/add_newscast.mjs
 //
 
-const NEWSCAST_MDX_PATH = "content/pages/newscast/index.mdx"
+const NEWSCAST_MDX_PATH = "src/content/pages/newscast.mdx"
 
 // 対話型で入力を取得
 const url = await question("URL: ")

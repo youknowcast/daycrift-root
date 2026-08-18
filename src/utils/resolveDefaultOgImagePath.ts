@@ -1,0 +1,50 @@
+import fs from "node:fs";
+import path from "node:path";
+import type { ResolvedAstroPaperConfig } from "@/types/config";
+import { getAssetPath } from "./withBase";
+
+// import.meta.glob で public を参照すると Vite が画像をアセットとしても
+// 出力して dist/_astro/ に重複コピーされるため、ビルド時はファイルシステムで確認する
+function existsInPublic(filename: string): boolean {
+  return fs.existsSync(path.join(process.cwd(), "public", filename));
+}
+
+/**
+ * Resolves the absolute OG image path used for pages/posts.
+ *
+ * Security note: `site.ogImage` must be a single filename under `public/` to avoid
+ * path traversal or referencing arbitrary files.
+ *
+ * Behavior:
+ * - When `features.dynamicOgImage` is enabled, prefers `public/{site.ogImage}` when present,
+ *   otherwise falls back to the generated `/og.png`.
+ * - When disabled, requires `public/{site.ogImage}` to exist.
+ */
+export function resolveDefaultOgImagePath(
+  config: ResolvedAstroPaperConfig
+): string {
+  const filename = config.site.ogImage;
+  if (
+    filename.includes("..") ||
+    filename.includes("/") ||
+    filename.includes("\\")
+  ) {
+    throw new Error(
+      `site.ogImage must be a single filename in public/ (e.g. "banner.png"), got "${filename}"`
+    );
+  }
+
+  if (config.features.dynamicOgImage) {
+    return existsInPublic(filename)
+      ? getAssetPath(filename)
+      : getAssetPath("og.png");
+  }
+
+  if (!existsInPublic(filename)) {
+    throw new Error(
+      `AstroPaper: missing public/${filename}. Add that file, or set site.ogImage to an existing file under public/, or enable features.dynamicOgImage to fall back to /og.png.`
+    );
+  }
+
+  return getAssetPath(filename);
+}

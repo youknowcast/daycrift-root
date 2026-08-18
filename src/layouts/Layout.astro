@@ -1,0 +1,157 @@
+---
+import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
+import { resolveDefaultOgImagePath } from "@/utils/resolveDefaultOgImagePath";
+import { getAssetPath } from "@/utils/withBase";
+import config from "@/config";
+import "@/styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  canonicalURL?: string;
+  ogType?: "website" | "article";
+  author?: string;
+  /** true のとき canonical / OG URL を出力せず、noindex を付ける (404 ページ用) */
+  noindex?: boolean;
+};
+
+const { site } = config;
+
+const {
+  title = site.title,
+  description = site.description,
+  ogImage = resolveDefaultOgImagePath(config),
+  ogImageAlt = site.title,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  ogType = "website",
+  author = site.author,
+  noindex = false,
+} = Astro.props;
+
+const socialImageURL = new URL(ogImage, Astro.site ?? Astro.url);
+const rssHref = getAssetPath("rss.xml");
+---
+
+<!doctype html>
+<html
+  dir={site.dir ?? "ltr"}
+  lang={Astro.currentLocale ?? site.lang}
+  class="overflow-y-scroll motion-safe:scroll-smooth"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href={getAssetPath("favicon-32x32.png")}
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href={getAssetPath("favicon-16x16.png")}
+    />
+    <link rel="icon" href={getAssetPath("favicon.ico")} />
+    <link rel="apple-touch-icon" href={getAssetPath("apple-touch-icon.png")} />
+    <link rel="manifest" href={getAssetPath("site.webmanifest")} />
+    <!-- theme-color: 初期値は manifest と同じブランドカラー。実行時に theme.ts が背景色へ更新する -->
+    <meta name="theme-color" content="#6B46C1" id="theme-color" />
+    {!noindex && <link rel="canonical" href={canonicalURL} />}
+    <meta name="generator" content={Astro.generator} />
+
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <!-- Font -->
+    <Font
+      cssVariable="--font-google-sans-code"
+      preload={[{ subset: "latin", weight: 400, style: "normal" }]}
+    />
+
+    <!-- Primary meta -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <link rel="sitemap" href={getAssetPath("sitemap-index.xml")} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonicalURL} />}
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    <!-- Twitter / X -->
+    <meta property="twitter:card" content="summary_large_image" />
+    {!noindex && <meta property="twitter:url" content={canonicalURL} />}
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
+    <meta property="twitter:image:alt" content={ogImageAlt} />
+
+    <!-- RSS autodiscovery -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={site.title}
+      href={new URL(rssHref, Astro.site)}
+    />
+
+    <!-- Extra head content injected by child layouts (e.g. JSON-LD, article meta) -->
+    <slot name="head" />
+
+    {
+      site.googleVerification && (
+        <meta
+          name="google-site-verification"
+          content={site.googleVerification}
+        />
+      )
+    }
+
+    <!--
+      Inline FOUC-prevention script: sets data-theme on <html> before
+      the browser paints. Runs synchronously, no defer/async.
+    -->
+    <script is:inline>
+      (function () {
+        let stored = null;
+        try {
+          const value = localStorage.getItem("theme");
+          stored = value === "light" || value === "dark" ? value : null;
+        } catch {
+          // ストレージが遮断されている場合は OS 設定にフォールバック
+        }
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const theme = stored ?? (prefersDark ? "dark" : "light");
+        const root = document.firstElementChild;
+        root?.setAttribute("data-theme", theme);
+        root?.classList.toggle("dark", theme === "dark");
+        // Expose value so theme.ts can skip re-detection.
+        window.__theme = { value: theme };
+      })();
+    </script>
+
+    <ClientRouter />
+  </head>
+  <body
+    class="bg-background font-app text-foreground selection:bg-accent/75 selection:text-accent-foreground flex min-h-svh flex-col"
+  >
+    <slot />
+    <script>
+      import "@/scripts/theme";
+      import "@/scripts/scroll-restore";
+      import "@/scripts/twitter-embeds";
+      import "@/scripts/unregister-sw";
+    </script>
+  </body>
+</html>

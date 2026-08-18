@@ -58,16 +58,18 @@ typings/
 # upload config
 upload-config.json
 
-# images must be uploaded to images.daycrift.net s3
-content/**/*.jpg
-content/**/*.png
-content/**/*.jpeg
-grass-graph.svg
-
 .cache
 **/.cache
-public
 
 .idea
 .vscode
 .DS_Store
+
+# Astro / AstroPaper
+dist/
+.astro/
+public/pagefind
+
+# superpowers workflow artifacts
+/superpowers/
+docs/superpowers/

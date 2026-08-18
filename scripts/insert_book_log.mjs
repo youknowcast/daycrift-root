@@ -11,7 +11,26 @@
 // --date is optional. default date is current day
 //
 
-const BOOK_LOG_MDX_PATH = "content/posts/2026/01/20260102/index.mdx"
+// zx exposes `fs` (fs-extra) and `path` as globals
+function findLatestBookLog() {
+  const postsRoot = "src/content/posts"
+  const candidates = []
+  ;(function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name)
+      if (e.isDirectory()) walk(p)
+      else if (e.name === "index.mdx") {
+        const raw = fs.readFileSync(p, "utf-8")
+        const title = raw.match(/^title:\s*["']?([^"'\n]+)/m)?.[1] ?? ""
+        if (title.startsWith("読書ログ")) candidates.push(p)
+      }
+    }
+  })(postsRoot)
+  candidates.sort()
+  return candidates[candidates.length - 1]
+}
+
+const BOOK_LOG_MDX_PATH = findLatestBookLog()
 
 // filename is deleted from zx 8.x >=
 const bookName = argv._[0]

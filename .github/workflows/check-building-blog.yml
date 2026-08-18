@@ -3,7 +3,7 @@ name: check building blog
 on:
   push:
     branches-ignore:
-      - 'master'
+      - "master"
 
 jobs:
   building_blog:
@@ -15,11 +15,13 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
           cache: npm
       - name: ci
         run: npm ci
       - name: lint
         run: npm run lint
+      - name: format:check
+        run: npm run format:check
       - name: build
         run: npm run build

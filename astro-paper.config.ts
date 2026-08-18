@@ -1,0 +1,36 @@
+import { defineAstroPaperConfig } from "./src/types/config";
+
+export default defineAstroPaperConfig({
+  site: {
+    url: "https://www.daycrift.net",
+    title: "CALL ME STUPID",
+    description: "engineer blog.",
+    author: "youknowcast",
+    profile: "https://github.com/youknowcast",
+    ogImage: "banner.png",
+    lang: "ja",
+    timezone: "Asia/Tokyo",
+    dir: "ltr",
+  },
+  posts: {
+    perPage: 200,
+    perIndex: 5,           // ホームの最近の投稿は直近 5 件
+  },
+  features: {
+    lightAndDarkMode: true,
+    dynamicOgImage: true,
+    showArchives: false,
+    showBackButton: true,
+    editPost: {
+      enabled: false,
+    },
+    search: "pagefind",
+  },
+  socials: [
+    { name: "github", url: "https://github.com/youknowcast" },
+    { name: "x",      url: "https://x.com/youknowcast" },
+    { name: "note",   url: "https://note.com/youknowcast" },
+    { name: "zenn",   url: "https://zenn.dev/youknowcast" },
+    { name: "qiita",  url: "https://qiita.com/youknowcast" },
+  ],
+});

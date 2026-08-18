@@ -1,0 +1,70 @@
+---
+pubDatetime: 2023-01-22
+title: "mermaid 使えるようにしてみた"
+description: "add mermaid to this blog"
+tags:
+  - Diary
+slug: "mermaid-使えるようにしてみた"
+---
+
+### hello world(mermaid)
+
+import MermaidWrapper from "@/utils/mermaid-wrapper.astro"
+
+<MermaidWrapper graph={`gantt
+dateFormat  YYYY-MM-DD
+title Adding GANTT diagram to mermaid
+excludes weekdays 2014-01-10
+
+section A section
+Completed task            :done,    des1, 2014-01-06,2014-01-08
+Active task               :active,  des2, 2014-01-09, 3d
+Future task               :         des3, after des2, 5d
+Future task2               :         des4, after des3, 5dZ`} />
+
+
+### 変更点
+
+いろいろ検討したんですが，シュッと動きそうなのがこれだったので，これを入れました．  
+https://github.com/sjwall/mdx-mermaid
+
+先日 5 系に上げた gatsby-plugin-mdx だと，gatsby-remark-* 系で動きそうなものがなかったので．  
+gatsby-remark-mermaid や，これが wrap している remark-mermaidjs を直接叩いてみるとかはやってみたけど動かなかったです．  
+ぼくが Gatsby 詳しくなさすぎるというのはありますが・・
+
+src/utils/mermaid-wrapper.tsx を追加して，この中で `mdx-mermaid` を単純に wrap しています．  
+
+```typescript jsx
+export default function MermaidWrapper(props: MermaidWrapperProps) {
+  return <Mermaid chart={props.graph} config={{theme:  { light: 'default', dark: 'default' }}} />
+}
+```
+
+これを追加したので，Gatsby の TypeScript 導入記事に従って tsconfig.json を設定しました．gatsby-minimal-starter-ts の tsconfig.json をそのまま wget してきただけです．
+
+https://www.gatsbyjs.com/docs/how-to/custom-configuration/typescript/#tsconfigjson
+
+
+### ともあれ
+
+これで mermaid 書きたい放題だぜ(書かないフラグ)
+
+<MermaidWrapper graph={`
+graph LR
+  q(QEMU) --> qemu-boot-shim --> physboot --> zircon
+`} />
+
+mermaid のテーマはとりあえず default にしています．  
+いろいろ変えられそうではあります．  
+
+参考:  
+https://zenn.dev/junkawa/articles/zenn-mermaidjs-theme-config
+
+
+たとえば・・  
+[themecss を使う例](https://zenn.dev/junkawa/articles/zenn-mermaidjs-theme-config#themecss-%E3%82%92%E4%BD%BF%E3%81%86)  
+<MermaidWrapper graph={`
+%%{init:{'theme':'base','themeCSS':" .node rect {fill: #6A7FAB;} .label text {fill: #FAFBF9 !important;} .output {font-size:30px;}"}}%%
+graph LR
+  q(QEMU) --> qemu-boot-shim --> physboot --> zircon
+`} />

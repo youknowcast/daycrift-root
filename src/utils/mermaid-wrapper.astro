@@ -1,0 +1,51 @@
+---
+interface Props {
+  graph: string;
+}
+const { graph } = Astro.props;
+const graphJson = JSON.stringify(graph);
+---
+
+<div class="not-prose my-4 overflow-x-auto" data-mermaid data-graph={graphJson}>
+</div>
+
+<script>
+  import mermaid from "mermaid";
+
+  const renderAll = async () => {
+    const isDark =
+      document.documentElement.getAttribute("data-theme") === "dark";
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? "dark" : "default",
+      securityLevel: "strict",
+    });
+    for (const el of document.querySelectorAll("[data-mermaid]")) {
+      const graph = el.getAttribute("data-graph");
+      if (!graph) continue;
+      try {
+        const { svg } = await mermaid.render(
+          `mmd-${Math.random().toString(36).slice(2)}`,
+          JSON.parse(graph)
+        );
+        el.innerHTML = svg;
+      } catch (e) {
+        // エラー文は入力グラフの断片を含み得るため、innerHTML ではなく
+        // textContent で注入する (HTML 解釈による XSS 防止)。
+        const pre = document.createElement("pre");
+        pre.className = "text-sm";
+        pre.textContent = e instanceof Error ? e.message : String(e);
+        el.replaceChildren(pre);
+      }
+    }
+  };
+
+  new MutationObserver(renderAll).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  renderAll();
+  // ClientRouter で他ページから遷移してきた場合はモジュールが再評価されず
+  // renderAll() が走らないため、swap 後にも再描画する (二重描画は冪等)。
+  document.addEventListener("astro:after-swap", renderAll);
+</script>

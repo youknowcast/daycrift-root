@@ -20,16 +20,17 @@ const thisMonth = padding(current.getMonth() + 1)
 const thisDay = padding(current.getDate())
 const today = `${thisYear}${thisMonth}${thisDay}`
 
-const path = `content/posts/${thisYear}/${thisMonth}/${today}`
+const path = `src/content/posts/${thisYear}/${thisMonth}/${today}`
 console.log(`generate ${path}`)
 await $`mkdir -p ${path}`
 
 const template = `---
+pubDatetime: ${thisYear}-${thisMonth}-${thisDay}T00:00:00+09:00
 title: ""
 description: ""
-date: ${thisYear}-${thisMonth}-${thisDay}
 tags:
   - Diary
+slug: "${today}"
 ---
 
 ### hello world

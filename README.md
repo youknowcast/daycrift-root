@@ -1,46 +1,29 @@
 # daycrift-root
 
-youknow's web blog.
-titled 'call me stupid', since 2003(Maybe)
+youknow's web blog, titled "call me stupid", since 2003 (maybe).
 
-## how to 
+## Tech Stack
 
-### development
+- [Astro](https://astro.build) (based on the [AstroPaper](https://github.com/satnaing/astro-paper) template)
+- Content: MDX posts under `src/content/posts/` with frontmatter (`pubDatetime`, `title`, `description`, `tags`, `slug`)
+- Static pages: `src/content/pages/` (`about`, `favorite`, `newscast`, `resume`)
+- Styling: Tailwind CSS v4
+- Features: RSS (`/rss.xml`), sitemap, tags, Pagefind search, PWA manifest, OGP image generation (satori), dark mode, mermaid / video / twitter embeds
+
+### URL design
+
+Posts are published at the root level — `/<slug>/` (e.g. `https://www.daycrift.net/20201022/`) — to keep the URLs from the previous Gatsby blog unchanged. Blog listing is at `/blog/`, tag pages at `/tags/<tag>/`, and static pages at `/<page>/`.
+
+## Getting Started
 
 ```bash
-% npm ci
-% npm start
+npm install
+npm run dev        # start dev server (http://localhost:4321)
+npm run build      # typecheck + build + generate Pagefind search index
+npm run preview    # preview the built site locally
+npm run lint       # eslint
 ```
 
-### deployment
+## Deployment
 
-uses GitHub Actions to build and deploy.
-
-## based on
-
-this blog uses
-
-<p>
-  <a href="https://minimal-blog.lekoarts.de">
-    <img alt="LekoArts" src="https://img.lekoarts.de/gatsby/gatsby-site-illustration.png" />
-  </a>
-</p>
-<h1>
-  Gatsby Starter: Minimal Blog
-</h1>
-
-<p>
-  <a href="https://github.com/LekoArts/gatsby-starter-minimal-blog/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-0BSD-blue.svg" alt="Minimal Blog is released under the 0BSD license." />
-  </a>
-  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
-  <a href="https://twitter.com/intent/follow?screen_name=lekoarts_de">
-    <img src="https://img.shields.io/twitter/follow/lekoarts_de.svg?label=Follow%20@lekoarts_de" alt="Follow @lekoarts_de" />
-  </a>
-</p>
-
-Typography driven, feature-rich blogging theme with minimal aesthetics. Includes tags/categories support and extensive features for code blocks such as live preview, line numbers, and line highlighting. Using the Gatsby Theme [`@lekoarts/gatsby-theme-minimal-blog`](https://github.com/LekoArts/gatsby-themes/tree/master/themes/gatsby-theme-minimal-blog).
-
-[**Demo Website**](https://minimal-blog.lekoarts.de)
-
-Also be sure to checkout other [Free & Open Source Gatsby Themes](https://themes.lekoarts.de)
+GitHub Actions (`s3-deploy.yml`) builds the site and syncs `dist/` to an S3 bucket, then invalidates the CloudFront distribution. The `generate-github-graph.yml` workflow updates the GitHub contribution graph image on the home page.

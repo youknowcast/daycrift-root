@@ -1,8 +1,9 @@
 #!/usr/bin/env zx
 
 const target_paths = [
-  ".cache/",
-  "public/",
+  ".astro/",
+  "dist/",
+  "public/pagefind/",
   "npm-debug.log",
 ]
 
@@ -11,6 +12,4 @@ async function _clean(path) {
   await $`${command.split(' ')}`
 }
 
-target_paths.forEach(async (path) => {
-  await _clean(path)
-})
+await Promise.all(target_paths.map((path) => _clean(path)))

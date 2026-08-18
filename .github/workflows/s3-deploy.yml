@@ -5,6 +5,12 @@ on:
     branches:
       - master
   workflow_dispatch:
+concurrency:
+  # push / 手動実行が並行して S3 へ sync しないよう直列化する。
+  # cancel-in-progress: false なので実行中のデプロイは中断されない
+  # (中断すると S3 上で新旧ファイルが混在する)。後続 run はキューされる。
+  group: deploy-s3
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +21,7 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
           cache: npm
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -28,15 +34,20 @@ jobs:
       - name: lint
         run: npm run lint
       - name: build
-        run:  npm run build
-      - name: Sync to S3
+        run: npm run build
+      - name: Deploy to S3 and invalidate CloudFront (skip if stale)
         env:
           S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
         run: |
           set -euo pipefail
-          aws s3 sync ./public s3://$S3_CONTENTS_BUCKET/ --delete --only-show-errors
-      - name: invalidate cloudfront
-        env:
-          S3_CONTENTS_BUCKET: ${{ secrets.S3_CONTENTS_BUCKET }}
-        run: |
+          # キューされた古い run (待機中に master が進んだケースや、別 ref の手動実行) が
+          # 新しいデプロイを巻き戻さないよう、master の最新 SHA と一致する場合のみデプロイする。
+          # sync と invalidation の間で master が進むと片方だけ実行され不整合になるため、
+          # 判定は一度だけ行い、両方を同一ステップで実行する。
+          git fetch origin master
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]; then
+            echo "Skipping stale deploy: HEAD $(git rev-parse --short HEAD) != master $(git rev-parse --short origin/master)"
+            exit 0
+          fi
+          aws s3 sync ./dist s3://$S3_CONTENTS_BUCKET/ --delete --only-show-errors
           aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DAYCRIFT_NET_DISTRIBUTION_ID }} --paths "/*"
