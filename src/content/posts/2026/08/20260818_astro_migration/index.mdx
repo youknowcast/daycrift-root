@@ -1,0 +1,36 @@
+---
+pubDatetime: 2026-08-18T00:00:00+09:00
+title: "ブログを Gatsby から Astro (AstroPaper) に移行した"
+description: "Migrated this blog from Gatsby to Astro with AstroPaper"
+tags:
+  - Diary
+  - Astro
+  - Gatsby
+slug: "ブログを-gatsby-から-astro-に移行した"
+---
+
+### なぜ移行したのか
+
+Gatsby を長らく使っていたが，活発さが薄れてきたこと(とくに直近のリリースが半年前)や SSR や GraphQL などそもそもこのブログで全然活用できてないことなどを鑑み，別のものに移るかぁと思った．
+[Astro](https://astro.build/) がよさげだったのでコンバートしてみた．MDX がほぼそのまま移行できたのでめでたい．
+
+### 移行でやったこと
+
+基本的には AI に丸投げしたが，おおよそ次のような作業を行った．
+
+- AstroPaper テンプレートを scaffold して Gatsby を撤去
+- 記事の frontmatter を AstroPaper 形式に変換，既存 slug を固定して URL を維持
+- 記事をルート直下の URL で出すようにして旧 URL と互換を確保 (タグ URL も lodash kebabcase で旧 slug を再現)
+- トップページ (hero / grass graph / projects) を作り直し，/blog/ 一覧を追加
+- 静的ページ (favorite / newscast / resume) の移植
+- 埋め込みの移行 (Video コンポーネント，twitter スクリプト整理，mermaid ラッパ)
+- CI を dist の S3 デプロイに変更
+
+Cloudfront の設定でちょっと詰まった以外はとくに問題なく移行完了．すごいね．
+
+### 移行してみて
+
+もう手を全然動かさなくなってしまい，あっさり移行できたな〜という感覚．
+AI は OpenCode Go(DeepSeek V4 Flash) ↔ Codex(GPT-5.6) でレビュー往復させて最後 Claude(Fable5) に仕上げさせた感じで行った．
+
+
