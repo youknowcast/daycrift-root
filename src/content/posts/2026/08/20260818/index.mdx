@@ -1,0 +1,113 @@
+---
+pubDatetime: 2026-08-18T00:00:00+09:00
+title: "JetBrains の「どこでも検索」が効かなくなった話"
+description: "Shift double press does not open Search Everywhere on Hyprland"
+tags:
+  - Diary
+  - Omarchy
+  - Hyprland
+  - JetBrains
+slug: "jetbrains-のどこでも検索が効かなくなった話"
+---
+
+### Shift 2度押しが効かない
+
+ある日 RubyMine で Shift を2度押ししても「どこでも検索 (Search Everywhere)」が出てこないことに気づいた．  
+WebStorm でも同じで，IDE を再起動しても直らない．
+
+このショートカットは指が覚えてしまっているやつなので，効かないと地味にストレスが溜まる．  
+調べてみたら，犯人は IDE ではなく Hyprland (というか Omarchy のデフォルト設定) の xkb オプションだった．ずっと前からあった地雷を JetBrains 側のアップデートが踏み抜いた，というタイプのやつだった．
+
+環境は以下．
+
+- Omarchy / Hyprland 0.56.2 (Wayland)
+- RubyMine 2026.1.3 / WebStorm 2026.1
+- fcitx5 + mozc
+- 日本語キーボード (Realforce 91)
+
+### Shift を離すと Caps Lock として届いている
+
+AWT に届いているキーイベントを覗くと，こうなっていた．
+
+```text
+PRESSED  keyCode=16 (Shift)     loc=2
+RELEASED keyCode=20 (Caps Lock) loc=1
+PRESSED  keyCode=16 (Shift)     loc=2
+RELEASED keyCode=20 (Caps Lock) loc=1
+```
+
+押した時は Shift なのに，離した時は Caps Lock になっている．  
+IntelliJ の「修飾キー2連打」判定は同じキーの press/release がペアで揃うことを前提にした状態機械なので，間に別キーの release が挟まった時点で成立しない．道理で反応しないわけだ．
+
+原因は kb_options だった．
+
+```console
+$ hyprctl getoption input:kb_options
+str: compose:caps,shift:both_capslock_cancel
+```
+
+`shift:both_capslock_cancel` は Omarchy のデフォルト (`/usr/share/omarchy/default/hypr/input.lua`) で設定されているもので，「Caps Lock キーを Compose にしてしまったので，Caps Lock 自体は両 Shift 同時押しに逃がす」という趣旨のオプションだ．親切な設定である．
+
+これが実際にどういうキーマップを生むかは `xkbcli` で確認できる．
+
+```console
+$ xkbcli compile-keymap --layout jp --options "compose:caps,shift:both_capslock_cancel" | grep -A3 "key <LFSH>"
+	key <LFSH>               {
+		type= "ALPHABETIC",
+		symbols[1]= [         Shift_L,       Caps_Lock ]
+	};
+```
+
+Shift キーの第2レベルに `Caps_Lock` が乗っている．そして `type="ALPHABETIC"` は Shift / Lock の状態でレベルが決まる型なので，こうなる．
+
+| タイミング | Shift 修飾の状態     | 引かれる keysym |
+| ---------- | -------------------- | --------------- |
+| Shift 押下 | まだ適用されていない | `Shift_L`       |
+| Shift 解放 | 適用中 → レベル2     | `Caps_Lock`     |
+
+### なぜ今まで動いていたのか
+
+このオプション自体はずっと入っていた．変わったのは IDE 側だ．
+
+JetBrains 2026.1 はネイティブ Wayland で動くようになっていて，AWT のツールキットが `sun.awt.X11.XToolkit` から `sun.awt.wl.WLToolkit` に変わっている．
+
+```console
+$ grep "toolkit:" ~/.cache/JetBrains/RubyMine2026.1/log/idea.log
+INFO - #c.i.p.i.b.AppStarter - toolkit: sun.awt.wl.WLToolkit
+```
+
+従来の X11 経路では Shift の解放もちゃんと Shift として届いていたが，WLToolkit は xkb の現在の状態でそのまま keysym を解決するので，レベル2の `Caps_Lock` が表に出てきた．  
+RubyMine と WebStorm が同時に壊れたのも，原因が IDE 個別の設定ではなくシステム側の xkb 設定とツールキット変更の噛み合わせだったからだった．
+
+### 直し方
+
+`shift:both_capslock_cancel` を外す．Omarchy はユーザー設定を後から読むので，`~/.config/hypr/input.lua` に上書きを書けばいい．
+
+```lua
+hl.config({
+  input = {
+    kb_options = "compose:caps",
+  },
+})
+```
+
+```console
+$ hyprctl reload
+$ hyprctl configerrors
+$ hyprctl getoption input:kb_options
+str: compose:caps
+```
+
+キーマップからも `Caps_Lock` が消えた．
+
+```console
+$ xkbcli compile-keymap --layout jp --options "compose:caps" | grep "key <LFSH>"
+	key <LFSH>               {	[         Shift_L ] };
+```
+
+これでどこでも検索が復活した．  
+代償として「両 Shift 同時押しで Caps Lock」は使えなくなるが，そもそも Caps Lock をほぼ使っていないので困らない．どうしても必要なら `caps:` 系の別オプションで逃がす手もある．
+
+IDE 側を X11 に戻す (`-Dawt.toolkit.name=XToolkit` を vmoptions に書く) という回避策もあるにはある．が，それは症状に蓋をしているだけだし，Shift の解放が Caps Lock になっている事実は他のアプリにも影響し得るので，こちらを直すのが筋だと思う．
+
+デスクトップ環境の便利設定は，レイヤーを跨いだ瞬間に牙をむくことがあるので気をつけたい．
