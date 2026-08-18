@@ -4,6 +4,7 @@ import { fontData, experimental_getFontFileURL } from "astro:assets";
 import satori from "satori";
 import sharp from "sharp";
 import { getFontPathByWeight } from "@/utils/getFontPathByWeight";
+import { fetchFontData } from "@/utils/fetchFontData";
 import { getPostSlug } from "@/utils/getPostPaths";
 import { postFilter } from "@/utils/postFilter";
 import config from "@/config";
@@ -27,12 +28,8 @@ async function loadOgFonts(requestUrl: URL) {
   }
 
   const [regular, bold] = await Promise.all([
-    fetch(experimental_getFontFileURL(regularPath, requestUrl)).then(res =>
-      res.arrayBuffer()
-    ),
-    fetch(experimental_getFontFileURL(boldPath, requestUrl)).then(res =>
-      res.arrayBuffer()
-    ),
+    fetchFontData(experimental_getFontFileURL(regularPath, requestUrl)),
+    fetchFontData(experimental_getFontFileURL(boldPath, requestUrl)),
   ]);
 
   return { regular, bold };
@@ -58,7 +55,12 @@ export const GET: APIRoute = async ({ props, url }) => {
     return new Response(null, { status: 404, statusText: "Not found" });
   }
 
-  fontPromise ??= loadOgFonts(url);
+  // 失敗した Promise をキャッシュすると以降の全記事の OG 生成が巻き添えで
+  // 失敗し続けるため、失敗時はキャッシュを破棄して次の記事で再試行する
+  fontPromise ??= loadOgFonts(url).catch(err => {
+    fontPromise = null;
+    throw err;
+  });
   const { regular, bold } = await fontPromise;
 
   // 長いタイトルは 72px 固定だと行が切れるため、文字数に応じて小さくする

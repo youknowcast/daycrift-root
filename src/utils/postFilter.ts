@@ -6,8 +6,7 @@ import type { CollectionEntry } from "astro:content";
  * - Excludes drafts always
  * - In production, excludes scheduled posts until `pubDatetime` (no early
  *   publication — a scheduled post must not be visible before its datetime;
- *   the scheduled deploy builds every 15 minutes, so publication is at most
- *   15 minutes late, never early)
+ *   it becomes visible on the next deploy after that datetime)
  * - In dev, always shows non-draft posts to make authoring easier
  *
  * 判定は astro.config.ts の Vite define で注入されたビルド開始時刻

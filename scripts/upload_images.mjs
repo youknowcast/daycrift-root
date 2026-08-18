@@ -99,6 +99,6 @@ localImages.forEach(async (image) => {
   } else {
     console.log(`skipped file: ${image}`)
 
-    await remoteImage(image)
+    await removeImage(image)
   }
 })

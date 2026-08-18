@@ -46,6 +46,8 @@ const t = useTranslations(locale);
 </Layout>
 
 <script>
+  let searchInstance: { triggerSearch: (term: string) => void } | null = null;
+
   function initSearch() {
     const pageFindSearch: HTMLElement | null =
       document.querySelector("#pagefind-search");
@@ -54,8 +56,6 @@ const t = useTranslations(locale);
 
     const bundlePath = pageFindSearch?.dataset?.bundlePath;
     if (!bundlePath) return;
-
-    const params = new URLSearchParams(window.location.search);
 
     const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
 
@@ -80,6 +80,7 @@ const t = useTranslations(locale);
         showImages: false,
         showSubResults: true,
         processTerm: function (term: string) {
+          const params = new URLSearchParams(window.location.search);
           params.set("q", term); // Update the `q` parameter in the URL
           history.replaceState(history.state, "", "?" + params.toString()); // Push the new URL without reloading
 
@@ -90,9 +91,10 @@ const t = useTranslations(locale);
           return term;
         },
       });
+      searchInstance = search;
 
       // If search param exists (eg: search?q=astro), trigger search
-      const query = params.get("q");
+      const query = new URLSearchParams(window.location.search).get("q");
       if (query) {
         search.triggerSearch(query);
       }
@@ -111,11 +113,30 @@ const t = useTranslations(locale);
     });
   }
 
+  function syncSearchWithUrl() {
+    const query = new URLSearchParams(window.location.search).get("q");
+    const input = document.querySelector<HTMLInputElement>(
+      ".pagefind-ui__search-input"
+    );
+    if (query) {
+      if (input?.value !== query) searchInstance?.triggerSearch(query);
+    } else if (input && input.value !== "") {
+      document
+        .querySelector<HTMLElement>(".pagefind-ui__search-clear")
+        ?.click();
+    }
+  }
+
   document.addEventListener("astro:after-swap", () => {
     const pagefindSearch = document.querySelector("#pagefind-search");
+    if (!pagefindSearch) return;
 
-    // if pagefind search form already exists, don't initialize search component
-    if (pagefindSearch && pagefindSearch.querySelector("form")) return;
+    // transition:persist によりフォームが残っている場合は再初期化せず、
+    // 遷移後の URL クエリと入力・結果を同期させる
+    if (pagefindSearch.querySelector("form")) {
+      syncSearchWithUrl();
+      return;
+    }
 
     initSearch();
   });
