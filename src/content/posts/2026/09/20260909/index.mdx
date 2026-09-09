@@ -1,0 +1,94 @@
+---
+pubDatetime: 2026-09-09T00:00:00+09:00
+title: "開発機を Omarchy にした"
+description: "Switched my dev machine to Omarchy (Arch + Hyprland distro)"
+tags:
+  - Diary
+  - Omarchy
+  - Linux
+  - Hyprland
+slug: "開発機をOmarchyにした"
+---
+
+### なんで Omarchy にしたのか
+
+今年の頭くらいに DHH がやたら楽しそうな紹介動画を作っていて，見てたらついつい使ってみたくなって，そのまま，手頃なミニ PC 買ってきて入れた．  
+
+確かこれ．  
+
+<Video videoId="L3EafsSCv80" title="Omarchy 3" />
+
+いま(2026/09 現在)はこれが [Omarchy](https://omarchy.org/) 公式のトップに来ている．  
+これも楽しそうに撮れている．  
+
+<Video videoId="F7fe9pa8OeE" title="Omarchy Quattro" />
+
+開発のメインで使い始めてからだいたい半年くらい．  
+それまでは MacMini 使ってて，これはサブ機としていまも元気に使っている．  
+
+### やったこと
+
+だいたいのことは PC 潰れてもいいようにリポジトリ管理してる．  
+といってもとくにたいしてカスタマイズして使っているわけではない．  
+
+[ykc-omarchy-setup-kit](https://github.com/youknowcast/ykc-omarchy-setup-kit)
+
+#### 日本語入力
+
+今年の頭くらいは Wayland だと IME が立ち上がったり立ち上がらなかったりが運ゲーだったので，IME なしだとキツすぎるアプリは X11 固定とかしてた．  
+あと，IME 効かないときに緊急で日本語いれるための入力スクリプト(GTK3/Ruby)書いたり．  
+
+最近はかなり安定してるので今からいれる人は IME まわりでハマることは少ないのではないかと思う．  
+
+#### Hyprland まわり
+
+SUPER + W でアプリが一発で閉じるのは強みなんだけど，人間なので誤爆というものがふつうにある．  
+というわけで閉じる前に確認するスクリプトをいくつか必要なアプリには差し込んでいる．ブラウザとか．  
+
+workspace を 5 つくらい分割して使っているので目的のアプリどこだっけを探せるように [fzf](https://github.com/junegunn/fzf) で軽量スイッチャを作ってみたが，workspace ごとにアプリの構成がほぼ固定なので，配置覚えちゃって結局最近は使っていない．  
+workspace には `汎用` `仕事用1` `仕事用2` `趣味1` とかつけて用途わかるようにしている．  
+このへんは `setup-kit` にだいたいコンフィグが乗っかっている．  
+
+#### Omarchy shell (Quickshell)
+
+プラグインはあんま入れてない．  
+[Ledge](https://github.com/andreas-bylund/omarchy-ledge)(ファイル一時置き場)くらい．  
+
+まだベータだけど [FileBlade](https://github.com/data-goblin/fileblade) (高機能ファイラ)が気になって検証中．  
+
+#### 周辺機器・細かいカスタム
+
+あんまたいしたことはしていない．  
+使ってるキーボードが Mac 配列なのでいくつかキーを入れ替えている程度．  
+
+Editor は Zed にしてる．
+
+### 本業での使い方
+
+本業もこの Omarchy 機でやっていて，だいたいこんなのを使ってる．  
+
+- [Herdr](https://herdr.dev/)  
+- [RubyMine](https://www.jetbrains.com/ruby/)  
+- AI agent 系: [Claude Code](https://www.anthropic.com/claude-code) / [Codex](https://openai.com/codex/) / [opencode go](https://opencode.ai/) / [Cursor](https://cursor.com/)  
+- [Docker](https://www.docker.com/)  
+
+Docker が最初から統合されてるのは月並だけどまぁ便利．  
+たまにオフコンなどとシリアル通信したりする仕事もあって，マイコンにプログラムを焼きこんでシミュレーションしたり，はぜんぶ AI agent に丸投げしてる．  
+
+### ハマったところ
+
+正直ほぼない．おまかせ Arch は伊達ではないと思う．  
+
+直近だとこのくらいか？
+
+- Keychron Nape Pro のハング回避  
+- Chromium の IME 挙動変化 (M135 で WaylandTextInputV3 が既定化)  
+
+家にあった化石のような PC(Core2Duo) には入らなかった．  
+たぶん 10 年くらい前くらいが限界だと思う．いうほどどんな PC でも動かなそう．  
+
+### 導入してみて
+
+タイル型 WM + セットアップ済みツール群の体験は非常によい．  
+困ったときには `c` で起動する [opencode](https://opencode.ai/) に調べさせるが，`omarchy` skill が地味にかなり優秀っぽい．  
+いまのところ，本当に困ったことがない．
