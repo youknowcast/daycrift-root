@@ -1,0 +1,56 @@
+---
+pubDatetime: 2026-09-12T00:00:00+09:00
+title: "ThinkPad X13 に Omarchy を入れた"
+description: "Setup log for Omarchy (Arch + Hyprland) on a ThinkPad X13 Gen 1 (AMD)"
+tags:
+  - Diary
+  - Omarchy
+  - Linux
+  - Hyprland
+  - ThinkPad
+slug: "thinkpad-x13-にomarchyを入れた"
+---
+
+### 選んだ PC
+
+今回セットアップしたのは Lenovo ThinkPad X13 Gen 1 (AMD)．  
+中古でも手頃に手に入る 13.3 インチのビジネス機で，AMD Ryzen 4000 (Renoir) を積んでいる．  
+古いのと，ビジネス用途で大量に出回ったのが中古市場に回ってきていて在庫が潤沢なので価格が下がっているとかどうとか．
+
+スペックは以下．  
+
+| 項目 | 内容 |
+| --- | --- |
+| モデル | Lenovo ThinkPad X13 Gen 1 (AMD) / 20UGS2GK00 |
+| CPU | AMD Ryzen 5 PRO 4650U (6C/12T, 2.1–4.0GHz, 3MB L2 / 8MB L3) |
+| GPU | AMD Radeon Graphics (Renoir, Vega 6) |
+| メモリ | 16GB DDR4-3200 (オンボード, 増設不可) |
+| ストレージ | 256GB NVMe SSD (M.2 2280) |
+| ディスプレイ | 13.3" FHD (1920x1080) IPS |
+| 無線 | Intel Wi-Fi 6 AX200 |
+
+個人的にはサブ機としては全然十分ですね．
+
+### Omarchy の導入手順
+
+install は ISO 落としてきて dd で USB メモリに書き込むだけだが，最近はそれすら怠惰で OpenCode に全部やってもらった．  
+
+インストールログを見ると，Arch + Omarchy 本体の導入に約 88 秒，ファクトリースナップショットまで含めても 2 分ほどで終わっていた．  
+インストール速度に命をかけてるっぽい Omarchy 的には標準的かちょっと遅いかもしれない(未調査)．
+
+### セットアップ
+
+OS が入ったあとのカスタムは [ykc-omarchy-setup-kit](https://github.com/youknowcast/ykc-omarchy-setup-kit) にまとめてある．  
+
+まず最初に wifi 設定して OpenCode に API キー入れたらあとはこのリポジトリ見ながら適用して，で終わり．  
+itamae 的なものも考えたが，agent に任せたほうがある程度柔軟にやってくれるし，母艦とサブ機でまったく一緒の環境を，みたいなこだわりがあるわけではないのでこれでいいか・・となった．
+
+#### 日本語入力 (fcitx5 + Mozc)
+
+Quattro (4.x) は fcitx5 が標準サポートなので，足すのは `GTK_IM_MODULE` くらい．  
+`変換` で IME ON (ひらがな)，`無変換` で IME OFF (半角英数) になるようにしている．  
+
+#### アプリ
+
+普段使うものは `omarchy pkg add` で入れる．  
+Ghostty / 1Password / Chromium あたり．
